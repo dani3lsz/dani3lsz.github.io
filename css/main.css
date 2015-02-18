@@ -1,0 +1,230 @@
+html, body {
+  margin:  0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+strong {
+  font-weight: 700;
+}
+
+
+.title {
+  text-align: center;
+  padding: 0 20px;
+  margin:  40px 0;
+  font-weight: 100;
+  font-size: 42px;
+}
+
+
+
+
+
+.main-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+
+
+.app-wrapper {
+  width: 100%;
+  float: left;
+}
+
+@media screen and (min-width: 580px) {
+  .app-wrapper {
+    width: 50%;
+    float: left;
+  }
+}
+
+@media screen and (min-width: 870px) {
+  .app-wrapper {
+    width: 33.33337%;
+    float: left;
+  }
+}
+
+  .app-wrapper__pad {
+    padding: 5px;
+    margin:  0 auto;
+    max-width: 290px;
+  }
+
+
+
+.app {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 2px;
+}
+
+  .app__watch {
+    width:  220px;
+    height: 245px;
+    margin: 20px auto 5px;
+    padding-left: 10px;
+  }
+
+    .app__watch__img {
+      height: 100%;
+      background-image: url("../images/AppleWatch.png");
+      background-repeat:   no-repeat;
+      background-position: center center;
+      background-size:     contain;
+    }
+
+      .app__watch__img__screen {
+        position: relative;
+        top:  35px;
+        left: 38px;
+        width:  136px;
+        height: 170px;
+        background-color: #000;
+      }
+
+  .app__data {
+    width: 230px;
+    margin: 0 auto;
+  }
+
+  .app__controls {
+    text-align: center;
+  }
+
+    .app__controls > button {
+      font-family: inherit;
+      border: none;
+      outline: none;
+      padding: 3px 7px;
+      border-radius: 2px;
+      background-color: #fff;
+      cursor: pointer;
+    }
+
+    .app__controls > button:hover > .fa, .app__controls > button.active > .fa {
+      color: #03f;
+    }
+
+  .app__title {
+    margin: 15px 0;
+    font-size: 18px;
+  }
+
+  .app__info {
+    font-size: 13px;
+    font-weight: 300;
+    margin-bottom: 15px;
+  }
+
+
+
+.stage {
+  position: relative;
+  height: 100%;
+  background-repeat:   no-repeat;
+  background-position: center center;
+  background-size:     contain;
+  overflow: hidden;
+}
+
+  .stage:before {
+    content: "";
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    background: inherit;
+    opacity: 0;
+    -webkit-filter: blur(5px);
+  }
+
+  .stage.blur:before {
+    opacity: 1;
+  }
+
+  .stage > img {
+    max-width:  100%;
+    max-height: 100%;
+  }
+
+  .stage__frame {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  .stage__frame.active {
+    opacity: 1;
+  }
+
+
+
+.glance {
+
+}
+
+  .glance__bg {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    background-color: rgba(0,0,0,.85);
+  }
+
+  .glance__dots {
+    position: absolute;
+    height: 10px;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    background-image: url("../images/glance-dots.png");
+    background-repeat:   no-repeat;
+    background-position: center center;
+    background-size:     contain;
+  }
+
+  .glance__img {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    background-repeat:   no-repeat;
+    background-position: center center;
+    background-size:     contain;
+  }
+
+  .glance__animate {
+    -webkit-transition: .5s ease-in-out;
+            transition: .5s ease-in-out;
+    -webkit-transform: translate3d(0,100%,0);
+            transform: translate3d(0,100%,0);
+  }
+
+  .glance.animate > .glance__animate {
+    -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+  }
+
+
+
+
+
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
