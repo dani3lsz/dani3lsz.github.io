@@ -34,6 +34,10 @@ $(function () {
     handleClick('glance')
   });
 
+  notificationButton.on('click', function(){
+    handleClick('notification')
+  });
+
   function handleClick(btn) {
     var playing = checkPlayers();
 
@@ -41,7 +45,10 @@ $(function () {
       stopPlayer(playing);
 
       if(playing != btn) {
-        startPlayer(btn)
+        var b = btn;
+        setTimeout(function(){
+          startPlayer(b)
+        },500)
       }
     } else {
       startPlayer(btn)
@@ -72,18 +79,30 @@ $(function () {
       appPlaying = false;
     } else if (player == 'glance') {
       glanceButton.removeClass('active');
+
       glanceButton.children('.fa').removeClass('fa-circle');
       glanceButton.children('.fa').addClass('fa-play');
 
       glanceStage.removeClass('animate');
       glanceStage.parent().removeClass('blur');
 
-      setTimeout(function(){
-        glanceStage.removeClass('active');
-        glancePlaying = false;
-      },500);
+      glanceStage.removeClass('active');
+      glancePlaying = false;
     } else if (player == 'notification') {
+      notificationButton.removeClass('active');
 
+      notificationButton.children('.fa').removeClass('fa-circle');
+      notificationButton.children('.fa').addClass('fa-play');
+
+      notificationStage.removeClass('active animate');
+
+      notificationStage.parent().removeClass('blur');
+
+      notificationPlaying = false;
+
+      setTimeout(function(){
+        $('.js-scroll').scrollTop(0);
+      },500)
     }
   }
 
@@ -106,15 +125,26 @@ $(function () {
       appPlaying = true;
     } else if (player == 'glance') {
       glanceButton.addClass('active');
+
       glanceButton.children('.fa').removeClass('fa-play');
       glanceButton.children('.fa').addClass('fa-circle');
 
       glanceStage.addClass('active animate');
 
-      setTimeout(function(){
-        glanceStage.parent().addClass('blur');
-        glancePlaying = true;
-      },500);
+      glanceStage.parent().addClass('blur');
+
+      glancePlaying = true;
+    } else if (player == 'notification') {
+      notificationButton.addClass('active');
+
+      notificationButton.children('.fa').removeClass('fa-play');
+      notificationButton.children('.fa').addClass('fa-circle');
+
+      notificationStage.addClass('active animate');
+
+      notificationStage.parent().addClass('blur');
+
+      notificationPlaying = true;
     }
   }
 
@@ -143,7 +173,7 @@ $(function () {
   });
 
   //Init touch swipe
-  tape.swipe({
+  tape.parent().swipe({
     triggerOnTouchEnd: true,
     swipeStatus: swipeStatus,
     allowPageScroll: "none",
@@ -193,3 +223,30 @@ $(function () {
   }
 
 })();
+
+
+
+// Insert actual time
+
+(function(){
+  var time = $('.js-time');
+
+  function updateClock ( )
+  {
+    var currentTime = new Date ( );
+    var currentHours = currentTime.getHours ( );
+    var currentMinutes = currentTime.getMinutes ( );
+
+    // Pad the minutes and seconds with leading zeros, if required
+    currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+
+    // Compose the string for display
+    var currentTimeString = currentHours + ":" + currentMinutes;
+
+    time.html(currentTimeString);
+  }
+
+  setInterval(updateClock, 1000);
+
+})();
+
