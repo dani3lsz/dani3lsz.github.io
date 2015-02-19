@@ -184,32 +184,56 @@ strong {
     background-color: rgba(0,0,0,.85);
   }
 
+    .glance__tape {
+      position: absolute;
+      top:    0;
+      right:  0;
+      bottom: 0;
+      left:   0;
+      white-space: nowrap;
+      font-size: 0;
+    }
+
+      .glance__img {
+        display: inline-block;
+        width:  100%;
+        height: 100%;
+        background-repeat:   no-repeat;
+        background-position: center center;
+        background-size:     contain;
+      }
+
   .glance__dots {
     position: absolute;
     height: 10px;
     right:  0;
     bottom: 0;
     left:   0;
-    background-image: url("../images/glance-dots.png");
-    background-repeat:   no-repeat;
-    background-position: center center;
-    background-size:     contain;
+    text-align: center;
+    font-size: 0;
   }
 
-  .glance__img {
-    position: absolute;
-    top:    0;
-    right:  0;
-    bottom: 0;
-    left:   0;
-    background-repeat:   no-repeat;
-    background-position: center center;
-    background-size:     contain;
-  }
+    .glance__dots__dot {
+      display: inline-block;
+      vertical-align: top;
+      width:  4px;
+      height: 4px;
+      margin: 0 3px;
+      background-color: #fff;
+      opacity: .25;
+      border-radius: 50%;
+      cursor: pointer;
+      -webkit-transition: .4s ease-in-out;
+              transition: .4s ease-in-out;
+    }
+
+    .glance__dots__dot.active {
+      opacity: 1;
+    }
 
   .glance__animate {
-    -webkit-transition: .5s ease-in-out;
-            transition: .5s ease-in-out;
+    -webkit-transition: .4s ease-in-out;
+            transition: .4s ease-in-out;
     -webkit-transform: translate3d(0,100%,0);
             transform: translate3d(0,100%,0);
   }
