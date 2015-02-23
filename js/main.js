@@ -137,13 +137,11 @@ $(function () {
     }
   }
 
-})();
 
 
 
 // Handle glance frames
 
-(function(){
   var tape = $('.js-tape');
   var dots = $('.js-dots').children();
   var tapeWidth = tape.width();
@@ -167,21 +165,33 @@ $(function () {
     triggerOnTouchLeave: true,
     swipeStatus: swipeStatus,
     allowPageScroll: "none",
-    threshold: 25
+    threshold: 25,
+    tap: tap
   });
+
+  function tap(event, target) {
+    appButton.trigger('click')
+  }
 
   function swipeStatus(event,phase,direction,distance,fingers) {
 
     //If we are moving before swipe, and we are going L or R, then manually drag the images
-    if (phase == "move" && (direction == "left" || direction == "right")) {
+    if (phase == "move") {
       if (direction == "left")
         moveTape((index * tapeWidth) + distance, 0);
 
       else if (direction == "right")
         moveTape((index * tapeWidth) - distance, 0);
 
+      else if (direction == "down")
+        moveTapeParent(distance, 0);
+
     } else if (phase == "cancel") {
-      moveTape(index * tapeWidth, speed);
+      if (direction == "left")
+        moveTape(index * tapeWidth, speed);
+
+      else if (direction == "down")
+        tape.parent().removeAttr('style');
 
     } else if (phase == "end") {
       if (direction == "right") {
@@ -194,6 +204,9 @@ $(function () {
           index += 1;
         }
         moveTape(index * tapeWidth, speed);
+      } else if (direction == "down") {
+        glanceButton.trigger('click');
+        tape.parent().removeAttr('style');
       }
     }
   }
@@ -210,6 +223,17 @@ $(function () {
 
     dots.removeClass('active');
     dots.eq(index).addClass('active');
+  }
+
+  function moveTapeParent(move,duration) {
+    var value = Math.abs(move).toString();
+
+    tape.parent().css({
+      "-webkit-transition-duration": (duration / 1000).toFixed(1) + "s",
+              "transition-duration": (duration / 1000).toFixed(1) + "s",
+      "-webkit-transform": "translate3d(0," + value + "px,0)",
+              "transform": "translate3d(0," + value + "px,0)"
+    });
   }
 
 })();
