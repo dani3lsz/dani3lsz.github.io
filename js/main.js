@@ -73,8 +73,6 @@ $(function () {
       baseStage.removeClass('zoom');
 
       appButton.removeClass('active');
-      appButton.children('.fa').removeClass('fa-pause');
-      appButton.children('.fa').addClass('fa-play');
 
       appStage.empty();
       appStage.removeClass('active');
@@ -83,9 +81,6 @@ $(function () {
     } else if (player == 'glance') {
       glanceButton.removeClass('active');
 
-      glanceButton.children('.fa').removeClass('fa-circle');
-      glanceButton.children('.fa').addClass('fa-play');
-
       glanceStage.removeClass('animate');
       glanceStage.parent().removeClass('blur');
 
@@ -93,9 +88,6 @@ $(function () {
       glancePlaying = false;
     } else if (player == 'notification') {
       notificationButton.removeClass('active');
-
-      notificationButton.children('.fa').removeClass('fa-circle');
-      notificationButton.children('.fa').addClass('fa-play');
 
       notificationStage.removeClass('active animate');
 
@@ -114,8 +106,6 @@ $(function () {
       baseStage.addClass('zoom');
 
       appButton.addClass('active');
-      appButton.children('.fa').removeClass('fa-play');
-      appButton.children('.fa').addClass('fa-pause');
 
       var animatedSrc = appStage.data('url');
       var img = '<img src="'+ animatedSrc +'" width="136" height="170" >';
@@ -131,9 +121,6 @@ $(function () {
     } else if (player == 'glance') {
       glanceButton.addClass('active');
 
-      glanceButton.children('.fa').removeClass('fa-play');
-      glanceButton.children('.fa').addClass('fa-circle');
-
       glanceStage.addClass('active animate');
 
       glanceStage.parent().addClass('blur');
@@ -141,9 +128,6 @@ $(function () {
       glancePlaying = true;
     } else if (player == 'notification') {
       notificationButton.addClass('active');
-
-      notificationButton.children('.fa').removeClass('fa-play');
-      notificationButton.children('.fa').addClass('fa-circle');
 
       notificationStage.addClass('active animate');
 
