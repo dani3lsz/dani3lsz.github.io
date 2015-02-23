@@ -36,6 +36,7 @@ strong {
 .app-wrapper {
   width: 300px;
   display: inline-block;
+  vertical-align: top;
   margin-right: -3px;
   text-align: left;
 }
