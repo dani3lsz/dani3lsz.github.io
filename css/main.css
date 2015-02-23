@@ -28,33 +28,21 @@ strong {
 .main-wrapper {
   max-width: 900px;
   margin: 0 auto;
+  text-align: center;
 }
 
 
 
 .app-wrapper {
-  width: 100%;
-  float: left;
-}
-
-@media screen and (min-width: 580px) {
-  .app-wrapper {
-    width: 50%;
-    float: left;
-  }
-}
-
-@media screen and (min-width: 870px) {
-  .app-wrapper {
-    width: 33.33337%;
-    float: left;
-  }
+  width: 300px;
+  display: inline-block;
+  margin-right: -3px;
+  text-align: left;
 }
 
   .app-wrapper__pad {
     padding: 5px;
     margin:  0 auto;
-    max-width: 290px;
   }
 
 
