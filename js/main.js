@@ -18,6 +18,7 @@ $(function () {
   var glanceButton = $('.js-glance-btn');
   var notificationButton = $('.js-notification-btn');
 
+  var baseStage = $('.js-base');
   var appStage = $('.js-app');
   var glanceStage = $('.js-glance');
   var notificationStage = $('.js-notification');
@@ -69,6 +70,8 @@ $(function () {
 
   function stopPlayer(player) {
     if (player == 'app') {
+      baseStage.removeClass('zoom');
+
       appButton.removeClass('active');
       appButton.children('.fa').removeClass('fa-pause');
       appButton.children('.fa').addClass('fa-play');
@@ -108,6 +111,8 @@ $(function () {
 
   function startPlayer(player) {
     if (player == 'app') {
+      baseStage.addClass('zoom');
+
       appButton.addClass('active');
       appButton.children('.fa').removeClass('fa-play');
       appButton.children('.fa').addClass('fa-pause');
@@ -175,6 +180,7 @@ $(function () {
   //Init touch swipe
   tape.parent().swipe({
     triggerOnTouchEnd: true,
+    triggerOnTouchLeave: true,
     swipeStatus: swipeStatus,
     allowPageScroll: "none",
     threshold: 25
