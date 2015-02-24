@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +12,8 @@
   <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,700' type='text/css'>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/main.css">
+
+  <script src="js/modernizr-custom.min.js"></script>
 </head>
 <body>
 
@@ -54,9 +56,10 @@
                 <div class="stage__blur"></div>
 
                 <!-- Static image (first frame) of the app goes here as a background image,
-                     apng source goes into data-url attribute. -->
+                     apng source goes into data-apng, video source goes into data-video attribute. -->
                 <div class="stage__frame application js-app" style="background-image: url('images/app/static.png')"
-                     data-url="images/app/animated.png"></div>
+                     data-apng="images/app/animated.png"
+                     data-video="images/app/video.mp4"></div>
 
                 <div class="stage__frame glance js-glance">
                   <div class="stage__frame__bg"></div>
@@ -171,7 +174,7 @@
                 <div class="stage__blur"></div>
 
                 <div class="stage__frame application js-app" style="background-image: url('images/app/static.png')"
-                     data-url="images/app/animated.png"></div>
+                     data-apng="images/app/animated.png"></div>
 
                 <div class="stage__frame glance js-glance">
                   <div class="stage__frame__bg"></div>
@@ -272,7 +275,7 @@
                 <div class="stage__blur"></div>
 
                 <div class="stage__frame application js-app" style="background-image: url('images/app/static.png')"
-                     data-url="images/app/animated.png"></div>
+                     data-apng="images/app/animated.png"></div>
 
                 <div class="stage__frame glance js-glance">
                   <div class="stage__frame__bg"></div>

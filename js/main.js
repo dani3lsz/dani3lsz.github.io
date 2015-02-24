@@ -129,13 +129,27 @@
 
           appButton.addClass('active');
 
-          var animatedSrc = appStage.data('url');
-          var img = '<img src="'+ animatedSrc +'" width="136" height="170" >';
+          var animatedSrc = appStage.data('apng');
+          var videoSrc = appStage.data('video');
+          var media;
+          var animated = false;
+          var video = false;
 
-          appStage.append(img);
+          if (typeof videoSrc != 'undefined' && $('html').hasClass('no-touch')) {
+            media = '<video src="'+ videoSrc +'" width="136" height="170" preload autoplay loop muted webkit-playsinline >';
+            video = true;
+          } else if (typeof animatedSrc != 'undefined') {
+            media = '<img src="'+ animatedSrc +'" width="136" height="170" >';
+            animated = true;
+          }
+
+          if (animated || video) {
+            appStage.append(media);
+          }
+
           appStage.addClass('active');
 
-          if (!aPngSupported) {
+          if (animated && !aPngSupported) {
             appStage.children("img").each(function() { APNG.animateImage(this); })
           }
 
