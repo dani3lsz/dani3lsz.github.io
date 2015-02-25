@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    canvas {
+      width: 136px;
+      height: 170px;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<video id="v" width="136" height="170" src="images/app/video.mp4" preload autoplay loop></video>
+
+<canvas id="c"></canvas>
+
+<button id="b">Play</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var v = document.getElementById('v');
+    var canvas = document.getElementById('c');
+    var button = document.getElementById('b');
+    var context = canvas.getContext('2d');
+
+    var cw = Math.floor(canvas.clientWidth);
+    var ch = Math.floor(canvas.clientHeight);
+    canvas.width = cw;
+    canvas.height = ch;
+
+    v.addEventListener('play', function(){
+      draw(this,context,cw,ch);
+    },false);
+
+  },false);
+
+  function draw(v,c,w,h) {
+    if(v.paused || v.ended) return false;
+    c.drawImage(v,0,0,w,h);
+    setTimeout(draw,20,v,c,w,h);
+  }
+</script>
+</body>
+</html>
