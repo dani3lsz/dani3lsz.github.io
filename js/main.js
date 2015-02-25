@@ -58,6 +58,15 @@
         handleClick('notification')
       });
 
+      // click events on notification action buttons
+      $this.find('.js-close').on('click', function(){
+        notificationButton.trigger('click');
+      });
+
+      $this.find('.js-open').on('click', function(){
+        appButton.trigger('click');
+      });
+
       // start/stop previews
       function handleClick(btn) {
         var playing = checkPlayers();

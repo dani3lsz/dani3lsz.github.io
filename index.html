@@ -105,6 +105,12 @@
                             <!-- App name goes into this div, app color applied as background color. -->
                             <div class="notification__img__header truncate" style="background-color: #ff3333">App Name</div>
                             <img src="images/app/notification.png">
+
+                            <button class="notification__btn js-open">Accept</button>
+                            <button class="notification__btn js-open">Maybe</button>
+                            <button class="notification__btn js-open">Decline</button>
+
+                            <button class="notification__btn notification__btn--base js-close">Dismiss</button>
                           </div>
 
                           <div class="notification__time js-time">10:47</div>
@@ -141,6 +147,59 @@
       </div>
     </div>
     <!-- app end -->
+
+    <div class="app-wrapper">
+      <div class="app-wrapper__pad">
+        <div class="app" style="text-align: center">
+          <h2>Requirements</h2>
+
+          <h3>App videos</h3>
+
+          <video src="images/app/video.mp4" width="136" height="170" preload loop muted controls></video>
+
+          <p>272 x 340px (38mm Version)</p>
+
+          <div class="app__info">
+            No Chrome, just the app.<br>
+            A short 5 sec and a longer 10-20 sec version.
+          </div>
+
+          <h3>Glance image(s)</h3>
+
+          <img src="images/app/glance.png" width="136" height="170" style="box-shadow: 0 0 0 1px rgba(0,0,0,.1);">
+
+          <p>272 x 340px (38mm Version)</p>
+
+          <div class="app__info">
+            Preferably transparent png image(s), without background.
+          </div>
+
+          <h3>Notification image</h3>
+
+          <img src="images/app/notification.png" width="136">
+
+          <p>272 x 340+px (38mm Version)</p>
+
+          <div class="app__info">
+            Only the app content, without the logo, sash and action buttons.<br>
+            Preferably transparent png image, without background (Note that there are margins on the sides).
+          </div>
+
+          <p>+ sash color and opacity (rgba)</p>
+          <p>+ app defined actions</p>
+
+          <h3>Logo</h3>
+
+          <img src="images/app/logo.png" width="81" height="81">
+
+          <p>162 x 162px</p>
+
+          <div class="app__info">
+            NOT transparent png image, without cropping the logo to the circle mask.
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>

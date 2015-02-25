@@ -459,6 +459,7 @@ strong {
       }
 
       .notification__img {
+        padding-bottom: 20px;
         -webkit-transform: translate3d(0,170px,0);
                 transform: translate3d(0,170px,0);
         -webkit-transition-delay: .5s;
@@ -487,6 +488,31 @@ strong {
 
         .notification__img > img {
           max-width: 100%;
+        }
+
+        .notification__btn {
+          font-weight: 100;
+          font-size: 14px;
+          font-family: inherit;
+          letter-spacing: 1px;
+          width: 100%;
+          margin: 4px 1px 0;
+          padding: 10px;
+          border:  none;
+          outline: none;
+          background-color: #242424;
+          color: #fff;
+          border-radius: 7px;
+          cursor: pointer;
+        }
+
+        .notification__btn:first-of-type {
+          margin-top: 1px;
+        }
+
+        .notification__btn--base {
+          margin-top: 13px;
+          background-color: #333;
         }
 
       .notification__time {
