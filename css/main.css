@@ -98,23 +98,34 @@ strong {
       font-family: inherit;
       font-size: 12px;
       width: 76px;
-      border: none;
+      border: solid 1px #b7b7b7;
       outline: none;
       padding: 3px;
       background-color: #f0f0f0;
       color: #333;
-      box-shadow: 0 0 0 1px #333;
       cursor: pointer;
-      -webkit-transition: .4s ease-in-out;
-              transition: .4s ease-in-out;
+    }
+
+    .app__controls > button:nth-child(n+2) {
+      border-left: none;
     }
 
     .app__controls > button:first-child {
-      border-radius: 2px 0 0 2px;
+      -webkit-border-top-left-radius:    2px;
+      -webkit-border-bottom-left-radius: 2px;
+         -moz-border-radius-topleft:     2px;
+         -moz-border-radius-bottomleft:  2px;
+              border-top-left-radius:    2px;
+              border-bottom-left-radius: 2px;
     }
 
     .app__controls > button:last-child {
-      border-radius: 0 2px 2px 0;
+      -webkit-border-top-right-radius:    2px;
+      -webkit-border-bottom-right-radius: 2px;
+         -moz-border-radius-topright:     2px;
+         -moz-border-radius-bottomright:  2px;
+              border-top-right-radius:    2px;
+              border-bottom-right-radius: 2px;
     }
 
     .app__controls > button.active {

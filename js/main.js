@@ -29,117 +29,108 @@
 
       var $this = $(this);
 
-      // get buttons under the watch
-      var appButton = $this.find('.js-app-btn');
-      var glanceButton = $this.find('.js-glance-btn');
-      var notificationButton = $this.find('.js-notification-btn');
+      var base = {};
+      base.stage = $this.find('.js-base');
 
-      // get stages of the previews
-      var baseStage = $this.find('.js-base');
-      var appStage = $this.find('.js-app');
-      var glanceStage = $this.find('.js-glance');
-      var notificationStage = $this.find('.js-notification');
+      var app = {};
+      app.button = $this.find('.js-app-btn');
+      app.stage = $this.find('.js-app');
+      app.playing = false;
 
-      // vars to check if one is playing
-      var appPlaying = false;
-      var glancePlaying = false;
-      var notificationPlaying = false;
+      var glance = {};
+      glance.button = $this.find('.js-glance-btn');
+      glance.stage = $this.find('.js-glance');
+      glance.playing = false;
+
+      var notification = {};
+      notification.button = $this.find('.js-notification-btn');
+      notification.stage = $this.find('.js-notification');
+      notification.playing = false;
+
+      var allObject = [app,glance,notification];
 
       // click events on the buttons
-      appButton.on('click', function(){
-        handleClick('app')
-      });
+      for (var i = 0; i < allObject.length; i++) {
+        (function(){
+          var currentObject = allObject[i];
 
-      glanceButton.on('click', function(){
-        handleClick('glance')
-      });
-
-      notificationButton.on('click', function(){
-        handleClick('notification')
-      });
+          currentObject.button.on('click', function(){
+            handleClick(currentObject)
+          });
+        })()
+      }
 
       // click events on notification action buttons
       $this.find('.js-close').on('click', function(){
-        notificationButton.trigger('click');
+        notification.button.trigger('click');
       });
 
       $this.find('.js-open').on('click', function(){
-        appButton.trigger('click');
+        app.button.trigger('click');
       });
 
       // start/stop previews
-      function handleClick(btn) {
+      function handleClick(obj) {
         var playing = checkPlayers();
 
         if (playing) {
           stopPlayer(playing);
+          playing.button.removeClass('active');
 
-          if(playing != btn) {
-            var b = btn;
+          if(playing != obj) {
+            obj.button.addClass('active');
             setTimeout(function(){
-              startPlayer(b)
+              startPlayer(obj)
             },500)
           }
         } else {
-          startPlayer(btn)
+          startPlayer(obj);
+          obj.button.addClass('active')
         }
       }
 
       // check which preview is playing
       function checkPlayers() {
-        if (appPlaying) {
-          return 'app'
-        } else if (glancePlaying) {
-          return 'glance'
-        } else if (notificationPlaying) {
-          return 'notification'
-        } else {
-          return false
+        var obj = false;
+
+        for (var i = 0; i < allObject.length; i++) {
+          if (allObject[i].playing) {
+            obj = allObject[i]
+          }
         }
+
+        return obj
       }
 
       // stop player functions
-      function stopPlayer(player) {
-        if (player == 'app') {
-          baseStage.removeClass('zoom');
+      function stopPlayer(obj) {
+        if (obj == app) {
+          base.stage.removeClass('zoom');
 
-          appButton.removeClass('active');
-
-          appStage.empty();
-          appStage.removeClass('active');
-
-          appPlaying = false;
-        } else if (player == 'glance') {
-          glanceButton.removeClass('active');
-
-          glanceStage.removeClass('active animate');
-          glanceStage.parent().removeClass('blur');
-
-          glancePlaying = false;
-        } else if (player == 'notification') {
-          notificationButton.removeClass('active');
-
-          notificationStage.removeClass('active animate');
-
-          notificationStage.parent().removeClass('blur');
-
-          notificationPlaying = false;
+          app.stage.empty();
+          app.stage.removeClass('active');
+        } else if (obj == glance) {
+          glance.stage.removeClass('active animate');
+          glance.stage.parent().removeClass('blur');
+        } else if (obj == notification) {
+          notification.stage.removeClass('active animate');
+          notification.stage.parent().removeClass('blur');
 
           setTimeout(function(){
-            notificationStage.find('.js-scroll').scrollTop(0);
+            notification.stage.find('.js-scroll').scrollTop(0);
           },500)
         }
+
+        obj.playing = false
       }
 
       // start player functions
-      function startPlayer(player) {
-        if (player == 'app') {
-          baseStage.addClass('zoom');
+      function startPlayer(obj) {
+        if (obj == app) {
+          base.stage.addClass('zoom');
 
-          appButton.addClass('active');
-
-          var animatedSrc = appStage.data('apng');
-          var videoSrc = appStage.data('video');
+          var animatedSrc = app.stage.data('apng');
+          var videoSrc = app.stage.data('video');
           var media;
           var animated = false;
           var video = false;
@@ -153,33 +144,23 @@
           }
 
           if (animated || video) {
-            appStage.append(media);
+            app.stage.append(media);
           }
 
-          appStage.addClass('active');
+          app.stage.addClass('active');
 
           if (animated && !aPngSupported) {
-            appStage.children("img").each(function() { APNG.animateImage(this); })
+            app.stage.children("img").each(function() { APNG.animateImage(this); })
           }
-
-          appPlaying = true;
-        } else if (player == 'glance') {
-          glanceButton.addClass('active');
-
-          glanceStage.addClass('active animate');
-
-          glanceStage.parent().addClass('blur');
-
-          glancePlaying = true;
-        } else if (player == 'notification') {
-          notificationButton.addClass('active');
-
-          notificationStage.addClass('active animate');
-
-          notificationStage.parent().addClass('blur');
-
-          notificationPlaying = true;
+        } else if (obj == glance) {
+          glance.stage.addClass('active animate');
+          glance.stage.parent().addClass('blur');
+        } else if (obj == notification) {
+          notification.stage.addClass('active animate');
+          notification.stage.parent().addClass('blur');
         }
+
+        obj.playing = true
       }
 
 
@@ -220,7 +201,7 @@
 
       // function if glance is tapped
       function tap(event, target) {
-        appButton.trigger('click')
+        app.button.trigger('click')
       }
 
       // functions if glance is swiped
@@ -256,7 +237,7 @@
             }
             moveTape(index * tapeWidth, speed);
           } else if (direction == "down") {
-            glanceButton.trigger('click');
+            glance.button.trigger('click');
             tape.parent().removeAttr('style');
           }
         }
