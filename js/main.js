@@ -293,11 +293,45 @@
       }
     });
 
+    // close previous playing video
     function closeOtherVideos() {
       if (playingVidId !== false) {
         watch.eq(playingVidId).find('.js-app-btn').eq(0).trigger('click')
       }
     }
+  }
+
+
+
+  //
+  // Zoom out screens if in view
+  //
+
+  var $window = $(window);
+  var elem = $('.js-zoom-start');
+
+  zoomOutStart();
+
+  $window.scroll(function(){
+    zoomOutStart()
+  });
+
+  function zoomOutStart() {
+    var scrollTop = $window.scrollTop();
+    var windowHeight = $window.height();
+
+    elem.each(function(){
+      var $this = $(this);
+      var elemOffset;
+
+      if ($this.hasClass('zoom-start')) {
+        elemOffset = $this.offset().top;
+
+        if (elemOffset + 300 < windowHeight + scrollTop) {
+          $this.removeClass('zoom-start')
+        }
+      }
+    })
   }
 
 
