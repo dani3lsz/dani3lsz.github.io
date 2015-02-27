@@ -15,6 +15,7 @@
 
   // get wrapper class of the apps
   var watch = $('.js-watch');
+  var playingVidId = false;
 
   if (watch.length) {
     watch.each(function(){
@@ -28,6 +29,7 @@
 
 
       var $this = $(this);
+      var elemId = watch.index($this);
 
       var base = {};
       base.stage = $this.find('.js-base');
@@ -66,7 +68,7 @@
       });
 
       $this.find('.js-open').on('click', function(){
-        app.button.trigger('click');
+        app.button.eq(0).trigger('click');
       });
 
       // start/stop previews
@@ -75,15 +77,19 @@
 
         if (stopped) {
           if(stopped != obj) {
-            obj.button.addClass('active');
-            setTimeout(function(){
-              startPlayer(obj)
-            },500)
+            startCurrent(obj,500)
           }
         } else {
-          obj.button.addClass('active');
-          startPlayer(obj)
+          startCurrent(obj,0)
         }
+      }
+
+      //start current object
+      function startCurrent(obj,delay) {
+        obj.button.addClass('active');
+        setTimeout(function(){
+          startPlayer(obj)
+        },delay)
       }
 
       //stop currently playing object
@@ -114,6 +120,10 @@
       // stop player functions
       function stopPlayer(obj) {
         if (obj == app) {
+          if (playingVidId === elemId) {
+            playingVidId = false;
+          }
+
           base.stage.removeClass('zoom');
 
           app.stage.empty();
@@ -136,6 +146,9 @@
       // start player functions
       function startPlayer(obj) {
         if (obj == app) {
+          closeOtherVideos();
+          playingVidId = elemId;
+
           base.stage.addClass('zoom');
 
           var animatedSrc = app.stage.data('apng');
@@ -210,7 +223,7 @@
 
       // function if glance is tapped
       function tap(event, target) {
-        app.button.trigger('click')
+        app.button.eq(0).trigger('click')
       }
 
       // functions if glance is swiped
@@ -278,7 +291,13 @@
                   "transform": "translate3d(0," + value + "px,0)"
         });
       }
-    })
+    });
+
+    function closeOtherVideos() {
+      if (playingVidId !== false) {
+        watch.eq(playingVidId).find('.js-app-btn').eq(0).trigger('click')
+      }
+    }
   }
 
 
