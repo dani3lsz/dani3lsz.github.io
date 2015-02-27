@@ -6,6 +6,7 @@ html, body {
 body {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
+  background-color: #f0f0f0;
 }
 
 strong {
@@ -21,12 +22,17 @@ strong {
   font-size: 42px;
 }
 
+  .title > .fa {
+    position: relative;
+    top: -2px;
+  }
+
 
 
 
 
 .main-wrapper {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -34,28 +40,46 @@ strong {
 
 .apps-container {
   text-align: center;
+  overflow: hidden;
 }
 
 
 
 .app-wrapper {
-  width: 300px;
+  width: 100%;
   display: inline-block;
   vertical-align: top;
   margin-right: -3px;
   text-align: left;
+  box-shadow: 31px 0 0 -30px rgba(0,0,0,.1), 0 -31px 0 -30px rgba(0,0,0,.1);
+}
+
+.app-wrapper:last-child {
+  box-shadow: 0 -31px 0 -30px rgba(0,0,0,.1);
+}
+
+@media screen and (min-width: 600px) {
+  .app-wrapper {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .app-wrapper {
+    width: 33.333337%;
+  }
 }
 
   .app-wrapper__pad {
     padding: 5px;
     margin:  0 auto;
+    max-width: 290px;
   }
 
 
 
 .app {
   padding: 10px;
-  background-color: #f0f0f0;
   border-radius: 2px;
 }
 
