@@ -276,7 +276,23 @@ strong {
 
     .zoom > .icon--20 {-webkit-transform: translate3d(-48px,110px,0) scale(1.5); transform: translate3d(-48px,110px,0) scale(1.5);}
 
+    .stage__base:after {
+      content: "";
+      position: absolute;
+      top:    0;
+      right:  0;
+      bottom: 0;
+      left:   0;
+      background-color: #000;
+      opacity: 0;
+      pointer-events: none;
+      -webkit-transition: .4s ease-in-out;
+              transition: .4s ease-in-out;
+    }
 
+    .zoom:after {
+      opacity: 1;
+    }
 
 .stage__frame {
     position: absolute;
@@ -315,6 +331,8 @@ strong {
   background-position: center center;
   background-size:     contain;
   opacity: 0;
+  border-radius: 0 0 3px 3px;
+  overflow: hidden;
   -webkit-transition: .4s ease-in-out;
           transition: .4s ease-in-out;
   -webkit-transform: scale(.17);
@@ -516,6 +534,7 @@ strong {
           text-align: right;
           letter-spacing: 1px;
           color: #fff;
+          background-color: rgba(255,255,255,.25);
           padding: 7px 8px 7px 50px;
           margin: 18px 1px 0;
           border-radius: 7px 7px 0 0;
