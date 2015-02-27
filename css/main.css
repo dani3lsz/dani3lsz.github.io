@@ -91,6 +91,7 @@ strong {
   }
 
     .app__watch__img {
+      position: relative;
       height: 100%;
       background-image: url("../images/AppleWatch.png");
       background-repeat:   no-repeat;
@@ -105,6 +106,19 @@ strong {
         width:  136px;
         height: 170px;
         background-color: #000;
+      }
+
+      .app__watch__crown {
+        position: absolute;
+        top: 58px;
+        right: 0;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        width: 15px;
+        height: 40px;
+        border-radius: 10px;
+        cursor: pointer;
       }
 
   .app__data {

@@ -60,9 +60,9 @@
         })()
       }
 
-      // click events on notification action buttons
+      // click events on action buttons
       $this.find('.js-close').on('click', function(){
-        notification.button.trigger('click');
+        stopCurrent()
       });
 
       $this.find('.js-open').on('click', function(){
@@ -71,22 +71,31 @@
 
       // start/stop previews
       function handleClick(obj) {
-        var playing = checkPlayers();
+        var stopped = stopCurrent();
 
-        if (playing) {
-          stopPlayer(playing);
-          playing.button.removeClass('active');
-
-          if(playing != obj) {
+        if (stopped) {
+          if(stopped != obj) {
             obj.button.addClass('active');
             setTimeout(function(){
               startPlayer(obj)
             },500)
           }
         } else {
-          startPlayer(obj);
-          obj.button.addClass('active')
+          obj.button.addClass('active');
+          startPlayer(obj)
         }
+      }
+
+      //stop currently playing object
+      function stopCurrent() {
+        var playing = checkPlayers();
+
+        if (playing) {
+          stopPlayer(playing);
+          playing.button.removeClass('active');
+        }
+
+        return playing
       }
 
       // check which preview is playing
