@@ -86,7 +86,7 @@ strong {
   .app__watch {
     width:  220px;
     height: 245px;
-    margin: 20px auto 15px;
+    margin: 20px auto 17px;
     padding-left: 10px;
   }
 
@@ -127,6 +127,7 @@ strong {
   }
 
   .app__controls {
+    position: relative;
     text-align: center;
     font-size: 0;
   }
@@ -134,36 +135,46 @@ strong {
     .app__controls > button {
       vertical-align: top;
       font-family: inherit;
-      font-size: 12px;
-      width: 76px;
-      border: solid 1px #b7b7b7;
+      font-size: 20px;
+      width:  36px;
+      height: 36px;
+      border-radius: 50%;
+      border:  none;
       outline: none;
+      margin: 0 5px;
       padding: 3px;
-      background-color: #f0f0f0;
+      background-color: #ddd;
       color: #333;
       cursor: pointer;
+      -webkit-transition: .2s ease-in-out;
+              transition: .2s ease-in-out;
     }
 
-    .app__controls > button:nth-child(n+2) {
-      border-left: none;
+    .app__controls > button:after {
+      content: attr(data-str);
+      display: block;
+      position: absolute;
+      top:    -15px;
+      right:  0;
+      left:   0;
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(0,0,0,.5);
+      background-color: #f0f0f0;
+      opacity: 0;
+      text-align: center;
+      -webkit-transition: .2s ease-in-out;
+              transition: .2s ease-in-out;
     }
 
-    .app__controls > button:first-child {
-      -webkit-border-top-left-radius:    2px;
-      -webkit-border-bottom-left-radius: 2px;
-         -moz-border-radius-topleft:     2px;
-         -moz-border-radius-bottomleft:  2px;
-              border-top-left-radius:    2px;
-              border-bottom-left-radius: 2px;
+    .no-touch .app__controls > button:hover:after {
+      opacity: 1;
+      color: rgba(0,0,0,.5);
     }
 
-    .app__controls > button:last-child {
-      -webkit-border-top-right-radius:    2px;
-      -webkit-border-bottom-right-radius: 2px;
-         -moz-border-radius-topright:     2px;
-         -moz-border-radius-bottomright:  2px;
-              border-top-right-radius:    2px;
-              border-bottom-right-radius: 2px;
+    .app__controls > button.active:after {
+      opacity: 1;
+      color: rgba(0,0,0,.5);
     }
 
     .app__controls > button.active {

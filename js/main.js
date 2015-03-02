@@ -233,7 +233,7 @@
         triggerOnTouchLeave: true,
         swipeStatus: swipeGlance,
         allowPageScroll: "none",
-        threshold: 25,
+        threshold: 10,
         tap: tap
       });
 
