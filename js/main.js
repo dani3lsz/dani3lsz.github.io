@@ -13,6 +13,13 @@
     aPngSupported = false;
   });
 
+  // Chek if touch device
+  var touchDevice = false;
+
+  if ($('html').hasClass('touch')) {
+    touchDevice = true;
+  }
+
   // get wrapper class of the apps
   var watch = $('.js-watch');
   var playingVidId = false;
@@ -157,7 +164,7 @@
           var animated = false;
           var video = false;
 
-          if (typeof videoSrc != 'undefined' && $('html').hasClass('no-touch')) {
+          if (typeof videoSrc != 'undefined' && !touchDevice) {
             media = '<video src="'+ videoSrc +'" width="136" height="170" preload autoplay loop muted webkit-playsinline >';
             video = true;
           } else if (typeof animatedSrc != 'undefined') {
@@ -304,31 +311,33 @@
 
 
   //
-  // Zoom out screens if in view
+  // Start app on phone
   //
 
   var $window = $(window);
-  var elem = $('.js-zoom-start');
+  var windowWidth = $window.width();
 
-  zoomOutStart();
+  if (watch.length && touchDevice && windowWidth < 600) {
+    playInView();
 
-  $window.scroll(function(){
-    zoomOutStart()
-  });
+    $window.scroll(function(){
+      playInView()
+    });
+  }
 
-  function zoomOutStart() {
+  function playInView() {
     var scrollTop = $window.scrollTop();
     var windowHeight = $window.height();
 
-    elem.each(function(){
+    watch.each(function(){
       var $this = $(this);
-      var elemOffset;
 
-      if ($this.hasClass('zoom-start')) {
-        elemOffset = $this.offset().top;
+      if (!$this.hasClass('started')) {
+        var elemOffset = $this.offset().top;
 
-        if (elemOffset + 300 < windowHeight + scrollTop) {
-          $this.removeClass('zoom-start')
+        if (elemOffset + 250 < windowHeight + scrollTop) {
+          $this.find('.js-app-btn').eq(0).trigger('click');
+          $this.addClass('started')
         }
       }
     })

@@ -323,7 +323,7 @@ strong {
 
 
 
-    .zoom-start > .icon {opacity: 0}
+    /*.zoom-start > .icon {opacity: 0}
 
     .zoom-start > .icon--10 {opacity: 1; -webkit-transform: scale(3); transform: scale(3);}
 
@@ -352,7 +352,7 @@ strong {
     .zoom-start > .icon--16 {-webkit-transform: translate3d( 35px, 44px,0) scale(1.25); transform: translate3d( 35px, 44px,0) scale(1.25);}
 
     .zoom-start > .icon--20 {-webkit-transform: translate3d(-24px,55px,0) scale(1.25); transform: translate3d(-24px,55px,0) scale(1.25);}
-
+*/
 
 
     .stage__base:after {
