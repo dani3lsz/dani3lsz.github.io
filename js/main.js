@@ -213,6 +213,8 @@
       var index = 0;
       var maxIndex = dots.length - 1;
       var speed = 400;
+      var moveHorizontal = false;
+      var moveVertical = false;
 
       // click on the dots in the carousel
       dots.on('click', function(){
@@ -245,34 +247,53 @@
 
         //If we are moving before swipe, then manually drag the carousel
         if (phase == "move") {
-          if (direction == "left")
-            moveTape((index * tapeWidth) + distance, 0);
+          if (direction == "left") {
+            if (!moveVertical) {
+              moveHorizontal = true;
 
-          else if (direction == "right")
-            moveTape((index * tapeWidth) - distance, 0);
-
-          else if (direction == "down")
-            moveTapeParent(distance, 0);
-
-        } else if (phase == "cancel") {
-          if (direction == "left")
-            moveTape(index * tapeWidth, speed);
-
-          else if (direction == "down")
-            tape.parent().removeAttr('style');
-
-        } else if (phase == "end") {
-          if (direction == "right") {
-            if (index != 0) {
-              index -= 1;
+              moveTape((index * tapeWidth) + distance, 0);
             }
-            moveTape(index * tapeWidth, speed);
-          } else if (direction == "left") {
-            if (index != maxIndex) {
-              index += 1;
+          } else if (direction == "right") {
+            if (!moveVertical) {
+              moveHorizontal = true;
+
+              moveTape((index * tapeWidth) - distance, 0);
             }
-            moveTape(index * tapeWidth, speed);
           } else if (direction == "down") {
+            if (!moveHorizontal) {
+              moveVertical = true;
+
+              moveTapeParent(distance, 0);
+            }
+          }
+        } else if (phase == "cancel") {
+          if (moveHorizontal) {
+            moveHorizontal = false;
+
+            moveTape(index * tapeWidth, speed);
+          } else if (moveVertical) {
+            moveVertical = false;
+
+            tape.parent().removeAttr('style');
+          }
+        } else if (phase == "end") {
+          if (moveHorizontal) {
+            moveHorizontal = false;
+
+            if (direction == "right") {
+              if (index != 0) {
+                index -= 1;
+              }
+            } else if (direction == "left") {
+              if (index != maxIndex) {
+                index += 1;
+              }
+            }
+
+            moveTape(index * tapeWidth, speed);
+          } else if (moveVertical) {
+            moveVertical = false;
+
             glance.button.trigger('click');
             tape.parent().removeAttr('style');
           }
