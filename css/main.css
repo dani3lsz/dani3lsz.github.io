@@ -547,14 +547,10 @@ strong {
     .notification__tape {
       position: absolute;
       top:    0;
-      right:  -15px;
+      right:  -16px;
       bottom: 0;
       left:   0;
       overflow-x: hidden;
-      overflow-y: hidden;
-    }
-
-    .animate .notification__tape {
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
@@ -628,7 +624,7 @@ strong {
           font-size: 14px;
           font-family: inherit;
           letter-spacing: 1px;
-          width: 100%;
+          text-align: center;
           margin: 4px 1px 0;
           padding: 10px;
           border:  none;
@@ -637,10 +633,6 @@ strong {
           color: #fff;
           border-radius: 7px;
           cursor: pointer;
-        }
-
-        .notification__btn:first-of-type {
-          margin-top: 1px;
         }
 
         .notification__btn--base {

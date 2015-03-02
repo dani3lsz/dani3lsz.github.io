@@ -54,6 +54,7 @@
       var notification = {};
       notification.button = $this.find('.js-notification-btn');
       notification.stage = $this.find('.js-notification');
+      notification.scroll = $this.find('.js-scroll');
       notification.playing = false;
 
       var allObject = [app,glance,notification];
@@ -70,12 +71,18 @@
       }
 
       // click events on action buttons
+      var mouseMove = false; // used to prevent click at the end of swipes
+
       $this.find('.js-close').on('click', function(){
-        stopCurrent()
+        if (!mouseMove) {
+          stopCurrent()
+        }
       });
 
       $this.find('.js-open').on('click', function(){
-        app.button.eq(0).trigger('click');
+        if (!mouseMove) {
+          app.button.eq(0).trigger('click');
+        }
       });
 
       // start/stop previews
@@ -143,7 +150,7 @@
           notification.stage.parent().removeClass('blur');
 
           setTimeout(function(){
-            notification.stage.find('.js-scroll').scrollTop(0);
+            notification.scroll.scrollTop(0);
           },500)
         }
 
@@ -222,7 +229,7 @@
       tape.parent().swipe({
         triggerOnTouchEnd: true,
         triggerOnTouchLeave: true,
-        swipeStatus: swipeStatus,
+        swipeStatus: swipeGlance,
         allowPageScroll: "none",
         threshold: 25,
         tap: tap
@@ -234,7 +241,7 @@
       }
 
       // functions if glance is swiped
-      function swipeStatus(event,phase,direction,distance,fingers) {
+      function swipeGlance(event,phase,direction,distance,fingers) {
 
         //If we are moving before swipe, then manually drag the carousel
         if (phase == "move") {
@@ -298,6 +305,53 @@
                   "transform": "translate3d(0," + value + "px,0)"
         });
       }
+
+
+
+      //
+      // Handle notification touch move on desktop
+      //
+
+
+
+      var scrollPos = notification.scroll.scrollTop();
+
+      //Init touch swipe on desktop
+      if (!touchDevice) {
+        notification.scroll.swipe({
+          triggerOnTouchEnd: true,
+          triggerOnTouchLeave: true,
+          swipeStatus: swipeNotification,
+          threshold: 1
+        });
+      }
+
+      // functions if notification is swiped
+      function swipeNotification(event,phase,direction,distance,fingers) {
+
+        // Manual drag
+        if (phase == "start") {
+          scrollPos = notification.scroll.scrollTop();
+        } else if (phase == "move" && (direction == "up" || direction == "down")) {
+          mouseMove = true;
+
+          if (direction == "up")
+            scrollNotification(scrollPos + distance);
+
+          else if (direction == "down")
+            scrollNotification(scrollPos - distance);
+        } else if (phase == "end") {
+          setTimeout(function(){
+            mouseMove = false;
+          },10)
+        }
+      }
+
+      // Scroll notification
+      function scrollNotification(distance) {
+          notification.scroll.scrollTop(distance)
+      }
+
     });
 
     // close previous playing video
