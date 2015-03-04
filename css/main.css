@@ -676,17 +676,20 @@ strong {
       }
 
         .notification__img__header {
-          font-weight: 100;
-          text-transform: uppercase;
-          font-size: 11px;
-          text-align: right;
-          letter-spacing: 1px;
-          color: #fff;
           background-color: rgba(255,255,255,.25);
           padding: 7px 8px 7px 50px;
           margin: 18px 1px 0;
           border-radius: 7px 7px 0 0;
         }
+
+          .notification__img__header__title {
+            font-weight: 100;
+            text-transform: uppercase;
+            text-align: right;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: #fff;
+          }
 
         .notification__img > img {
           max-width: 100%;
