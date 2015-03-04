@@ -38,6 +38,9 @@
       var $this = $(this);
       var elemId = watch.index($this);
 
+      var animated = false;
+      var video = false;
+
       var base = {};
       base.stage = $this.find('.js-base');
 
@@ -140,7 +143,16 @@
 
           base.stage.removeClass('zoom');
 
-          app.stage.empty();
+          if (animated && !aPngSupported) {
+            app.stage.children("canvas").each(function() { APNG.releaseCanvas(this); })
+          }
+
+          if (animated || video) {
+            app.stage.empty();
+            video = false;
+            animated = false;
+          }
+
           app.stage.removeClass('active');
         } else if (obj == glance) {
           glance.stage.removeClass('active animate');
@@ -168,8 +180,6 @@
           var animatedSrc = app.stage.data('apng');
           var videoSrc = app.stage.data('video');
           var media;
-          var animated = false;
-          var video = false;
 
           if (typeof videoSrc != 'undefined' && !touchDevice) {
             media = '<video src="'+ videoSrc +'" width="136" height="170" preload autoplay loop muted webkit-playsinline >';
