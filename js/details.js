@@ -7,7 +7,30 @@
 (function(){
   var samples = $('.js-samples');
 
+  // Check if apng is supported
+  var aPngSupported = true;
+
+  APNG.ifNeeded().then(function () {
+    aPngSupported = false;
+  });
+
+  // Chek if touch device
+  var touchDevice = false;
+
+  if ($('html').hasClass('touch')) {
+    touchDevice = true;
+  }
+
   if (samples.length) {
+
+
+
+    //
+    // Handle carousel
+    //
+
+
+
     var $window = $(window);
     var prevBtn = samples.parent().find('.js-prev');
     var nextBtn = samples.parent().find('.js-next');
@@ -121,6 +144,42 @@
 
       moveCarousel(index * elemWidth, 0);
       hideNav()
-    })
+    });
+
+
+
+    //
+    // Handle resources
+    //
+
+
+
+    elem.each(function(){
+      var mediaContainer = $(this).find('.js-sample');
+
+      var animatedSrc = mediaContainer.data('apng');
+      var videoSrc = mediaContainer.data('video');
+      var media;
+      var animated = false;
+      var video = false;
+
+      if (typeof videoSrc != 'undefined' && !touchDevice) {
+        media = '<video src="'+ videoSrc +'" width="136" height="170" preload autoplay loop muted webkit-playsinline >';
+        video = true;
+      } else if (typeof animatedSrc != 'undefined') {
+        media = '<img src="'+ animatedSrc +'" width="136" height="170" >';
+        animated = true;
+      }
+
+      if (animated || video) {
+        mediaContainer.append(media);
+      }
+
+      if (animated && !aPngSupported) {
+        mediaContainer.children("img").each(function() { APNG.animateImage(this); })
+      }
+    });
+
+
   }
 })();
