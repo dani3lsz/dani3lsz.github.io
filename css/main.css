@@ -1,3 +1,13 @@
+* {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 html, body {
   margin:  0;
   padding: 0;
@@ -17,7 +27,7 @@ strong {
 .title {
   text-align: center;
   padding: 0 20px;
-  margin:  40px 0;
+  margin:  40px 0 10px;
   font-weight: 100;
   font-size: 42px;
 }
@@ -52,10 +62,15 @@ strong {
   margin-right: -3px;
   text-align: left;
   box-shadow: 31px 0 0 -30px rgba(0,0,0,.1), 0 -31px 0 -30px rgba(0,0,0,.1);
+  white-space: normal;
 }
 
 .app-wrapper:last-child {
   box-shadow: 0 -31px 0 -30px rgba(0,0,0,.1);
+}
+
+.app-samples .app-wrapper {
+  box-shadow: none;
 }
 
 @media screen and (min-width: 600px) {
@@ -84,15 +99,49 @@ strong {
 }
 
   .app__watch {
-    width:  220px;
-    height: 245px;
+    position: relative;
+    width:  228px;
     margin: 20px auto 17px;
-    padding-left: 10px;
+    padding-left: 8px;
   }
+
+    .app__watch__band {
+      height: 396px;
+      background-repeat:   no-repeat;
+      background-position: 5px center;
+      background-size:     contain;
+    }
+
+    .app__watch__band--sport-black {
+      background-image: url("../images/bands/sport-black.png");
+    }
+
+    .app__watch__band--sport-white {
+      background-image: url("../images/bands/sport-white.png");
+    }
+
+    .app__watch__band--sport-blue {
+      background-image: url("../images/bands/sport-blue.png");
+    }
+
+    .app__watch__band--sport-green {
+      background-image: url("../images/bands/sport-green.png");
+    }
+
+    .app__watch__band--sport-pink {
+      background-image: url("../images/bands/sport-pink.png");
+    }
+
+    .app__watch__band + .app__watch__img {
+      position: absolute;
+      top:   76px;
+      right: 0;
+      left:  8px;
+    }
 
     .app__watch__img {
       position: relative;
-      height: 100%;
+      height: 245px;
       background-image: url("../images/AppleWatch.png");
       background-repeat:   no-repeat;
       background-position: center center;
@@ -685,6 +734,66 @@ strong {
 
 
 
+.app-samples {
+  position: relative;
+  margin: 60px 0;
+  box-shadow: 0 -1px rgba(0,0,0,.1), 0 1px rgba(0,0,0,.1);
+  overflow: hidden;
+}
+
+  .app-samples__tape {
+    white-space: nowrap;
+    -webkit-transition: .4s ease-out;
+            transition: .4s ease-out;
+  }
+
+  .app-samples__nav {
+    position: absolute;
+    top: 130px;
+    height: 60px;
+    padding: 12px 0 0;
+    border:  none;
+    outline: none;
+    font-size: 36px;
+    background-color: transparent;
+    opacity: .25;
+    cursor: pointer;
+    -webkit-transition: .2s ease-in-out;
+            transition: .2s ease-in-out;
+  }
+
+  .app-samples__nav:hover {
+    opacity: .5;
+  }
+
+  .app-samples__nav.disable {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .app-samples__nav--prev {
+    left: 0;
+  }
+
+  .app-samples__nav--next {
+    right: 0;
+  }
+
+
+
+.app-details {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 40px;
+}
+
+
+
+
+
 .clearfix:after {
   content: "";
   display: block;
@@ -695,4 +804,8 @@ strong {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.text-center {
+  text-align: center;
 }
