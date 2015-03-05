@@ -19,9 +19,48 @@
 <body>
 
 <div class="main-wrapper clearfix">
+  <div class="all-apps">
+    <div class="all-apps__scroll js-all-apps">
+      <div class="all-apps__elem">
+        <a href="#" class="all-apps__elem__img" data-str="App Name" style="background-image: url('images/app/logo.png')"></a>
+      </div>
+
+      <div class="all-apps__elem">
+        <a href="#" class="all-apps__elem__img" data-str="App Name Something" style="background-image: url('')"></a>
+      </div>
+
+      <div class="all-apps__elem">
+        <a href="#" class="all-apps__elem__img" data-str="App Name" style="background-image: url('')"></a>
+      </div>
+
+      <div class="all-apps__elem">
+        <a href="#" class="all-apps__elem__img" data-str="App Name" style="background-image: url('')"></a>
+      </div>
+
+      <div class="all-apps__elem">
+        <a href="#" class="all-apps__elem__img" data-str="App Name" style="background-image: url('')"></a>
+      </div>
+
+      <div class="all-apps__elem">
+        <a href="#" class="all-apps__elem__img" data-str="App Name" style="background-image: url('')"></a>
+      </div>
+
+      <div class="all-apps__elem">
+        <a href="#" class="all-apps__elem__img" data-str="App Name" style="background-image: url('')"></a>
+      </div>
+
+      <div class="all-apps__elem">
+        <a href="#" class="all-apps__elem__img all-apps__elem__img--back" data-str="All Apps"></a>
+      </div>
+    </div>
+
+    <button class="all-apps__btn all-apps__btn--prev js-prev"><i class="icon-arrow-67"></i></button>
+    <button class="all-apps__btn all-apps__btn--next js-next"><i class="icon-arrow-68"></i></button>
+  </div>
+
   <h1 class="title">Some App</h1>
 
-  <div class="apps-container">
+  <div class="apps-container apps-container--small">
     <!-- app start -->
     <div class="app-wrapper">
       <div class="app-wrapper__pad">
@@ -144,6 +183,22 @@
       </div>
     </div>
     <!-- app end -->
+
+    <!-- social btns -->
+    <div class="share">
+      <a href="https://twitter.com/intent/tweet?text=<%= @page_title %>&url=<%= @permalink %>&via=watchaware" target="_blank"
+         class="share__link share__link--tw" data-str="tweet"><i class="fa fa-twitter"></i></a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=<%= @permalink %>" target="_blank"
+         class="share__link share__link--fb" data-str="share"><i class="fa fa-facebook"></i></a>
+      <a href="https://pinterest.com/pin/create/button/?url=<%= @permalink %>&description=<%= @meta_description %>&media=<%= @share_image %>" target="_blank"
+         class="share__link share__link--pi" data-str="pin"><i class="fa fa-pinterest"></i></a>
+      <a href="https://plus.google.com/share?url=<%= @permalink %>" target="_blank"
+         class="share__link share__link--go" data-str="share on google+"><i class="fa fa-google-plus"></i></a>
+      <a href="http://www.reddit.com/submit?url=<%= @permalink %>&title=<%= @page_title %>" target="_blank"
+         class="share__link share__link--re" data-str="reddit this"><i class="fa fa-reddit"></i></a>
+      <a href="http://www.tumblr.com/share" target="_blank"
+         class="share__link share__link--tu" data-str="share on tumblr"><i class="fa fa-tumblr"></i></a>
+    </div>
   </div>
 
   <div class="app-details">
@@ -285,10 +340,12 @@
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script src="js/apng-canvas.min.js"></script>
 <script src="js/jquery.touchSwipe.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/details.js"></script>
+<script src="js/apps-scroller.js"></script>
 
 </body>
 </html>
