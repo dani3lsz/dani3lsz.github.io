@@ -11,26 +11,30 @@
   var scroll = $('.js-all-apps');
 
   if (scroll.length) {
-    var prevBtn = scroll.parent().find('.js-prev');
-    var nextBtn = scroll.parent().find('.js-next');
-    var width = scroll.children().width();
-    var scrollPos;
+    scroll.each(function(){
+      var $this = $(this);
 
-    prevBtn.on('click', function(){
-      move(-1)
-    });
+      var prevBtn = $this.parent().find('.js-prev');
+      var nextBtn = $this.parent().find('.js-next');
+      var width = $this.children().width();
+      var scrollPos;
 
-    nextBtn.on('click', function(){
-      move(1)
-    });
+      prevBtn.on('click', function(){
+        move(-1)
+      });
 
-    function move(i) {
-      scrollPos = scroll.scrollLeft();
+      nextBtn.on('click', function(){
+        move(1)
+      });
 
-      var newPos = width * Math.round(scrollPos / width) + i * width;
+      function move(i) {
+        scrollPos = $this.scrollLeft();
 
-      scroll.animate({scrollLeft: newPos}, 200, 'easeOutBack')
-    }
+        var newPos = width * Math.round(scrollPos / width) + i * width;
+
+        $this.animate({scrollLeft: newPos}, 200, 'easeOutBack')
+      }
+    })
   }
 
 })();

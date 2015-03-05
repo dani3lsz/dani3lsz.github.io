@@ -27,7 +27,7 @@ strong {
 .title {
   text-align: center;
   padding: 0 20px;
-  margin:  20px 0 10px;
+  margin:  20px 0 0;
   font-weight: 100;
   font-size: 42px;
 }
@@ -37,6 +37,21 @@ strong {
     top: -2px;
   }
 
+.developer {
+  text-align: center;
+}
+
+  .developer__name {
+    text-decoration: none;
+    font-weight: 300;
+    color: #aaa;
+    -webkit-transition: .2s ease-in-out;
+            transition: .2s ease-in-out;
+  }
+
+  .developer__name:hover, .developer__name:focus {
+    color: #f80;
+  }
 
 
 
