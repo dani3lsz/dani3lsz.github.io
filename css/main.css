@@ -883,7 +883,7 @@ h2.title {font-size: 36px;}
     z-index: 1;
     top:    0;
     bottom: 0;
-    width: 100px;
+    width: 30px;
     pointer-events: none;
   }
 
@@ -929,7 +929,7 @@ h2.title {font-size: 36px;}
     }
 
     .all-apps__elem:first-child {
-      margin-left: 105px;
+      margin-left: -5px;
     }
 
     .all-apps__elem:last-child {
@@ -957,7 +957,7 @@ h2.title {font-size: 36px;}
           margin: 0 1px;
         }
 
-        .all-apps__elem:first-child > .all-apps__elem__img {
+        .all-apps__elem:nth-child(2) > .all-apps__elem__img {
           -webkit-transform: scale(1.25);
                   transform: scale(1.25);
         }
@@ -975,7 +975,7 @@ h2.title {font-size: 36px;}
           overflow: hidden;
         }
 
-        .all-apps__elem:first-child > .all-apps__elem__img:after {
+        .all-apps__elem:nth-child(2) > .all-apps__elem__img:after {
           display: none;
         }
 
