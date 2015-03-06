@@ -190,10 +190,13 @@
 
     <!-- social btns -->
     <div class="share">
+      <input id="share__btn" class="share__btn" type="checkbox">
+      <label for="share__btn" data-str="share"><i class="icon-share-icon"></i></label>
+
       <a href="https://twitter.com/intent/tweet?text=<%= @page_title %>&url=<%= @permalink %>&via=watchaware" target="_blank"
          class="share__link share__link--tw" data-str="tweet"><i class="fa fa-twitter"></i></a>
       <a href="https://www.facebook.com/sharer/sharer.php?u=<%= @permalink %>" target="_blank"
-         class="share__link share__link--fb" data-str="share"><i class="fa fa-facebook"></i></a>
+         class="share__link share__link--fb" data-str="share on facebook"><i class="fa fa-facebook"></i></a>
       <a href="https://pinterest.com/pin/create/button/?url=<%= @permalink %>&description=<%= @meta_description %>&media=<%= @share_image %>" target="_blank"
          class="share__link share__link--pi" data-str="pin"><i class="fa fa-pinterest"></i></a>
       <a href="https://plus.google.com/share?url=<%= @permalink %>" target="_blank"
