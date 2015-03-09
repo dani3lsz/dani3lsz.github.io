@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>App embed src</title>
+
+  <meta name="description" content="App embed src">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,700' type='text/css'>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <script src="js/modernizr-custom.min.js"></script>
+</head>
+<body>
+<div class="apps-container">
+  <!-- app start -->
+  <div class="app-wrapper">
+    <div class="app-wrapper__pad">
+      <div class="app js-watch">
+        <div class="app__watch">
+          <div class="app__watch__band app__watch__band--sport-black"></div>
+
+          <div class="app__watch__img app__watch__img--alu">
+            <div class="app__watch__img__screen">
+              <div class="stage">
+                <div class="stage__base js-base">
+                  <div class="icon icon--1 icon--s"></div>
+                  <div class="icon icon--2 icon--m"></div>
+                  <div class="icon icon--3 icon--s"></div>
+                  <div class="icon icon--4 icon--s"></div>
+                  <div class="icon icon--5 icon--l"></div>
+                  <div class="icon icon--6 icon--l"></div>
+                  <div class="icon icon--7 icon--s"></div>
+                  <div class="icon icon--8 icon--xs"></div>
+                  <div class="icon icon--9 icon--l"></div>
+                  <div class="icon icon--11 icon--l"></div>
+                  <div class="icon icon--12 icon--xs"></div>
+                  <div class="icon icon--13 icon--s"></div>
+                  <div class="icon icon--14 icon--l"></div>
+                  <div class="icon icon--15 icon--l"></div>
+                  <div class="icon icon--16 icon--s"></div>
+                  <div class="icon icon--17 icon--s"></div>
+                  <div class="icon icon--18 icon--m"></div>
+                  <div class="icon icon--19 icon--s"></div>
+                  <div class="icon icon--20 icon--xs"></div>
+
+                  <!-- App logo goes here as a background image. -->
+                  <div class="icon icon--10 js-app-btn" style="background-image: url('images/app/logo.png')"></div>
+                </div>
+
+                <div class="stage__blur"></div>
+
+                <!-- Static image (first frame) of the app goes here as a background image,
+                     apng source goes into data-apng, video source goes into data-video attribute. -->
+                <div class="stage__frame application js-app" style="background-image: url('images/app/static.png')"
+                     data-apng="images/app/animated.png"
+                     data-video="images/app/video.mp4"></div>
+
+                <div class="stage__frame glance js-glance">
+                  <div class="stage__frame__bg"></div>
+
+                  <div class="glance__screen glance__animate">
+                    <div class="glance__tape js-tape">
+
+                      <!-- Glances come here as divs with the glance image as background image. -->
+                      <div class="glance__img" style="background-image: url('images/app/glance.png')"></div>
+                      <div class="glance__img" style="background-image: url('images/app/glance.png')"></div>
+                      <div class="glance__img" style="background-image: url('images/app/glance.png')"></div>
+                    </div>
+                  </div>
+
+                  <div class="glance__dots glance__animate js-dots">
+
+                    <!-- As many divs come here as many glances are in the previous parent div.
+                         First div has active class by default.  -->
+                    <div class="glance__dots__dot active"></div>
+                    <div class="glance__dots__dot"></div>
+                    <div class="glance__dots__dot"></div>
+                  </div>
+                </div>
+
+                <div class="stage__frame notification js-notification">
+                  <div class="stage__frame__bg"></div>
+
+                  <div class="notification__frame">
+                    <div class="notification__text">
+
+                      <!-- Notification text goes here. -->
+                      <div class="notification__text__title truncate">Notification</div>
+
+                      <!-- App name goes here. -->
+                      <div class="notification__text__sub truncate">App Name</div>
+                    </div>
+
+                    <div class="notification__tape js-scroll">
+                      <div class="notification__tape__inner">
+                        <div class="notification__img">
+
+                          <!-- App name goes into this div, app color applied as background color. -->
+                          <div class="notification__img__header" style="background-color: #ff3333">
+                            <div class="notification__img__header__title truncate">App Name</div>
+                          </div>
+                          <img src="images/app/notification.png">
+
+                          <div class="notification__btn js-open">Accept</div>
+                          <div class="notification__btn js-open">Maybe</div>
+                          <div class="notification__btn js-open">Decline</div>
+
+                          <div class="notification__btn notification__btn--base js-close">Dismiss</div>
+                        </div>
+
+                        <div class="notification__time js-time">10:47</div>
+
+                        <!-- App logo goes here as a background image. -->
+                        <div class="notification__logo" style="background-image: url('images/app/logo.png')"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="app__watch__crown js-close"></button>
+          </div>
+        </div>
+
+        <div class="app__data">
+          <div class="app__controls">
+            <button class="control-btn js-app-btn" data-str="App"><i class="icon-record-1"></i></button>
+            <button class="control-btn js-glance-btn" data-str="Glance"><i class="icon-preview-1"></i></button>
+            <button class="control-btn js-notification-btn" data-str="Notification"><i class="icon-alarm-clock"></i></button>
+          </div>
+
+          <!-- App name goes here. -->
+          <div class="app__title">Lorem Ipsum</div>
+
+          <!-- App description goes here. -->
+          <div class="app__info">
+            Maecenas convallis ipsum sed vestibulum congue. Nullam mattis aliquam arcu, at ultricies massa sodales non.
+            Ut commodo molestie velit, non bibendum erat suscipit nec. Fusce tincidunt tincidunt laoreet. Etiam cursus
+            ipsum lacus, aliquet pretium ipsum aliquet non.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- app end -->
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/apng-canvas.min.js"></script>
+<script src="js/jquery.touchSwipe.min.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
