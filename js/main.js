@@ -317,6 +317,7 @@
         tape.css({
           "-webkit-transition-duration": (duration / 1000).toFixed(1) + "s",
                   "transition-duration": (duration / 1000).toFixed(1) + "s",
+              "-ms-transform": "translate(" + value + "px,0)",
           "-webkit-transform": "translate3d(" + value + "px,0,0)",
                   "transform": "translate3d(" + value + "px,0,0)"
         });
@@ -332,6 +333,7 @@
         tape.parent().css({
           "-webkit-transition-duration": (duration / 1000).toFixed(1) + "s",
                   "transition-duration": (duration / 1000).toFixed(1) + "s",
+              "-ms-transform": "translate(0," + value + "px)",
           "-webkit-transform": "translate3d(0," + value + "px,0)",
                   "transform": "translate3d(0," + value + "px,0)"
         });
