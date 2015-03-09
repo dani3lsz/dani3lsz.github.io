@@ -114,11 +114,34 @@ h2.title {font-size: 36px;}
   }
 }
 
-.apps-container--small > .app-wrapper {
+.apps-container--small > .app-wrapper, .app-wrapper:only-child {
   width: 100%;
   box-shadow: none;
   margin-right: 0;
 }
+
+  .app-wrapper__title {
+    margin: 20px 0 0;
+    padding: 0 20px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 300;
+  }
+
+  .app-wrapper__link {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 300;
+    color: #999;
+    text-decoration: none;
+    -webkit-transition: .2s ease-in-out;
+            transition: .2s ease-in-out;
+  }
+
+  .app-wrapper__link:hover, .app-wrapper__link:focus {
+    color: #f80;
+  }
 
   .app-wrapper__pad {
     padding: 5px;
