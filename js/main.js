@@ -423,7 +423,7 @@
         var elemOffset = $this.offset().top;
 
         if (elemOffset + 250 < windowHeight + scrollTop) {
-          $this.find('.js-app-btn').eq(0).trigger('click');
+          $this.find('.js-autoplay').eq(0).trigger('click');
           $this.addClass('started')
         }
       }
