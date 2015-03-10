@@ -90,7 +90,7 @@ h2.title {font-size: 36px;}
   vertical-align: top;
   margin-right: -3px;
   text-align: left;
-  box-shadow: 31px 0 0 -30px rgba(0,0,0,.1), 0 -31px 0 -30px rgba(0,0,0,.1);
+  box-shadow: 21px 0 0 -20px rgba(0,0,0,.1), 0 -21px 0 -20px rgba(0,0,0,.1);
   white-space: normal;
 }
 
@@ -121,11 +121,14 @@ h2.title {font-size: 36px;}
 }
 
   .app-wrapper__title {
+    display: block;
     margin: 20px 0 0;
     padding: 0 20px;
     text-align: center;
     font-size: 26px;
     font-weight: 300;
+    color: #333;
+    text-decoration: none;
   }
 
   .app-wrapper__link {
@@ -144,7 +147,7 @@ h2.title {font-size: 36px;}
   }
 
   .app-wrapper__pad {
-    padding: 5px;
+    padding: 0;
     margin:  0 auto;
     max-width: 290px;
   }
@@ -156,23 +159,31 @@ h2.title {font-size: 36px;}
   border-radius: 2px;
 }
 
-  .app__watch {
+  .app__watch, .app__sample {
     position: relative;
     width:  228px;
-    margin: 20px auto 17px;
+    margin: 10px auto 17px;
     padding-left: 8px;
   }
 
+  .no-js .app__sample, .js .app__watch {
+    display: block;
+  }
+
+  .js .app__sample, .no-js .app__watch, .no-js .app__data {
+    display: none;
+  }
+
     .app__watch__band {
-      display: none;
       height: 399px;
       background-repeat:   no-repeat;
       background-position: 5px center;
       background-size:     contain;
+      background-image: url("../images/bands/sport-black.png");
     }
 
-    [class*=' app__watch__band--'] {
-      display: block;
+    .app__watch__band--no-band {
+      display: none;
     }
 
     .app__watch__band--sport-black   {background-image: url("../images/bands/sport-black.png");}
@@ -194,20 +205,23 @@ h2.title {font-size: 36px;}
     .app__watch__band--classic-black {background-image: url("../images/bands/classic-black.png");}
     .app__watch__band--classic-blue  {background-image: url("../images/bands/classic-blue.png");}
 
-    [class*=' app__watch__band--'] + .app__watch__img {
+    .app__watch__img {
       position: absolute;
       top:   76px;
       right: 0;
       left:  8px;
-    }
-
-    .app__watch__img {
-      position: relative;
       height: 245px;
       background-repeat:   no-repeat;
       background-position: center center;
       background-size:     contain;
       background-image: url("../images/watches/watch_steel.png");
+    }
+
+    .app__watch__band--no-band + .app__watch__img {
+      position: relative;
+      top:   0;
+      right: 0;
+      left:  0;
     }
 
     .app__watch__img--steel       {background-image: url("../images/watches/watch_steel.png");}
