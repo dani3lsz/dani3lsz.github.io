@@ -15,8 +15,8 @@
 [data-icon]:before {
   font-family: "watchaware" !important;
   content: attr(data-icon);
-  font-style: normal !important;
-  font-weight: normal !important;
+  font-style:   normal !important;
+  font-weight:  normal !important;
   font-variant: normal !important;
   text-transform: none !important;
   speak: none;
@@ -25,11 +25,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-[class^="icon-"]:before,
-[class*=" icon-"]:before {
+[class^="wa-icon-"]:before,
+[class*=" wa-icon-"]:before {
   font-family: "watchaware" !important;
-  font-style: normal !important;
-  font-weight: normal !important;
+  font-style:   normal !important;
+  font-weight:  normal !important;
   font-variant: normal !important;
   text-transform: none !important;
   speak: none;
@@ -38,21 +38,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-preview-1:before {
+.wa-icon-preview-1:before {
   content: "\e000";
 }
-.icon-alarm-clock:before {
+.wa-icon-alarm-clock:before {
   content: "\e001";
 }
-.icon-record-1:before {
+.wa-icon-record-1:before {
   content: "\e002";
 }
-.icon-arrow-67:before {
+.wa-icon-arrow-67:before {
   content: "\e003";
 }
-.icon-arrow-68:before {
+.wa-icon-arrow-68:before {
   content: "\e004";
 }
-.icon-share-icon:before {
+.wa-icon-share-icon:before {
   content: "\e005";
+}
+.wa-icon-link-3:before {
+  content: "\e006";
 }

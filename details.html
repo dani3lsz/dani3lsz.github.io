@@ -16,7 +16,7 @@
 
   <script src="js/modernizr-custom.min.js"></script>
 </head>
-<body>
+<body style="background-color: #f5f5f5">
 
 <div class="main-wrapper clearfix">
   <div class="all-apps">
@@ -70,9 +70,11 @@
       <div class="app-wrapper__pad">
         <div class="app js-watch">
           <div class="app__watch">
+            <!-- add app__watch__band--band-type class as a second class to have a band appear -->
             <div class="app__watch__band app__watch__band--sport-black"></div>
 
-            <div class="app__watch__img app__watch__img--steel">
+            <!-- add app__watch__img--watch-type class as a second class to change the default watchface -->
+            <div class="app__watch__img">
               <div class="app__watch__img__screen">
                 <div class="stage">
                   <div class="stage__base js-base">
@@ -97,6 +99,7 @@
                     <div class="icon icon--20 icon--xs"></div>
 
                     <!-- App logo goes here as a background image. -->
+                    <!-- add js-app/glance/notification-btn class depending on what should play on the icon click -->
                     <div class="icon icon--10 js-app-btn" style="background-image: url('images/app/logo.png')"></div>
                   </div>
 
@@ -178,9 +181,10 @@
 
           <div class="app__data">
             <div class="app__controls">
-              <button class="control-btn js-app-btn" data-str="App"><i class="icon-record-1"></i></button>
-              <button class="control-btn js-glance-btn" data-str="Glance"><i class="icon-preview-1"></i></button>
-              <button class="control-btn js-notification-btn" data-str="Notification"><i class="icon-alarm-clock"></i></button>
+              <!-- Add js-autoplay class to the button which should autoplay -->
+              <button class="control-btn js-app-btn" data-str="App"><i class="wa-icon-record-1"></i></button>
+              <button class="control-btn js-glance-btn" data-str="Glance"><i class="wa-icon-preview-1"></i></button>
+              <button class="control-btn js-notification-btn" data-str="Notification"><i class="wa-icon-alarm-clock"></i></button>
             </div>
           </div>
         </div>
@@ -191,7 +195,7 @@
     <!-- social btns -->
     <div class="share">
       <input id="share__btn" class="share__btn" type="checkbox">
-      <label for="share__btn" data-str="share"><i class="icon-share-icon"></i></label>
+      <label for="share__btn" data-str="share"><i class="wa-icon-link-3"></i></label>
 
       <a href="https://twitter.com/intent/tweet?text=<%= @page_title %>&url=<%= @permalink %>&via=watchaware" target="_blank"
          class="share__link share__link--tw" data-str="tweet"><i class="fa fa-twitter"></i></a>
