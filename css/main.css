@@ -392,6 +392,11 @@ h2.title {font-size: 36px;}
               transition: .4s ease-in-out;
     }
 
+    .icon--sample {
+      margin: -18px 0 0 -18px;
+      background-color: #f80;
+    }
+
     .icon--xs {width:  8px; height:  8px;}
     .icon--s  {width: 24px; height: 24px;}
     .icon--m  {width: 28px; height: 28px; left: 50%; margin-left: -14px;}
