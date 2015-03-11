@@ -455,3 +455,9 @@
   setInterval(updateClock, 1000);
 
 })();
+
+// stop loading indicator
+
+$(window).load(function(){
+  $('.js-load').addClass('loaded')
+});
