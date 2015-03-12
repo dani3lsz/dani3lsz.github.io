@@ -59,3 +59,24 @@
 .wa-icon-link-3:before {
   content: "\e006";
 }
+.wa-icon-heart:before {
+  content: "\e007";
+}
+.wa-icon-facebook:before {
+  content: "\e008";
+}
+.wa-icon-google-plus:before {
+  content: "\e009";
+}
+.wa-icon-pinterest:before {
+  content: "\e00a";
+}
+.wa-icon-twitter:before {
+  content: "\e00b";
+}
+.wa-icon-tumblr:before {
+  content: "\e00c";
+}
+.wa-icon-reddit:before {
+  content: "\e00d";
+}
