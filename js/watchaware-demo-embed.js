@@ -1,6 +1,7 @@
 (function(){
 
   var v = 1; //latest version of the embed
+  var root = "http://beta.embed.v1.couch.watchaware.com/";
 
   // get the elem to replace
   var exElem = document.getElementById('watchaware_demo');
@@ -51,7 +52,14 @@
   // create iframe
   var newElem = document.createElement("iframe");
   newElem.setAttribute("id", "watchaware-demo-embed");
-  newElem.setAttribute("src", "/v" + v + "/if/" + appId + "/" + faceStyle + "/" + bandStyle + "/" + demoStart + "/" + autoStart);
+  newElem.setAttribute("src",
+    root + "v" +
+    v + "/if/" +
+    "watchaware-" + appId + "/" +
+    faceStyle + "/" +
+    bandStyle + "/" +
+    demoStart + "/" +
+    autoStart);
   newElem.setAttribute("scrolling", "no");
   newElem.setAttribute("frameborder", "no");
   newElem.setAttribute("style", style);
