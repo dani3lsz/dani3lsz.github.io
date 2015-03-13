@@ -12,21 +12,104 @@
 <body>
 
 <!--
-    src attributes:
+
+DATA-SET ATTRIBUTE - what you set on the pasted anchor element
+
+SAMPLE - data-set="5589/111/10101/1/1/1/1"
+         data-set="  5589  /  111  / 10101 /      1     /      1     /  1   /      1     "
+         data-set=" app id / watch / band  / demo start / auto start / size / description"
 
 
-    appid = 0000000   /id of the watch app/
+         !!! All 7 parameters need to be in the data-set attribute
+             so the height of the iframe can be calculated
+             based on the size and description parameters !!!
 
-    watch = 000       /where the first digit represents the watch version the other two represent the watch type/
 
-    band  = 00000...  /where the first digit represent the manufacturer, the second two is for the type, the next two is the color, etc./
+    app id = 0000000  - id of the watch app
 
-    start = 1-3       /default start action, where 1 is the app, two is the glance, 3 is the notification/
+    watch = 110       - where the first digit represents the watch version the other two represent the watch type/
+
+      * describe digits, reading from left to right *
+
+      1st digit       - version of the watch, starting from 1
+
+      2nd digit       - watch material, where
+                          1 - alu
+                          2 - steel
+                          3 - gold
+
+      3rd digit       - watch color based on the material, where
+                          0 - base color
+                          1 - optional color /like black for steel material/
+
+    band  = 10101...  - where the first digit represent the manufacturer, the second two is for the type,
+                        the next two is the color, etc.
+                          0 - by itself means no-band
+
+      * describe digits, reading from left to right *
+
+      1st digit       - manufacturer, starting from 1 /means Apple/
+
+      2nd & 3rd digit - band material, where
+                          01 - sport
+                          02 - modern buckle
+                          03 - classic buckle
+                          04 - leather
+                          05 - link
+                          06 - milanese
+
+      4th & 5th digit  - band color based on the material, where
+                          01 - 1st color option for given material
+                          02 - 2nd color option for given material
+                          .
+                          .
+                          n - nth color option for given material
+
+    demo start = 1-3   - default start action, for the app icon on the screen of the watch
+                          1 - app
+                          2 - glance
+                          3 - notification
+
+    auto start = 0-3   - start playing on load
+                          0 - no auto start
+                          1 - app
+                          2 - glance
+                          3 - notification
+
+    size = 0-2         - size of the head part of the embed, what contains the watch itself
+                          0 - small /only a small portion of the band is visible/
+                          1 - medium /half band visible/
+                          2 - big /full band visible/
+
+    description = 0-1  - defines if the description of the app is visible in the iframe
+                          0 - not visible
+                          1 - visible
+
 -->
 
-<!-- height can be 496px with band or 342px without -->
-<iframe src="http://dani3lsz.github.io/iframe.html?appid=1234567&watch=101&band=1&start=1"
-        scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:562px;" allowTransparency="true"></iframe>
+<!-- iframes only for testing -->
+<iframe src="iframe-v1.1.html"
+        scrolling="no" frameborder="0"
+        style="border:none; overflow:hidden; min-width: 310px; max-width: 500px; height:540px; margin: 10px; box-shadow: 0 3px 5px 1px rgba(0,0,0,.2);"></iframe>
+
+<iframe src="iframe-v1.1.html"
+        scrolling="no" frameborder="0"
+        style="border:none; overflow:hidden; min-width: 310px; max-width: 500px; height:540px; margin: 10px; box-shadow: 0 3px 5px 1px rgba(0,0,0,.2);"></iframe>
+
+<!-- Place this code where you want the embed to appear -->
+<a id="watchaware_demo" href="http://watchaware.com/watch-apps" data-set="5589/111/10101/1/1/1/1">
+  <img src="images/app/sample.png"><br>Watch app demo by WatchAware
+</a>
+
+<!-- Place script before the closing body tag -->
+<script>
+  (function(){
+    var tag = document.createElement('script');
+    tag.src = "js/watchaware-demo-embed.js";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  })()
+</script>
 
 </body>
 </html>

@@ -634,15 +634,15 @@ textarea {
  *
  *  0) GLOBAL........................global rules for regular html elements
  *
- *  1) HEAD..........................rules for the head section, containing the watch demo
+ *  1) MISCELLANEOUS.................loading, no-js, etc.
  *
- *  2) CONTROLS......................rules for the control buttons
+ *  2) HEAD..........................rules for the head section, containing the watch demo
  *
- *  3) APP-DATA......................rules for the shown data about the developer and the app
+ *  3) CONTROLS......................rules for the control buttons
  *
- *  4) SHARE.........................share and like
+ *  4) APP-DATA......................rules for the shown data about the developer and the app
  *
- *  5) MISCELLANEOUS.................loading, no-js, etc.
+ *  5) SHARE.........................share and like
  *
  */
 
@@ -663,6 +663,10 @@ html {
   font-weight: 300;
 }
 
+body {
+  background-color: #fff;
+}
+
 input, button {
   -webkit-appearance: none;
 }
@@ -674,8 +678,55 @@ a {
           transition: .2s ease-out;
 }
 
-a:hover, a:focus {
+a:hover, .no-touch a:focus {
   color: #f80;
+}
+
+
+
+/*----------------*\
+   #MISCELLANEOUS
+\*----------------*/
+
+
+
+.no-js .hide-no-js, .js .show-no-js {
+  display: none;
+}
+
+.no-js .show-no-js, .js .hide-no-js {
+  display: block;
+}
+
+
+
+.js .show-on-load, .hide-on-load {
+  -webkit-transition: .4s ease-in-out;
+  transition: .4s ease-in-out;
+}
+
+.js .show-on-load {
+  opacity: 0;
+}
+
+.js .loading .show-on-load {
+  opacity: 1;
+}
+
+.js .hide-on-load {
+  opacity: 1;
+}
+
+.js .loading .hide-on-load {
+  opacity: 0;
+}
+
+
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
@@ -791,8 +842,9 @@ a:hover, a:focus {
 
 .frame-logo {
   position: absolute;
-  top:  20px;
-  left: 20px;
+  z-index: 1;
+  top:  10px;
+  left: 10px;
   width:  30px;
   height: 30px;
   opacity: .25;
@@ -804,7 +856,7 @@ a:hover, a:focus {
           transition: .2s ease-in-out;
 }
 
-.frame-logo:hover, .frame-logo:focus {
+.frame-logo:hover, .no-touch .frame-logo:focus {
   opacity: .5;
   color: inherit;
 }
@@ -843,7 +895,7 @@ a:hover, a:focus {
             transform: translate3d(-10px,10px,0);
   }
 
-  .frame-logo:hover > .frame-logo__letter, .frame-logo:focus > .frame-logo__letter {
+  .frame-logo:hover > .frame-logo__letter, .no-touch .frame-logo:focus > .frame-logo__letter {
     opacity: 1;
     -webkit-transform: translate3d(0,0,0);
             transform: translate3d(0,0,0);
@@ -860,12 +912,12 @@ a:hover, a:focus {
   overflow: hidden;
 }
 
-.band--half-band .frame-watch {
+.head-m .frame-watch {
   height: 320px;
 }
 
-.band--no-band .frame-watch {
-  height: 265px;
+.band--no-band .frame-watch, .head-s .frame-watch {
+  height: 270px;
 }
 
   .frame-watch__band, .frame-watch__sample {
@@ -1060,7 +1112,6 @@ a:hover, a:focus {
   max-width: 480px;
   margin:  0 auto;
   padding: 15px 20px;
-  background-color: #fff;
   box-shadow: 0 -21px 0 -20px rgba(125,125,125,.2);
 }
 
@@ -1095,6 +1146,10 @@ a:hover, a:focus {
     clear: both;
   }
 
+  .no-description .frame-app-data__info {
+    display: none;
+  }
+
     .frame-app-data__info:after {
       content: "";
       position: absolute;
@@ -1119,7 +1174,7 @@ a:hover, a:focus {
 .frame-share {
   max-width: 480px;
   margin:  0 auto;
-  padding: 0 20px;
+  padding: 0 20px 12px;
 }
 
   .frame-share__btn {
@@ -1133,7 +1188,7 @@ a:hover, a:focus {
             transition: .2s ease-in-out;
   }
 
-  .frame-share__btn:hover, .frame-share__btn:focus {
+  .frame-share__btn:hover, .no-touch .frame-share__btn:focus {
     color: #999;
   }
 
@@ -1146,53 +1201,6 @@ a:hover, a:focus {
   .frame-share__btn--like.active {
     color: #f80;
   }
-
-
-
-/*----------------*\
-   #MISCELLANEOUS
-\*----------------*/
-
-
-
-.no-js .hide-no-js, .js .show-no-js {
-  display: none;
-}
-
-.no-js .show-no-js, .js .hide-no-js {
-  display: block;
-}
-
-
-
-.js .show-on-load, .hide-on-load {
-  -webkit-transition: .4s ease-in-out;
-          transition: .4s ease-in-out;
-}
-
-.js .show-on-load {
-  opacity: 0;
-}
-
-.js .loading .show-on-load {
-  opacity: 1;
-}
-
-.js .hide-on-load {
-  opacity: 1;
-}
-
-.js .loading .hide-on-load {
-  opacity: 0;
-}
-
-
-
-.truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 
 
