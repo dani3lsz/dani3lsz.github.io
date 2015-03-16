@@ -265,8 +265,8 @@ h2.title {font-size: 36px;}
     .app__watch__band--modern-blue   {background-image: url("../images/bands/modern-blue.png");}
     .app__watch__band--modern-brown  {background-image: url("../images/bands/modern-brown.png");}
     .app__watch__band--modern-pink   {background-image: url("../images/bands/modern-pink.png");}
-    .app__watch__band--modern-red    {background-image: url("../images/bands/modern-red.png");}
-    .app__watch__band--modern-rose   {background-image: url("../images/bands/modern-rose.png");}
+    .app__watch__band--modern-red    {background-image: url("../images/bands/modern-red-gold.png");}
+    .app__watch__band--modern-rose   {background-image: url("../images/bands/modern-rose-gold-rose.png");}
     .app__watch__band--milanese      {background-image: url("../images/bands/milanese.png");}
     .app__watch__band--link-black    {background-image: url("../images/bands/link-black.png");}
     .app__watch__band--link-grey     {background-image: url("../images/bands/link-grey.png");}
@@ -274,7 +274,7 @@ h2.title {font-size: 36px;}
     .app__watch__band--leather-brown {background-image: url("../images/bands/leather-brown.png");}
     .app__watch__band--leather-stone {background-image: url("../images/bands/leather-stone.png");}
     .app__watch__band--classic-black {background-image: url("../images/bands/classic-black.png");}
-    .app__watch__band--classic-blue  {background-image: url("../images/bands/classic-blue.png");}
+    .app__watch__band--classic-blue  {background-image: url("../images/bands/classic-blue-gold.png");}
 
     .app__watch__img {
       position: absolute;
@@ -285,7 +285,7 @@ h2.title {font-size: 36px;}
       background-repeat:   no-repeat;
       background-position: center center;
       background-size:     contain;
-      background-image: url("../images/watches/watch_steel.png");
+      background-image: url("../images/watches/watch-steel.png");
     }
 
     .app__watch__band--no-band + .app__watch__img {
@@ -295,12 +295,12 @@ h2.title {font-size: 36px;}
       left:  0;
     }
 
-    .app__watch__img--steel       {background-image: url("../images/watches/watch_steel.png");}
-    .app__watch__img--steel-black {background-image: url("../images/watches/watch_steel_black.png");}
-    .app__watch__img--alu         {background-image: url("../images/watches/watch_alu.png");}
-    .app__watch__img--alu-grey    {background-image: url("../images/watches/watch_alu_grey.png");}
-    .app__watch__img--gold        {background-image: url("../images/watches/watch_gold.png");}
-    .app__watch__img--gold-rose   {background-image: url("../images/watches/watch_gold_rose.png");}
+    .app__watch__img--steel       {background-image: url("../images/watches/watch-steel.png");}
+    .app__watch__img--steel-black {background-image: url("../images/watches/watch-steel-black.png");}
+    .app__watch__img--alu         {background-image: url("../images/watches/watch-alu.png");}
+    .app__watch__img--alu-grey    {background-image: url("../images/watches/watch-alu-grey.png");}
+    .app__watch__img--gold        {background-image: url("../images/watches/watch-gold.png");}
+    .app__watch__img--gold-rose   {background-image: url("../images/watches/watch-gold-rose.png");}
 
       .app__watch__img__screen {
         position: relative;
