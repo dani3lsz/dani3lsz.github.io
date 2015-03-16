@@ -42,26 +42,6 @@
     var index = 0;
     var speed = 400;
 
-    hideNav();
-
-    // handle clicks
-    prevBtn.on('click', function(){
-      handleClick(-1)
-    });
-
-    nextBtn.on('click', function(){
-      handleClick(1)
-    });
-
-    //Init touch swipe
-    samples.parent().swipe({
-      triggerOnTouchEnd: true,
-      triggerOnTouchLeave: true,
-      swipeStatus: swipeStatus,
-      allowPageScroll: "vertical",
-      threshold: 50
-    });
-
     // functions if glance is swiped
     function swipeStatus(event,phase,direction,distance,fingers) {
       if (phase == "move" && (direction == "left" || direction == "right") && maxIndex > 0) {
@@ -130,6 +110,26 @@
         }
       }
     }
+
+    hideNav();
+
+    // handle clicks
+    prevBtn.on('click', function(){
+      handleClick(-1)
+    });
+
+    nextBtn.on('click', function(){
+      handleClick(1)
+    });
+
+    //Init touch swipe
+    samples.parent().swipe({
+      triggerOnTouchEnd: true,
+      triggerOnTouchLeave: true,
+      swipeStatus: swipeStatus,
+      allowPageScroll: "vertical",
+      threshold: 50
+    });
 
     // update values on resize
     $window.resize(function(){
