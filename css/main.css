@@ -880,6 +880,11 @@ h2.title {font-size: 36px;}
 }
 
   .app-samples__tape {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
     white-space: nowrap;
     -webkit-transition: .4s ease-out;
             transition: .4s ease-out;

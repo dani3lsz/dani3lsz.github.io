@@ -111,6 +111,25 @@
       }
     }
 
+    // set container height
+    function setHeight() {
+      function getHeight() {
+        var height = 0;
+        elem.each(function(){
+          var currentHeight = $(this).height();
+          if (currentHeight > height) {
+            height = currentHeight
+          }
+        });
+        return height
+      }
+
+      samples.parent().css({
+        "height": getHeight()
+      })
+    }
+
+    setHeight();
     hideNav();
 
     // handle clicks
