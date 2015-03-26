@@ -11,7 +11,7 @@
   var sW = stage.width(); // width
   var sH = stage.height(); // height
 
-  var iD = icons.width(); // icon diameter
+  var iD = icons.width() + 5; // icon diameter + padding
 
   var n = 6; // number of points of the polygon we want for the layout
   var sumInnerAngles = (n - 2) * Math.PI; // sum of all inner angles in polygon in radians
@@ -37,7 +37,7 @@
       m += r; // increase the length of the next rotate
 
       // new first coordinate after a full rotate
-      newXY = moveCoordinates(0,0,d2 * r,Math.PI * 2 - halfAngle)
+      newXY = transformCoordinates(0,0,d2 * r,Math.PI * 2 - halfAngle)
     } else {
       // coordinates of previous point
       x = points[i - 1][0];
@@ -46,32 +46,64 @@
       var moveAngle = exteriorAngle * Math.ceil((i - ((m - r) * n) - 1) / r);
 
       // move coordinates to get new point
-      newXY = moveCoordinates(x,y,d1,moveAngle);
+      newXY = transformCoordinates(x,y,d1,moveAngle);
     }
 
     points.push(newXY);
   }
 
-  function moveCoordinates(x,y,d,a) {
+  moveIconCoordinates(sW / 2,sH / 2);
+  applyCss();
+
+  //Init touch swipe
+  stage.swipe({
+    swipeStatus: moveIcons,
+    threshold: 1,
+    allowPageScroll: 'none',
+    triggerOnTouchLeave: true
+  });
+
+  // moving icons
+  function moveIcons(event,phase,direction,distance,fingers) {
+    if (phase == 'move') {
+      var xMove = event.movementX;
+      var yMove = event.movementY;
+
+      moveIconCoordinates(xMove,yMove);
+      applyCss()
+    }
+  }
+
+  function transformCoordinates(x,y,d,a) {
     var
-      x1 = x + d * Math.cos(a),
-      y1 = y + d * Math.sin(a);
+      x1 = Math.round(x + d * Math.cos(a)),
+      y1 = Math.round(y + d * Math.sin(a));
 
     return [x1,y1]
   }
 
-  // moving coordinates to get to the center of the stage
-  for (var j = 0; j < points.length; j++) {
-    points[j][0] += sW / 2;
-    points[j][1] += sH / 2;
+  // moving all icon's coordinates
+  function moveIconCoordinates(distanceX,distanceY) {
+    for (var j = 0; j < points.length; j++) {
+      points[j][0] += distanceX;
+      points[j][1] += distanceY;
+    }
   }
 
-  // set the css of the icons
-  for (var k = 0; k < points.length; k++) {
-    icons.eq(k).css({
-      "-webkit-transform": "translate3d(" + points[k][0] + "px," + points[k][1] + "px," + "0)",
-              "transform": "translate3d(" + points[k][0] + "px," + points[k][1] + "px," + "0)"
-    })
+  // set the css of the icons based on current coordinates
+  function applyCss(duration) {
+    if (!duration) {
+      duration = 0;
+    }
+
+    for (var k = 0; k < points.length; k++) {
+      icons.eq(k).css({
+        "-webkit-transition-duration": (duration / 1000).toFixed(1) + "s",
+                "transition-duration": (duration / 1000).toFixed(1) + "s",
+        "-webkit-transform": "translate3d(" + points[k][0] + "px," + points[k][1] + "px," + "0)",
+                "transform": "translate3d(" + points[k][0] + "px," + points[k][1] + "px," + "0)"
+      }).text(points[k][0] + " " + points[k][1])
+    }
   }
 
 })();
