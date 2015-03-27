@@ -1153,6 +1153,7 @@ h2.title {font-size: 36px;}
 }
 
 .share--embed {
+  right: auto;
   left: 8px;
 }
 
