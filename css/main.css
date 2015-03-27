@@ -18,6 +18,10 @@ body {
   font-weight: 400;
 }
 
+a {
+  text-decoration: none;
+}
+
 strong {
   font-weight: 700;
 }
@@ -445,6 +449,11 @@ h2.title {font-size: 36px;}
     background-size:     contain;
     -webkit-transition: .4s ease-in-out;
             transition: .4s ease-in-out;
+  }
+
+  .stage__base:active {
+    cursor: -webkit-grabbing;
+    cursor:         grabbing;
   }
 
   .blur > .stage__base {
@@ -1143,6 +1152,10 @@ h2.title {font-size: 36px;}
   height: 40px;
 }
 
+.share--embed {
+  left: 8px;
+}
+
   input.share__btn {
     display: none;
   }
@@ -1198,12 +1211,15 @@ h2.title {font-size: 36px;}
     line-height: 35px;
     font-size: 18px;
     text-align: center;
-    opacity: 0;
     -webkit-transition: .4s ease;
             transition: .4s ease;
         -ms-transform: translate(0,0);
     -webkit-transform: translate3d(0,0,0);
             transform: translate3d(0,0,0);
+  }
+
+  input.share__btn ~ .share__link {
+    opacity: 0;
   }
 
   input.share__btn:checked ~ .share__link {
@@ -1271,13 +1287,23 @@ h2.title {font-size: 36px;}
     color: #ff5700;
   }
 
-  .share__link > .fa {
+  .share__link--em {
+    display: none;
+    color: #f80;
+    font-size: 22px;
+  }
+
+  .no-touch .share__link--em {
+    display: block;
+  }
+
+  .share__link > i {
     color: #888;
     -webkit-transition: .4s ease;
             transition: .4s ease;
   }
 
-  .share__link:hover > .fa, .share__link:focus > .fa {
+  .share__link:hover > i, .share__link:focus > i {
     color: inherit;
   }
 
@@ -1295,6 +1321,14 @@ h2.title {font-size: 36px;}
           -ms-transform: translate(10px,0);
       -webkit-transform: translate3d(10px,0,0);
               transform: translate3d(10px,0,0);
+    }
+
+    .share__link--em:after {
+      left: auto;
+      right: 40px;
+          -ms-transform: translate(-10px,0);
+      -webkit-transform: translate3d(-10px,0,0);
+              transform: translate3d(-10px,0,0);
     }
 
     .share__link:hover:after, .share__link:focus:after {

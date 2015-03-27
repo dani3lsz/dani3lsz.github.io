@@ -80,3 +80,6 @@
 .wa-icon-reddit:before {
   content: "\e00d";
 }
+.wa-icon-window-embed:before {
+  content: "\e00e";
+}
