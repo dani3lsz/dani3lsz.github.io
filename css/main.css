@@ -1153,8 +1153,7 @@ h2.title {font-size: 36px;}
 }
 
 .share--embed {
-  right: auto;
-  left: 8px;
+  display: none;
 }
 
   input.share__btn {
@@ -1174,11 +1173,28 @@ h2.title {font-size: 36px;}
   }
 
   @media screen and (min-width: 768px) {
+    .share {
+      right: 48px;
+    }
+
+    .share--embed {
+      display: block;
+      right: 8px;
+    }
+
+    .touch .share {
+      right: 8px;
+    }
+
+    .touch .share--embed {
+      display: none;
+    }
+
     input.share__btn + label:after {
       content: attr(data-str);
       position: absolute;
-      top:  14px;
-      left: 40px;
+      top:  10px;
+      right: 40px;
       font-size: 14px;
       opacity: 0;
       white-space: nowrap;
@@ -1186,8 +1202,8 @@ h2.title {font-size: 36px;}
       -webkit-transition: .4s ease;
               transition: .4s ease;
           -ms-transform: translate(10px,0);
-      -webkit-transform: translate3d(10px,0,0);
-              transform: translate3d(10px,0,0);
+      -webkit-transform: translate3d(-10px,0,0);
+              transform: translate3d(-10px,0,0);
     }
 
     input.share__btn + label:hover:after, input.share__btn + label:focus:after {
@@ -1289,13 +1305,9 @@ h2.title {font-size: 36px;}
   }
 
   .share__link--em {
-    display: none;
+    padding-top: 6px;
     color: #f80;
     font-size: 22px;
-  }
-
-  .no-touch .share__link--em {
-    display: block;
   }
 
   .share__link > i {
@@ -1325,11 +1337,7 @@ h2.title {font-size: 36px;}
     }
 
     .share__link--em:after {
-      left: auto;
-      right: 40px;
-          -ms-transform: translate(-10px,0);
-      -webkit-transform: translate3d(-10px,0,0);
-              transform: translate3d(-10px,0,0);
+      top: 2px;
     }
 
     .share__link:hover:after, .share__link:focus:after {
