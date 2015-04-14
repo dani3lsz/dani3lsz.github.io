@@ -65,9 +65,9 @@
                   <!-- Static image (first frame) of the app goes here as a background image,
                        apng source goes into data-apng, video source goes into data-video attribute. -->
                   <div class="stage__frame application application--gallery js-app">
-                    <img src="images/app/static.png" class="active">
-                    <img src="images/app/static.png" class="hidden">
-                    <img src="images/app/static.png" class="hidden">
+                    <img src="images/app/static.png" class="w-active">
+                    <img src="images/app/static.png" class="w-hidden">
+                    <img src="images/app/static.png" class="w-hidden">
                   </div>
 
                   <div class="stage__frame glance js-glance">
@@ -203,9 +203,13 @@
 
                   <!-- Static image (first frame) of the app goes here as a background image,
                        apng source goes into data-apng, video source goes into data-video attribute. -->
-                  <div class="stage__frame application js-app" style="background-image: url('images/app/static.png')"
-                       data-apng="images/app/animated.png"
-                       data-video="images/app/video.mp4"></div>
+                  <div class="stage__frame application application--gallery js-app"
+                       data-apng=""
+                       data-video="">
+                    <img src="images/app/static.png" class="w-active">
+                    <img src="images/app/static.png" class="w-hidden">
+                    <img src="images/app/static.png" class="w-hidden">
+                  </div>
 
                   <div class="stage__frame glance js-glance">
                     <div class="stage__frame__bg"></div>

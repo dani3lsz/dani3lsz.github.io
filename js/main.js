@@ -154,9 +154,7 @@
             animated = false;
           }
 
-          if (galleryTimer) {
-            clearInterval(galleryTimer)
-          }
+          animateScreenShots('stop');
 
           app.stage.removeClass('active');
         } else if (obj == glance) {
@@ -204,11 +202,7 @@
             app.stage.children("img").each(function() { APNG.animateImage(this); })
           }
 
-          if (app.stage.hasClass('application--gallery')) {
-            galleryTimer = setInterval(function(){
-              moveGallery(0)
-            }, 4000)
-          }
+          animateScreenShots('start')
         } else if (obj == glance) {
           glance.stage.addClass('active animate');
           glance.stage.parent().addClass('blur');
@@ -233,62 +227,45 @@
       var imagesMaxIndex = images.length - 1;
       var activeIndex = 0;
       var nextIndex = 1;
-      var maxDistance = gallery.width();
+      var running = false, firstAnimate, secondAnimate;
 
-      //Init touch swipe
-      gallery.swipe({
-        triggerOnTouchEnd: true,
-        triggerOnTouchLeave: true,
-        swipeStatus: swipeGallery,
-        allowPageScroll: "none",
-        threshold: 1
-      });
+      function animateScreenShots(control) {
+        if (control == 'start') {
+          running = true;
 
-      function swipeGallery(event,phase,direction,distance,fingers) {
-        if (phase == "move" && direction == "left") {
-          moveGallery(distance)
-        } else if (phase == "end" && direction == "left") {
-          moveGallery(0)
-        }
-      }
+          loop();
 
-      function moveGallery(distance) {
-        if (distance == 0) {
-          images.eq(activeIndex).removeAttr('style').addClass('hidden');
-          images.eq(nextIndex).removeAttr('style').removeClass('hidden').addClass('active');
+          function loop() {
+            firstAnimate = setTimeout(function(){
+              images.eq(activeIndex).removeClass('w-active').addClass('w-hidden');
+            },3000);
 
-          setTimeout(function(){
-            images.eq(activeIndex).removeClass('active');
+            secondAnimate = setTimeout(function(){
+              images.eq(nextIndex).removeClass('w-hidden').addClass('w-active');
 
-            activeIndex = nextIndex;
-            nextIndex = nextIndex != imagesMaxIndex ? nextIndex + 1 : 0;
-          },400)
+              activeIndex = nextIndex;
+              nextIndex = nextIndex == imagesMaxIndex ? 0 : nextIndex + 1;
+
+              if (running == true) {
+                loop()
+              }
+            },4000);
+          }
         } else {
-          clearInterval(galleryTimer);
-          galleryTimer = setInterval(function(){
-            moveGallery(0)
-          }, 4000);
+          running = false;
 
-          var newOpacity = Math.round(distance / maxDistance * 100) / 100;
-          var newScale = 0.75 + Math.round(distance / maxDistance * 100) / 400;
+          clearTimeout(firstAnimate);
+          clearTimeout(secondAnimate);
 
-          images.eq(activeIndex).css({
-            "opacity": 1 - newOpacity,
-            "-webkit-transition-duration": "0s",
-                    "transition-duration": "0s",
-                "-ms-transform": "translate(" + -distance + "px,0)",
-            "-webkit-transform": "translate3d(" + -distance + "px,0,0)",
-                    "transform": "translate3d(" + -distance + "px,0,0)"
+          images.each(function(){
+            if ($(this).hasClass('w-active')) {
+              $(this).removeClass('w-active').addClass('w-hidden')
+            }
           });
+          images.eq(0).removeClass('w-hidden').addClass('w-active');
 
-          images.eq(nextIndex).css({
-            "opacity": newOpacity,
-            "-webkit-transition-duration": "0s",
-                    "transition-duration": "0s",
-                "-ms-transform": "scale(" + newScale + ")",
-            "-webkit-transform": "scale(" + newScale + ")",
-                    "transform": "scale(" + newScale + ")"
-          })
+          activeIndex = 0;
+          nextIndex = 1;
         }
       }
 

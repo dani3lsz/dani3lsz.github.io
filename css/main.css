@@ -642,39 +642,36 @@ h2.title {font-size: 36px;}
 
 }
 
+.application--gallery:before {
+  content: "";
+  position: absolute;
+  top:  50%;
+  left: 50%;
+  margin: -11px 0 0 -10px;
+  width:  23px;
+  height: 23px;
+  background-repeat:   no-repeat;
+  background-position: center center;
+  background-size:     contain;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAuCAMAAABgZ9sFAAAAWlBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////9ZMre9AAAAHnRSTlMAgLNN5gcOcx1IASY4FK4waV1UfUDXoXlikiqIwKkg/Z6KAAAB/klEQVRIx42S2bLCIBBEQWTfyZ5c//83r4GIg7EqnsfurklPGPQFz90wOO7RT8S/e+Yv/pQe7gfDD3lfZpf51334HcAv4w7G3WV8gPGhaPSUslQo+j1O/WosUzAsZ9xxudIvZeS2jMsy715BrXy8PXGbtJ+riulW2GSdvT0ObUms/ZE2pzOjORZ5S24xqnkm4m6VpdT3QHLBwiNg2w3Q5+EBStsKT0w/gOXmfbzlVSgNAeYBPb7/HNbG4ZkoM57iNDggLRq+h2jicbcUgdrGEGQC1mPNksbv8Q5Uzx6wQnlXKhdYryVVD4tDsmQrQ8Zg0QdMbuNe5MbfFvURj8s49VahEzoFHGbfDhGr1xQ0aY/bnjRG2fcwpUIL25pakih7cQ4r5hMPPPaCvicnPGGM+WxOdRjheKebDXt1i/ggmM8mCVfP0yKRrmrTR591qlYXiyeKVEhtlQgsbvLN9BhqFu4pArA6QnO9Dsabi9QcjkqsblPL6+b/ttP3uJJ5OtiVaSOl0U9TzHCUpHl7KM0UiZ5keoEYHNXpslAAkkFCkgMp1Bre+URPCyXGelLpGTPh1TLWf2bmV9oiTQAaMT/n+TwJVZ9ayBB4OWoD42b3PIlRegbfg1otdO4mYVzmYcp+Oe78rVP8glOZCz5WvaL9kZdxBZ8JXQOP4BdUPbEz/0O+HjQZAg82AAAAAElFTkSuQmCC");
+  -webkit-animation: spin .75s steps(6) infinite;
+          animation: spin .75s steps(6) infinite;
+}
+
   .application--gallery > img {
     position: absolute;
     top:    0;
     left:   0;
     width: 100%;
-    -webkit-transition: .4s ease-in-out;
-            transition: .4s ease-in-out;
   }
 
-  .application--gallery > img.hidden {
+  .application--gallery > img.w-hidden {
     opacity: 0;
-    -webkit-transition: 0s;
-            transition: 0s;
-        -ms-transform: scale(.75);
-    -webkit-transform: scale(.75);
-            transform: scale(.75);
   }
 
-  .application--gallery > img.active {
+  .application--gallery > img.w-active {
     z-index: 1;
     opacity: 1;
-        -ms-transform: scale(1);
-    -webkit-transform: scale(1);
-            transform: scale(1);
-  }
-
-  .application--gallery > img.active.hidden {
-    opacity: 0;
-    -webkit-transition: .4s ease-in-out;
-            transition: .4s ease-in-out;
-            -ms-transform: translate(-100%,0);
-    -webkit-transform: translate3d(-100%,0,0);
-            transform: translate3d(-100%,0,0);
   }
 
 
