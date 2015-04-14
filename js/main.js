@@ -40,7 +40,6 @@
 
       var animated = false;
       var video = false;
-      var galleryTimer = false;
 
       var base = {};
       base.stage = $this.find('.js-base');

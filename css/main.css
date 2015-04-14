@@ -639,7 +639,7 @@ h2.title {font-size: 36px;}
 }
 
 .application--gallery {
-
+  background-image: none !important;
 }
 
 .application--gallery:before {
