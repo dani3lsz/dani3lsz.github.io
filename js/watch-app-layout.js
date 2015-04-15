@@ -65,11 +65,22 @@
     triggerOnTouchLeave: true
   });
 
+  var clientX, clientY;
+
   // moving icons
   function moveIcons(event,phase,direction,distance,fingers) {
-    if (phase == 'move') {
-      var xMove = event.movementX;
-      var yMove = event.movementY;
+    if (phase == 'start') {
+      clientX = event.pageX;
+      clientY = event.pageY;
+    } else if (phase == 'move') {
+      var clientXn = event.pageX;
+      var clientYn = event.pageY;
+
+      var xMove = clientXn - clientX;
+      var yMove = clientYn - clientY;
+
+      clientX = clientXn;
+      clientY = clientYn;
 
       moveIconCoordinates(xMove,yMove);
       scaleIcons();
@@ -119,10 +130,6 @@
         } else {
           aMod = Math.PI + aMod;
         }
-      }
-
-      if(i == 0) {
-        console.log(z1)
       }
 
       var mod1 = transformCoordinates(x,y,(iD - Math.round(iD * z1)) / 2 * dc / iDm,aMod);
