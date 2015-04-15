@@ -25,37 +25,45 @@
   // distance between the center of circles on the different layers
   var d2 = n > 6 ? Math.round(iDm * Math.sin(halfAngle) /  Math.sin(Math.PI - halfAngle * 2)) : iDm;
 
-  var points = [[0,0,1,0,0,1,0,0]]; // center coordinate included. x, y, scale1, x mod1, y mod1, scale2, x mod2, y mod2
+  var points;
 
-  var m = 0, r = 0; // helpers for the loop
+  function createGrid() {
+    points = [];
+    points.push([0,0,1,0,0,1,0,0]); // center coordinate included. x, y, scale1, x mod1, y mod1, scale2, x mod2, y mod2
 
-  for (var i=1; i<icons.length; i++) {
-    var x, y, newXY;
+    var m = 0, r = 0; // helpers for the loop
 
-    // statement is true after every full rotate
-    if (i % (n * m + 1) == 0) {
-      r += 1; // number of serial
-      m += r; // increase the length of the next rotate
+    for (var i=1; i<icons.length; i++) {
+      var x, y, newXY;
 
-      // new first coordinate after a full rotate
-      newXY = transformCoordinates(0,0,d2 * r,Math.PI * 2 - halfAngle)
-    } else {
-      // coordinates of previous point
-      x = points[i - 1][0];
-      y = points[i - 1][1];
+      // statement is true after every full rotate
+      if (i % (n * m + 1) == 0) {
+        r += 1; // number of serial
+        m += r; // increase the length of the next rotate
 
-      var moveAngle = exteriorAngle * Math.ceil((i - ((m - r) * n) - 1) / r);
+        // new first coordinate after a full rotate
+        newXY = transformCoordinates(0,0,d2 * r,Math.PI * 2 - halfAngle)
+      } else {
+        // coordinates of previous point
+        x = points[i - 1][0];
+        y = points[i - 1][1];
 
-      // move coordinates to get new point
-      newXY = transformCoordinates(x,y,d1,moveAngle);
+        var moveAngle = exteriorAngle * Math.ceil((i - ((m - r) * n) - 1) / r);
+
+        // move coordinates to get new point
+        newXY = transformCoordinates(x,y,d1,moveAngle);
+      }
+
+      points.push(newXY);
     }
-
-    points.push(newXY);
   }
 
-  moveIconCoordinates(sW / 2,sH / 2);
-  scaleIcons();
-  applyCss();
+  $('.js-close').on('click', function(){
+    createGrid();
+    moveIconCoordinates(sW / 2,sH / 2);
+    scaleIcons();
+    applyCss(400)
+  });
 
   //Init touch swipe
   stage.swipe({
@@ -180,5 +188,10 @@
       })
     }
   }
+
+  createGrid();
+  moveIconCoordinates(sW / 2,sH / 2);
+  scaleIcons();
+  applyCss();
 
 })();
