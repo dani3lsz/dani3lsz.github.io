@@ -5,7 +5,10 @@
 
 (function(){
 
+  var speed = 400;
   var stage = $('.js-base');
+  var crown = $('.js-crown');
+  var app = $('.js-app');
   var icons = stage.children();
 
   var sW = stage.width(); // width
@@ -29,7 +32,7 @@
 
   function createGrid() {
     points = [];
-    points.push([0,0,1,0,0,1,0,0]); // center coordinate included. x, y, scale1, x mod1, y mod1, scale2, x mod2, y mod2
+    points.push([0,0,1,0,0,1,0,0,1,0,0]); // x, y, scale1, x mod1, y mod1, scale2, x mod2, y mod2, scale3, x mod3, y mod3
 
     var m = 0, r = 0; // helpers for the loop
 
@@ -58,12 +61,53 @@
     }
   }
 
-  $('.js-close').on('click', function(){
+  icons.eq(0).on('click', function(){
+    centerIcons();
+    zoomIcons(6,speed);
+    zoomApp(6,speed)
+  });
+
+  //Init touch swipe
+  crown.swipe({
+    swipeStatus: controlZoom,
+    threshold: 1,
+    allowPageScroll: 'none',
+    triggerOnTouchLeave: true
+  });
+
+  var zf = 1;
+  var zh = true;
+
+  // control zoom
+  function controlZoom(event,phase,direction,distance,fingers) {
+    if (phase == 'start') {
+      centerIcons();
+      zoomApp(0,speed)
+    } else if (phase == 'move' && direction == 'down' && zh) {
+      zf = Math.min(1 + distance / 6,6);
+      zoomIcons(zf,100);
+    } else if (phase == 'end') {
+      if (zf >= 2 && direction == 'down') {
+        zf = 6;
+        zh = false;
+        zoomIcons(zf,speed);
+        zoomApp(zf,speed)
+      } else {
+        zf = 1;
+        zh = true;
+        zoomIcons(zf,speed);
+        zoomApp(0,speed)
+      }
+    }
+  }
+
+  function centerIcons() {
+    zh = true;
     createGrid();
     moveIconCoordinates(sW / 2,sH / 2);
     scaleIcons();
-    applyCss(400)
-  });
+    applyCss(speed)
+  }
 
   //Init touch swipe
   stage.swipe({
@@ -102,7 +146,7 @@
       x1 = Math.round((x + d * Math.cos(a)) * 100) / 100,
       y1 = Math.round((y + d * Math.sin(a)) * 100) / 100;
 
-    return [x1,y1,1,0,0,1,0,0]
+    return [x1,y1,1,0,0,1,0,0,1,0,0]
   }
 
   // moving all icon's coordinates
@@ -148,13 +192,13 @@
 
       var z2t = 1;
 
-      var xd = Math.min(sW - (x + points[i][3] + iD * z1 / 2), x + points[i][3] - iD * z1 / 2);
-      var yd = Math.min(sH - (y + points[i][4] + iD * z1 / 2), y + points[i][4] - iD * z1 / 2);
+      var xds = Math.min(sW - (x + points[i][3] + iD * z1 / 2), x + points[i][3] - iD * z1 / 2);
+      var yds = Math.min(sH - (y + points[i][4] + iD * z1 / 2), y + points[i][4] - iD * z1 / 2);
 
-      if (xd < 0 || yd < 0) {
-        z2t = Math.round((iD * z1 - Math.abs(Math.min(xd,yd))) / (iD * z1) * 1000) / 1000;
+      if (xds < 0 || yds < 0) {
+        z2t = Math.round((iD * z1 - Math.abs(Math.min(xds,yds))) / (iD * z1) * 1000) / 1000;
 
-        var z2 = z1 * z2t >= 0.2 ? z2t : 0.2 / z1;
+        var z2 = z1 * z2t >= 0.1 ? z2t : 0.1 / z1;
 
         var mod2 = transformCoordinates(x + points[i][3],y + points[i][4],(iD * z1 - iD * z1 * z2) / 2 + 1,aMod);
 
@@ -169,6 +213,34 @@
     }
   }
 
+  // zoom in
+  function zoomIcons(scale,duration) {
+    for (var i = 0; i < points.length; i++) {
+      var x = points[i][0] + points[i][3] + points[i][6];
+      var y = points[i][1] + points[i][4] + points[i][7];
+      var z = points[i][2] * points[i][5];
+
+      points[i][8] = scale;
+      points[i][9] = (x - sW / 2) * scale - (x - sW / 2);
+      points[i][10] = (y - sH / 2) * scale - (y - sH / 2);
+    }
+
+    applyCss(duration);
+    zoomApp(scale,duration)
+  }
+
+  // zoom app
+  function zoomApp(scale,duration) {
+    var appScale = scale <= 2 ? scale / (14 - scale * 4) : scale / 6;
+
+    app.css({
+      "-webkit-transition-duration": (duration / 1000).toFixed(1) + "s",
+              "transition-duration": (duration / 1000).toFixed(1) + "s",
+      "-webkit-transform": "scale("+ appScale +")",
+              "transform": "scale("+ appScale +")"
+    });
+  }
+
   // set the css of the icons based on current coordinates
   function applyCss(duration) {
     if (!duration) {
@@ -176,9 +248,9 @@
     }
 
     for (var i = 0; i < points.length; i++) {
-      var x = points[i][0] + points[i][3] + points[i][6];
-      var y = points[i][1] + points[i][4] + points[i][7];
-      var z = points[i][2] * points[i][5];
+      var x = points[i][0] + points[i][3] + points[i][6] + points[i][9];
+      var y = points[i][1] + points[i][4] + points[i][7] + points[i][10];
+      var z = points[i][2] * points[i][5] * points[i][8];
 
       icons.eq(i).css({
         "-webkit-transition-duration": (duration / 1000).toFixed(1) + "s",
