@@ -61,10 +61,14 @@
     }
   }
 
+  var moving = false;
+
   icons.eq(0).on('click', function(){
-    centerIcons();
-    zoomIcons(6,speed);
-    zoomApp(6,speed)
+    if (!moving) {
+      centerIcons();
+      zoomIcons(6,speed);
+      zoomApp(6,speed)
+    }
   });
 
   //Init touch swipe
@@ -125,6 +129,8 @@
       clientX = event.pageX;
       clientY = event.pageY;
     } else if (phase == 'move') {
+      moving = true;
+
       var clientXn = event.pageX;
       var clientYn = event.pageY;
 
@@ -137,6 +143,10 @@
       moveIconCoordinates(xMove,yMove);
       scaleIcons();
       applyCss()
+    } else if (phase == 'end') {
+      setTimeout(function(){
+        moving = false;
+      },10)
     }
   }
 
