@@ -178,7 +178,7 @@
 
       var dc = xdc != 0 && ydc != 0 ? Math.sqrt(xdc * xdc + ydc * ydc) : Math.max(xdc,ydc);
 
-      var z1 = Math.min(1 - Math.round(((dc / iDm * 2) - 1) * 0.1 * 100) / 100, 1);
+      var z1 = Math.max(Math.min(1 - Math.round(((dc / iDm * 2) - 1) * 0.1 * 100) / 100, 1),0);
 
       var aMod = z1 != 1 ? Math.acos(xdc / dc) : 0;
 
@@ -228,7 +228,6 @@
     for (var i = 0; i < points.length; i++) {
       var x = points[i][0] + points[i][3] + points[i][6];
       var y = points[i][1] + points[i][4] + points[i][7];
-      var z = points[i][2] * points[i][5];
 
       points[i][8] = scale;
       points[i][9] = (x - sW / 2) * scale - (x - sW / 2);
