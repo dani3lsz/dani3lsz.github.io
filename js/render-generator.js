@@ -91,7 +91,7 @@ $(document).ready(function() {
     ctx.save();
     ctx.translate((cW - cW * scale) / 2 - dC,0);
     ctx.scale(scale,1);
-    ctx.globalCompositeOperation = "lighten";
+    ctx.globalCompositeOperation = "screen";
     ctx.drawImage(screen,cW / 2 - sW / 2,285,sW,sH);
     ctx.restore();
   }
