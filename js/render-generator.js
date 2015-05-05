@@ -17,6 +17,9 @@ $(document).ready(function() {
     return false;
   }
 
+  var screen = new Image();
+  screen.src = 'images/renders/screen1.png';
+
   // pre-load images
   var
     images = [],
@@ -40,8 +43,57 @@ $(document).ready(function() {
     images[i/divider].src = src + ("00" + i).slice(-3) + '.jpg';
   }
 
+  var To_Radians = Math.PI / 180;
+
+  var scale = 1;
+  var r = 426; // radius
+  var sW = 336;
+  var sH = 420;
+  var cD = Math.round((r * Math.sin(90 * To_Radians)) / Math.sin(2 * To_Radians)); // camera distance
+
+  var o2 = [0,cD];
+  var s1 = [0,r];
+  var s2 = [-sW / 2,r];
+  var s3 = [sW / 2,r];
+  var sAll = [s1,s2,s3];
+
   function drawCanvas(index) {
-    ctx.drawImage(images[index],0,0);
+    var a = index * divider * To_Radians;
+
+    var up,down,x0,y0;
+
+    // rotate coordinates
+    for (var i=0; i<sAll.length; i++) {
+      sAll[i][2] = sAll[i][0] * Math.cos(a) - sAll[i][1] * Math.sin(a);
+      sAll[i][3] = sAll[i][1] * Math.cos(a) + sAll[i][0] * Math.sin(a)
+    }
+
+    if (s3[3] > s2[3]) {
+      up = s3;
+      down = s2;
+    } else {
+      up = s2;
+      down = s3;
+    }
+
+    var l1Slope = (s1[3] - o2[1]) / (s1[2] - o2[0]);
+    var l2Slope = (down[3] - o2[1]) / (down[2] - o2[0]);
+    var vSlope = -1 / l1Slope;
+
+    x0 = (-vSlope * up[2] + up[3] - o2[1] + l2Slope * o2[0]) / (l2Slope - vSlope);
+    y0 = vSlope * (x0 - up[2]) + up[3];
+
+    scale = Math.sqrt((up[2] - x0) * (up[2] - x0) + (up[3] - y0) * (up[3] - y0)) / sW;
+
+    var dC = (r * Math.sin(index * divider * To_Radians)) / Math.sin(90 * To_Radians); // distance from center
+
+    ctx.drawImage(images[index],0,-16);
+    ctx.save();
+    ctx.translate((cW - cW * scale) / 2 - dC,0);
+    ctx.scale(scale,1);
+    ctx.globalCompositeOperation = "lighten";
+    ctx.drawImage(screen,cW / 2 - sW / 2,285,sW,sH);
+    ctx.restore();
   }
 
   $('#js-swipe').swipe({

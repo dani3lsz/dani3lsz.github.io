@@ -606,7 +606,7 @@ a:hover, .no-touch a:focus {
 
 .rg {
   width: 100%;
-  max-width: 520px;
+  max-width: 504px;
   margin: 50px auto;
 }
 
@@ -666,12 +666,12 @@ a:hover, .no-touch a:focus {
 
 @-webkit-keyframes zoomIn {
   from { -webkit-transform: scale(1); }
-  to   { -webkit-transform: scale(2); }
+  to   { -webkit-transform: scale(1.5); }
 }
 
 @keyframes zoomIn {
   from { transform: scale(1); }
-  to   { transform: scale(2); }
+  to   { transform: scale(1.5); }
 }
 
 
