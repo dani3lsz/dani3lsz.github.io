@@ -5,7 +5,9 @@ $(document).ready(function() {
     canvas = document.getElementById('js-canvas'),
     cW = canvas.width,
     cH = canvas.height,
-    src = 'images/renders/alu-sport-blue/';
+    src = 'https://daw52dg0bedts.cloudfront.net/watchaware-embed-assets/',
+    type = 'apple-watch-sport',
+    band = 'silver-aluminum-case-pink-sport-band';
 
   var
     currentFrame = 0,
@@ -18,7 +20,7 @@ $(document).ready(function() {
   }
 
   var screen = new Image();
-  screen.src = 'images/renders/screen1.png';
+  screen.src = 'images/renders/Artboard.png';
 
   // pre-load images
   var
@@ -40,7 +42,7 @@ $(document).ready(function() {
         loaded++
       }
     };
-    images[i/divider].src = src + ("00" + i).slice(-3) + '.jpg';
+    images[i/divider].src = src + type + '--' + band + '--0' + ("00" + i).slice(-3) + '.jpg';
   }
 
   var To_Radians = Math.PI / 180;
@@ -85,15 +87,18 @@ $(document).ready(function() {
 
     scale = Math.sqrt((up[2] - x0) * (up[2] - x0) + (up[3] - y0) * (up[3] - y0)) / sW;
 
-    var dC = (r * Math.sin(index * divider * To_Radians)) / Math.sin(90 * To_Radians); // distance from center
+    var dC = (r * Math.sin(a)) / Math.sin(90 * To_Radians); // distance from center
 
     ctx.drawImage(images[index],0,-16);
-    ctx.save();
-    ctx.translate((cW - cW * scale) / 2 - dC,0);
-    ctx.scale(scale,1);
-    ctx.globalCompositeOperation = "screen";
-    ctx.drawImage(screen,cW / 2 - sW / 2,285,sW,sH);
-    ctx.restore();
+
+    if (index * divider < 88 || index * divider > 272) {
+      ctx.save();
+      ctx.translate((cW - cW * scale) / 2 - dC,0);
+      ctx.scale(scale,1);
+      ctx.globalCompositeOperation = "screen";
+      ctx.drawImage(screen,cW / 2 - sW / 2,285,sW,sH);
+      ctx.restore();
+    }
   }
 
   $('#js-swipe').swipe({
