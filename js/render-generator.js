@@ -1,13 +1,29 @@
 
 $(document).ready(function() {
 
+  function getQueryParams(qs) {
+    qs = qs.split("+").join(" ");
+
+    var params = {}, tokens,
+      re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+      params[decodeURIComponent(tokens[1])]
+        = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+  }
+
+  var query = getQueryParams(document.location.search);
+
   var
     canvas = document.getElementById('js-canvas'),
     cW = canvas.width,
     cH = canvas.height,
     src = 'https://daw52dg0bedts.cloudfront.net/watchaware-embed-assets/',
-    type = 'apple-watch-sport',
-    band = 'silver-aluminum-case-pink-sport-band';
+    type = query.watch ? query.watch : 'apple-watch-sport',
+    band = query.band ? query.band : 'silver-aluminum-case-white-sport-band';
 
   var
     currentFrame = 0,
