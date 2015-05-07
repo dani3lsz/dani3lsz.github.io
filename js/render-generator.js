@@ -1,19 +1,19 @@
+function getQueryParams(qs) {
+  qs = qs.split("+").join(" ");
+
+  var
+    params = {},
+    tokens,
+    re = /[?&]?([^=]+)=([^&]*)/g;
+
+  while (tokens = re.exec(qs)) {
+    params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+  }
+
+  return params;
+}
 
 $(document).ready(function() {
-
-  function getQueryParams(qs) {
-    qs = qs.split("+").join(" ");
-
-    var params = {}, tokens,
-      re = /[?&]?([^=]+)=([^&]*)/g;
-
-    while (tokens = re.exec(qs)) {
-      params[decodeURIComponent(tokens[1])]
-        = decodeURIComponent(tokens[2]);
-    }
-
-    return params;
-  }
 
   var query = getQueryParams(document.location.search);
 
@@ -23,7 +23,7 @@ $(document).ready(function() {
     cH = canvas.height,
     src = 'https://daw52dg0bedts.cloudfront.net/watchaware-embed-assets/',
     type = query.watch ? query.watch : 'apple-watch-sport',
-    band = query.band ? query.band : 'silver-aluminum-case-white-sport-band';
+    band = query.band ? query.band : 'silver-aluminum-case-blue-sport-band';
 
   var
     currentFrame = 0,
@@ -35,8 +35,20 @@ $(document).ready(function() {
     return false;
   }
 
+  var controlBtn = $('.js-control');
+  var active = 0; // 0 - rotate, 1 - move, 2 - resize
+
+  controlBtn.on('click', function(){
+    if (!$(this).hasClass('active')) {
+      controlBtn.removeClass('active');
+      $(this).addClass('active');
+      active = controlBtn.index($(this));
+    }
+  });
+
+
   var screen = new Image();
-  screen.src = 'images/renders/Artboard.png';
+  screen.src = 'images/renders/screen1.png';
 
   // pre-load images
   var
@@ -75,8 +87,16 @@ $(document).ready(function() {
   var s3 = [sW / 2,r];
   var sAll = [s1,s2,s3];
 
-  function drawCanvas(index) {
+  var dM = 1008;
+  var dx = cW / 2 - dM / 2;
+  var dy = cH / 2 - dM / 2;
+
+  var dC; // screen distance from center
+
+  function calculateDrawInfo(index) {
     var a = index * divider * To_Radians;
+
+    dC = (r * Math.sin(a)) / Math.sin(90 * To_Radians);
 
     var up,down,x0,y0;
 
@@ -102,17 +122,23 @@ $(document).ready(function() {
     y0 = vSlope * (x0 - up[2]) + up[3];
 
     scale = Math.sqrt((up[2] - x0) * (up[2] - x0) + (up[3] - y0) * (up[3] - y0)) / sW;
+  }
 
-    var dC = (r * Math.sin(a)) / Math.sin(90 * To_Radians); // distance from center
+  function drawCanvas(index,calculate) {
+    if (calculate) {
+      calculateDrawInfo(index);
+    }
 
-    ctx.drawImage(images[index],0,-16);
+    ctx.fillStyle = '#f2f2f2';
+    ctx.fillRect(0,0,cW,cH);
+    ctx.drawImage(images[index],0,16,dM,dM,dx,dy,dM,dM);
 
     if (index * divider < 88 || index * divider > 272) {
       ctx.save();
-      ctx.translate((cW - cW * scale) / 2 - dC,0);
+      ctx.translate((dx + dM / 2) - (dx + dM / 2) * scale - dC,0);
       ctx.scale(scale,1);
       ctx.globalCompositeOperation = "screen";
-      ctx.drawImage(screen,cW / 2 - sW / 2,285,sW,sH);
+      ctx.drawImage(screen,dx + dM / 2 - sW / 2,dy + 285,sW,sH);
       ctx.restore();
     }
   }
@@ -123,19 +149,57 @@ $(document).ready(function() {
     triggerOnTouchLeave: true
   });
 
+  var clientX, clientY;
+
+  var ratio = cW / $('#js-canvas').width();
+  var limit = dM / ratio / (imagesNum / 2);
+
   function swipeCanvas(event,phase,direction,distance,fingers) {
     var rotate, timer;
 
-    if (phase == 'move' && (direction == 'left' || direction == 'right')) {
-      rotate = currentFrame + Math.round((direction == 'left' ? distance : -distance) / 10);
-      timer = Math.floor(rotate / imagesNum);
-      newFrame = rotate - timer * imagesNum;
+    if (phase == 'start') {
+      clientX = event.pageX;
+      clientY = event.pageY;
+    } else if (phase == 'move') {
+      var clientXn = event.pageX;
+      var clientYn = event.pageY;
 
-      drawCanvas(newFrame)
-    } else if (phase == 'end') {
-      currentFrame = newFrame
+      var xMove = clientXn - clientX;
+      var yMove = clientYn - clientY;
+
+      clientX = clientXn;
+      clientY = clientYn;
+
+      if (active == 0 ) {
+        newFrame += xMove;
+
+        if (Math.abs(newFrame) > limit) {
+          currentFrame += newFrame > 0 ? -1 : 1;
+
+          if (currentFrame < 0) {
+            currentFrame = imagesNum - 1
+          } else if (currentFrame > imagesNum - 1) {
+            currentFrame = 0
+          }
+
+          newFrame = 0;
+
+          drawCanvas(currentFrame,true);
+        }
+      } else if (active == 1) {
+        dx += xMove * ratio;
+        dy += yMove * ratio;
+
+        drawCanvas(currentFrame)
+      } else if (active == 2) {
+
+      }
     }
   }
+
+  $(window).resize(function(){
+    ratio = cW / $('#js-canvas').width()
+  });
 
   // clear the canvas
   function clearCanvas() {
