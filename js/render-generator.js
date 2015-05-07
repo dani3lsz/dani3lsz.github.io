@@ -85,6 +85,7 @@ $(document).ready(function() {
   var To_Radians = Math.PI / 180;
 
   var scale = 1;
+  var tilt = 0;
   var r = 426; // radius
   var sW = 336;
   var sH = 420;
@@ -140,16 +141,35 @@ $(document).ready(function() {
 
     ctx.fillStyle = '#f2f2f2';
     ctx.fillRect(0,0,cW,cH);
+    ctx.save();
+
+    if (tilt) {
+      ctx.translate(dx + dM / 2,dy + dM / 2);
+      ctx.rotate(tilt * To_Radians);
+      ctx.translate(-dx - dM / 2,-dy - dM / 2);
+    }
+
     ctx.drawImage(images[index],0,16,dM,dM,dx,dy,dM,dM);
+    ctx.restore();
 
     if (index * divider < 88 || index * divider > 272) {
       ctx.save();
+
+
+      if (tilt) {
+        ctx.translate(dx + dM / 2,dy + dM / 2);
+        ctx.rotate(tilt * To_Radians);
+        ctx.translate(-dx - dM / 2,-dy - dM / 2);
+      }
+
       ctx.translate((dx + dM / 2) - (dx + dM / 2) * scale - dC,0);
       ctx.scale(scale,1);
       ctx.globalCompositeOperation = "screen";
+
       ctx.drawImage(screen,dx + dM / 2 - sW / 2,dy + 285,sW,sH);
       ctx.restore();
     }
+
   }
 
   function startAnimation() {
@@ -185,8 +205,6 @@ $(document).ready(function() {
   var limit = dM / ratio / (imagesNum / 2);
 
   function swipeCanvas(event,phase,direction,distance,fingers) {
-    var rotate, timer;
-
     if (phase == 'start') {
       clientX = event.pageX;
       clientY = event.pageY;
@@ -201,7 +219,11 @@ $(document).ready(function() {
       clientY = clientYn;
 
       if (active == 0) {
-        newFrame += xMove;
+        if (Math.abs(xMove) > Math.abs(yMove)) {
+          newFrame += xMove;
+        } else {
+          newFrame += yMove;
+        }
 
         if (Math.abs(newFrame) > limit) {
           currentFrame += newFrame > 0 ? -1 : 1;
@@ -217,11 +239,25 @@ $(document).ready(function() {
           drawCanvas(currentFrame,true);
         }
       } else if (active == 1) {
+        if (Math.abs(xMove) > Math.abs(yMove)) {
+          tilt += xMove;
+        } else {
+          tilt += yMove;
+        }
+
+        if (tilt > 360) {
+          tilt = 0
+        } else if (tilt < 0) {
+          tilt = 360
+        }
+
+        drawCanvas(currentFrame)
+      } else if (active == 2) {
         dx += xMove * ratio;
         dy += yMove * ratio;
 
         drawCanvas(currentFrame)
-      } else if (active == 2) {
+      } else if (active == 3) {
         dy += yMove * ratio / 2;
         canvas.height += yMove * ratio;
         drawCanvas(currentFrame)
