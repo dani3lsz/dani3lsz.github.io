@@ -73,8 +73,8 @@ $(document).ready(function() {
     images[i/divider].height = 1040;
     images[i/divider].onload = function() {
       if (loaded == maxIndex) {
-        drawCanvas(currentFrame);
-        $('.js-load').addClass('loaded')
+        $('.js-load').addClass('loaded');
+        startAnimation()
       } else {
         loaded++
       }
@@ -150,6 +150,27 @@ $(document).ready(function() {
       ctx.drawImage(screen,dx + dM / 2 - sW / 2,dy + 285,sW,sH);
       ctx.restore();
     }
+  }
+
+  function startAnimation() {
+    var startFrame = 13;
+    var counter = 5;
+
+    var startAnimate = function(){
+      if (startFrame > 0) {
+        clearInterval(interval);
+        counter += 5;
+        startFrame -= 1;
+
+        drawCanvas(startFrame,true);
+
+        interval = setInterval(startAnimate, counter);
+      } else {
+        clearInterval(interval)
+      }
+    };
+
+    var interval = setInterval(startAnimate, counter);
   }
 
   $('#js-swipe').swipe({
