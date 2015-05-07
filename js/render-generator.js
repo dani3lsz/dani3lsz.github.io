@@ -155,7 +155,6 @@ $(document).ready(function() {
     if (index * divider < 88 || index * divider > 272) {
       ctx.save();
 
-
       if (tilt) {
         ctx.translate(dx + dM / 2,dy + dM / 2);
         ctx.rotate(tilt * To_Radians);
@@ -202,7 +201,6 @@ $(document).ready(function() {
   var clientX, clientY;
 
   var ratio = cW / $('#js-canvas').width();
-  var limit = dM / ratio / (imagesNum / 2);
 
   function swipeCanvas(event,phase,direction,distance,fingers) {
     if (phase == 'start') {
@@ -225,7 +223,7 @@ $(document).ready(function() {
           newFrame += yMove;
         }
 
-        if (Math.abs(newFrame) > limit) {
+        if (Math.abs(newFrame) > dM / imagesNum / ratio) {
           currentFrame += newFrame > 0 ? -1 : 1;
 
           if (currentFrame < 0) {
@@ -240,9 +238,9 @@ $(document).ready(function() {
         }
       } else if (active == 1) {
         if (Math.abs(xMove) > Math.abs(yMove)) {
-          tilt += xMove;
+          tilt += xMove / 2;
         } else {
-          tilt += yMove;
+          tilt += yMove / 2;
         }
 
         if (tilt > 360) {
