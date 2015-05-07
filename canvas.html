@@ -18,15 +18,21 @@
 </head>
 <body>
 
-<div id="js-swipe">
+<div>
   <div class="rg">
-    <div class="rg__control clearfix">
-      <button class="js-control active"><i class="fa fa-repeat"></i></button>
-      <button class="js-control"><i class="fa fa-arrows"></i></button>
-      <button class="js-control"><i class="fa fa-arrows-v"></i></button>
+    <div class="rg__control clearfix js-control">
+      <button class="active"><i class="fa fa-repeat"></i></button>
+      <button><i class="fa fa-arrows"></i></button>
+      <button><i class="fa fa-arrows-v"></i></button>
     </div>
-    <div class="rg__wrapper wr-load js-load">
+
+    <div id="js-swipe" class="rg__wrapper wr-load js-load">
       <canvas id="js-canvas" class="rg__canvas" width="2000" height="1125"></canvas>
+    </div>
+
+    <div class="rg__assets js-screen">
+      <img src="images/renders/screen1.png" class="active">
+      <img src="images/renders/Artboard.png">
     </div>
   </div>
 </div>

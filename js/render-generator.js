@@ -35,7 +35,7 @@ $(document).ready(function() {
     return false;
   }
 
-  var controlBtn = $('.js-control');
+  var controlBtn = $('.js-control').children();
   var active = 0; // 0 - rotate, 1 - move, 2 - resize
 
   controlBtn.on('click', function(){
@@ -46,9 +46,18 @@ $(document).ready(function() {
     }
   });
 
+  var screens = $('.js-screen').children();
+  var screen = screens[0];
 
-  var screen = new Image();
-  screen.src = 'images/renders/screen1.png';
+  screens.on('click', function(){
+    if (!$(this).hasClass('active')) {
+      screens.removeClass('active');
+      $(this).addClass('active');
+      screen = screens[screens.index($(this))];
+
+      drawCanvas(currentFrame)
+    }
+  });
 
   // pre-load images
   var
