@@ -170,7 +170,7 @@ $(document).ready(function() {
       clientX = clientXn;
       clientY = clientYn;
 
-      if (active == 0 ) {
+      if (active == 0) {
         newFrame += xMove;
 
         if (Math.abs(newFrame) > limit) {
@@ -192,7 +192,9 @@ $(document).ready(function() {
 
         drawCanvas(currentFrame)
       } else if (active == 2) {
-
+        dy += yMove * ratio / 2;
+        canvas.height += yMove * ratio;
+        drawCanvas(currentFrame)
       }
     }
   }
