@@ -35,8 +35,11 @@ $(document).ready(function() {
     return false;
   }
 
-  var controlBtn = $('.js-control').children();
-  var active = 0; // 0 - rotate, 1 - move, 2 - resize
+  var controlBtn = $('.js-control');
+  var active = 0;
+
+  var optionBtn = $('.js-option');
+  var options = [1,1,1];
 
   controlBtn.on('click', function(){
     if (!$(this).hasClass('active')) {
@@ -46,7 +49,42 @@ $(document).ready(function() {
     }
   });
 
-  var screens = $('.js-screen').children();
+  optionBtn.on('click', function(){
+    $(this).toggleClass('active');
+    options[optionBtn.index($(this))] = +!options[optionBtn.index($(this))];
+
+    drawCanvas(currentFrame)
+  });
+
+  var assets = $('.js-screen');
+
+  var appIcon = new Image();
+  appIcon.src = assets.data('icon');
+
+  // capitalize each word
+  function capitalize(text) {
+    return text.replace(/[^-'\s]+/g, function(word) {
+      return word.replace(/^./, function(first) {
+        return first.toUpperCase();
+      });
+    });
+  }
+
+  var trimLength = 20;
+
+  // trim text
+  function trimText(text) {
+    var l = Math.round(trimLength);
+    if (text.length > l) {
+      text = text.substring(0,l) + '...';
+    }
+    return text
+  }
+
+  var appTitle = trimText(capitalize(assets.data('title')));
+  var appDev = trimText(capitalize(assets.data('dev')));
+
+  var screens = assets.children();
   var screen = screens[0];
 
   screens.on('click', function(){
@@ -84,26 +122,47 @@ $(document).ready(function() {
 
   var To_Radians = Math.PI / 180;
 
-  var scale = 1;
-  var tilt = 0;
-  var r = 426; // radius
-  var sW = 336;
-  var sH = 420;
-  var cD = Math.round((r * Math.sin(90 * To_Radians)) / Math.sin(2 * To_Radians)); // camera distance
-
-  var o2 = [0,cD];
-  var s1 = [0,r];
-  var s2 = [-sW / 2,r];
-  var s3 = [sW / 2,r];
-  var sAll = [s1,s2,s3];
-
   var dM = 1008;
-  var dx = cW / 2 - dM / 2;
-  var dy = cH / 2 - dM / 2;
+  var dR = 1008;
+  var dx = cW - dR;
+  var dy = cH / 2 - dR / 2;
 
   var dC; // screen distance from center
 
+  var scale = 1;
+  var tilt = 0;
+  var r, sW ,sH ,cD;
+
+  calculateBaseValues();
+
+  function calculateBaseValues() {
+    r = dR / 2.3662; // radius
+    sW = dR / 3; // screen width
+    sH = dR / 2.4; // screen height
+    cD = Math.round((r * Math.sin(90 * To_Radians)) / Math.sin(2 * To_Radians)); // camera distance
+  }
+
+  var iR = 120; // icon radius
+  var ix = 300;
+  var iy = cH / 2;
+
+  var tx = 500;
+  var ty = cH / 2;
+  var tS = 52;
+  var tW;
+
+  var devx = 500;
+  var devy = cH / 2 + 52;
+  var devS = 26;
+  var devW;
+
   function calculateDrawInfo(index) {
+    var o2 = [0,cD];
+    var s1 = [0,r];
+    var s2 = [-sW / 2,r];
+    var s3 = [sW / 2,r];
+    var sAll = [s1,s2,s3];
+
     var a = index * divider * To_Radians;
 
     dC = (r * Math.sin(a)) / Math.sin(90 * To_Radians);
@@ -144,31 +203,60 @@ $(document).ready(function() {
     ctx.save();
 
     if (tilt) {
-      ctx.translate(dx + dM / 2,dy + dM / 2);
+      ctx.translate(dx + dR / 2,dy + dR / 2);
       ctx.rotate(tilt * To_Radians);
-      ctx.translate(-dx - dM / 2,-dy - dM / 2);
+      ctx.translate(-dx - dR / 2,-dy - dR / 2);
     }
 
-    ctx.drawImage(images[index],0,16,dM,dM,dx,dy,dM,dM);
+    ctx.drawImage(images[index],0,16,dM,dM,dx,dy,dR,dR);
     ctx.restore();
 
     if (index * divider < 88 || index * divider > 272) {
       ctx.save();
 
       if (tilt) {
-        ctx.translate(dx + dM / 2,dy + dM / 2);
+        ctx.translate(dx + dR / 2,dy + dR / 2);
         ctx.rotate(tilt * To_Radians);
-        ctx.translate(-dx - dM / 2,-dy - dM / 2);
+        ctx.translate(-dx - dR / 2,-dy - dR / 2);
       }
 
-      ctx.translate((dx + dM / 2) - (dx + dM / 2) * scale - dC,0);
+      ctx.translate((dx + dR / 2) - (dx + dR / 2) * scale - dC,0);
       ctx.scale(scale,1);
       ctx.globalCompositeOperation = "screen";
 
-      ctx.drawImage(screen,dx + dM / 2 - sW / 2,dy + 285,sW,sH);
+      ctx.drawImage(screen,dx + dR / 2 - sW / 2,dy + dR / 3.5368,sW,sH);
       ctx.restore();
     }
 
+    if (options[1]) {
+      ctx.fillStyle = '#000000';
+      ctx.font = '300 '+ tS +'px Roboto';
+      ctx.textBaseline = "middle";
+      ctx.fillText(appTitle,tx,ty);
+      tW = ctx.measureText(appTitle).width;
+    }
+
+    if (options[2]) {
+      ctx.fillStyle = '#888888';
+      ctx.font = '300 '+ devS +'px Roboto';
+      ctx.textBaseline = "middle";
+      ctx.fillText(appDev,devx,devy);
+      devW = ctx.measureText(appDev).width;
+    }
+
+    if (options[0]) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(ix, iy, iR, 0, 2 * Math.PI, false);
+      ctx.clip();
+      ctx.drawImage(appIcon,ix - iR,iy - iR,iR * 2,iR * 2);
+      ctx.restore();
+      ctx.beginPath();
+      ctx.arc(ix, iy, iR, 0, 2 * Math.PI, false);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#f2f2f2';
+      ctx.stroke();
+    }
   }
 
   function startAnimation() {
@@ -192,20 +280,35 @@ $(document).ready(function() {
     var interval = setInterval(startAnimate, counter);
   }
 
-  $('#js-swipe').swipe({
+  var touchArea = $('#js-swipe');
+
+  touchArea.swipe({
     swipeStatus: swipeCanvas,
     threshold: 1,
     triggerOnTouchLeave: true
   });
 
+  var spaceTop = touchArea.offset().top;
+  var spaceLeft = touchArea.offset().left;
+
   var clientX, clientY;
 
   var ratio = cW / $('#js-canvas').width();
+
+  var moving = 0;
 
   function swipeCanvas(event,phase,direction,distance,fingers) {
     if (phase == 'start') {
       clientX = event.pageX;
       clientY = event.pageY;
+
+      if (clientX > (spaceLeft + (ix - iR) / ratio) && clientX < (spaceLeft + (ix + iR) / ratio) &&
+          clientY > ( spaceTop + (iy - iR) / ratio) && clientY < ( spaceTop + (iy + iR) / ratio)) {
+        moving = 1
+      } else if (clientX > (spaceLeft + tx / ratio) && clientX < (spaceLeft + (tx + tW) / ratio) &&
+        clientY > (spaceTop + (ty - tS) / ratio) && clientY < (spaceTop + (ty + tS) / ratio)) {
+        moving = 2
+      }
     } else if (phase == 'move') {
       var clientXn = event.pageX;
       var clientYn = event.pageY;
@@ -223,7 +326,7 @@ $(document).ready(function() {
           newFrame += yMove;
         }
 
-        if (Math.abs(newFrame) > dM / imagesNum / ratio) {
+        if (Math.abs(newFrame) > dR / imagesNum / ratio) {
           currentFrame += newFrame > 0 ? -1 : 1;
 
           if (currentFrame < 0) {
@@ -251,20 +354,78 @@ $(document).ready(function() {
 
         drawCanvas(currentFrame)
       } else if (active == 2) {
-        dx += xMove * ratio;
-        dy += yMove * ratio;
+        if (moving == 0) {
+          dx += xMove * ratio;
+          dy += yMove * ratio;
+        } else if (moving == 1) {
+          ix += xMove * ratio;
+          iy += yMove * ratio;
+        } else if (moving == 2) {
+          tx += xMove * ratio;
+          ty += yMove * ratio;
+        }
 
         drawCanvas(currentFrame)
       } else if (active == 3) {
+        if (moving == 0) {
+          if (Math.abs(xMove) > Math.abs(yMove)) {
+            dR += xMove * ratio;
+            dx -= xMove * ratio / 2;
+            dy -= xMove * ratio / 2;
+          } else {
+            dR += yMove * ratio;
+            dx -= yMove * ratio / 2;
+            dy -= yMove * ratio / 2;
+          }
+
+          calculateBaseValues();
+          drawCanvas(currentFrame,true)
+        } else if (moving == 1) {
+          if (Math.abs(xMove) > Math.abs(yMove)) {
+            iR += xMove * ratio / 2;
+          } else {
+            iR += yMove * ratio / 2;
+          }
+
+          drawCanvas(currentFrame)
+        } else if (moving == 2) {
+          if (Math.abs(xMove) > Math.abs(yMove)) {
+            tS += xMove * ratio / 2;
+          } else {
+            tS += yMove * ratio / 2;
+          }
+
+          drawCanvas(currentFrame)
+        }
+      } else if (active == 4) {
+        var titleMaxLength = assets.data('title').length;
+        trimLength += xMove * ratio / (tS / 2);
+
+        if (trimLength > titleMaxLength) {
+          trimLength = titleMaxLength
+        }
+
+        appTitle = trimText(capitalize(assets.data('title')));
+
+        drawCanvas(currentFrame)
+      } else if (active == 5) {
         dy += yMove * ratio / 2;
+        iy += yMove * ratio / 2;
+        ty += yMove * ratio / 2;
         canvas.height += yMove * ratio;
+        cH = canvas.height;
+        $('.js-size').text(cW + "x" + cH);
+
         drawCanvas(currentFrame)
       }
+    } else if (phase == 'end') {
+      moving = 0;
+      $('.js-size').text("");
     }
   }
 
   $(window).resize(function(){
-    ratio = cW / $('#js-canvas').width()
+    ratio = cW / $('#js-canvas').width();
   });
 
   // clear the canvas
