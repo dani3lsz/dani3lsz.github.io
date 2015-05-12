@@ -63,11 +63,11 @@ $(document).ready(function() {
 
   function loadPreset(index) {
     var presets = [
-      [0, 992, 58.5, 0, 300, 562.5, 450, 562.5, "left"],
-      [10, 1150, 202.5, 25.5, 554, 404.5, 298, 582.5, "center"],
-      [4, 500, 210.5, 270, 1000, 172.5, 736, 360.5, "center"],
-      [75, -156, 66.5, 0, 1188, 562.5, 1332, 560.5, "left"],
-      [80, 122, 286.5, 324.5, 1542, 546.5, 1286, 338.5, "center"]
+      [0, 992, 58.5, 0, 300, 562.5, 450, 562.5, "left", 1008, 100, 52],
+      [10, 1150, 202.5, 25.5, 554, 404.5, 298, 582.5, "center", 1008, 100, 52],
+      [4, 500, 210.5, 270, 1000, 172.5, 736, 360.5, "center", 1008, 100, 52],
+      [75, -156, 66.5, 0, 1188, 562.5, 1332, 560.5, "left", 1008, 100, 52],
+      [80, 122, 286.5, 324.5, 1542, 546.5, 1286, 338.5, "center", 1008, 100, 52]
     ];
 
     currentFrame = presets[index][0];
@@ -79,7 +79,11 @@ $(document).ready(function() {
     tx = presets[index][6];
     ty = presets[index][7];
     align = presets[index][8];
+    dR = presets[index][9];
+    iR = presets[index][10];
+    tS = presets[index][11];
 
+    calculateBaseValues();
     drawCanvas(currentFrame,true)
   }
 
