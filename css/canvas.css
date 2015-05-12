@@ -633,6 +633,20 @@ a:hover, .no-touch a:focus {
         color: rgba(0,0,0,.25);
       }
 
+      .rg__control__box--presets > button {
+        width:  25px;
+        height: 20px;
+        box-shadow: -1px 0 rgba(0,0,0,.1);
+      }
+
+      .rg__control__box--presets > button:first-of-type {
+        box-shadow: none;
+      }
+
+      .rg__control__box--presets > span {
+        opacity: .3;
+      }
+
       .rg__control__box > button:hover {
         color: rgba(0,0,0,.5);
       }

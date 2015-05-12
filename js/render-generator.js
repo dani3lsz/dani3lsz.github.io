@@ -42,6 +42,8 @@ $(document).ready(function() {
     window.open(dataURL,'_blank');
   });
 
+  var presetBtn = $('.js-preset');
+
   var controlBtn = $('.js-control');
   var active = 0;
 
@@ -50,6 +52,36 @@ $(document).ready(function() {
 
   var alignBtn = $('.js-align');
   var align = 'left';
+
+  presetBtn.on('click', function(){
+    if (!$(this).hasClass('active')) {
+      presetBtn.removeClass('active');
+      $(this).addClass('active');
+      loadPreset(presetBtn.index($(this)))
+    }
+  });
+
+  function loadPreset(index) {
+    var presets = [
+      [0, 992, 58.5, 0, 300, 562.5, 450, 562.5, "left"],
+      [10, 1150, 202.5, 25.5, 554, 404.5, 298, 582.5, "center"],
+      [4, 500, 210.5, 270, 1000, 172.5, 736, 360.5, "center"],
+      [75, -156, 66.5, 0, 1188, 562.5, 1332, 560.5, "left"],
+      [80, 122, 286.5, 324.5, 1542, 546.5, 1286, 338.5, "center"]
+    ];
+
+    currentFrame = presets[index][0];
+    dx = presets[index][1];
+    dy = presets[index][2];
+    tilt = presets[index][3];
+    ix = presets[index][4];
+    iy = presets[index][5];
+    tx = presets[index][6];
+    ty = presets[index][7];
+    align = presets[index][8];
+
+    drawCanvas(currentFrame,true)
+  }
 
   controlBtn.on('click', function(){
     if (!$(this).hasClass('active')) {
@@ -453,6 +485,7 @@ $(document).ready(function() {
       }
     } else if (phase == 'end') {
       moving = 0;
+      presetBtn.removeClass('active');
       $('.js-size').text("");
     }
   }
