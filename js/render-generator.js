@@ -35,11 +35,21 @@ $(document).ready(function() {
     return false;
   }
 
+  var getBtn = $('.js-get');
+
+  getBtn.on('click', function(){
+    var dataURL = canvas.toDataURL();
+    window.open(dataURL,'_blank');
+  });
+
   var controlBtn = $('.js-control');
   var active = 0;
 
   var optionBtn = $('.js-option');
   var options = [1,1,1];
+
+  var alignBtn = $('.js-align');
+  var align = 'left';
 
   controlBtn.on('click', function(){
     if (!$(this).hasClass('active')) {
@@ -50,10 +60,42 @@ $(document).ready(function() {
   });
 
   optionBtn.on('click', function(){
-    $(this).toggleClass('active');
-    options[optionBtn.index($(this))] = +!options[optionBtn.index($(this))];
+    var i = optionBtn.index($(this));
+    options[i] = +!options[i];
+
+    if (i == 1) {
+      options[2] = options[1]
+    } else if (i == 2 && options[2]) {
+      options[1] = options[2]
+    }
+
+    optionBtn.removeClass('active');
+    for (var j = 0; j < options.length; j++) {
+      if (options[j]) {
+        optionBtn.eq(j).addClass('active')
+      }
+    }
 
     drawCanvas(currentFrame)
+  });
+
+  alignBtn.on('click', function(){
+    if (!$(this).hasClass('active')) {
+      alignBtn.removeClass('active');
+      $(this).addClass('active');
+
+      var i = alignBtn.index($(this));
+
+      if (i == 0) {
+        align = 'left'
+      } else if (i == 1) {
+        align = 'center'
+      } else if (i == 2) {
+        align = 'right'
+      }
+
+      drawCanvas(currentFrame)
+    }
   });
 
   var assets = $('.js-screen');
@@ -70,7 +112,7 @@ $(document).ready(function() {
     });
   }
 
-  var trimLength = 20;
+  var trimLength = 25;
 
   // trim text
   function trimText(text) {
@@ -83,19 +125,6 @@ $(document).ready(function() {
 
   var appTitle = trimText(capitalize(assets.data('title')));
   var appDev = trimText(capitalize(assets.data('dev')));
-
-  var screens = assets.children();
-  var screen = screens[0];
-
-  screens.on('click', function(){
-    if (!$(this).hasClass('active')) {
-      screens.removeClass('active');
-      $(this).addClass('active');
-      screen = screens[screens.index($(this))];
-
-      drawCanvas(currentFrame)
-    }
-  });
 
   // pre-load images
   var
@@ -112,6 +141,7 @@ $(document).ready(function() {
     images[i/divider].onload = function() {
       if (loaded == maxIndex) {
         $('.js-load').addClass('loaded');
+        insertIconScreen();
         startAnimation()
       } else {
         loaded++
@@ -142,19 +172,14 @@ $(document).ready(function() {
     cD = Math.round((r * Math.sin(90 * To_Radians)) / Math.sin(2 * To_Radians)); // camera distance
   }
 
-  var iR = 120; // icon radius
+  var iR = 100; // icon radius
   var ix = 300;
   var iy = cH / 2;
 
-  var tx = 500;
+  var tx = 450;
   var ty = cH / 2;
   var tS = 52;
   var tW;
-
-  var devx = 500;
-  var devy = cH / 2 + 52;
-  var devS = 26;
-  var devW;
 
   function calculateDrawInfo(index) {
     var o2 = [0,cD];
@@ -229,19 +254,26 @@ $(document).ready(function() {
     }
 
     if (options[1]) {
+      var tF = 0;
       ctx.fillStyle = '#000000';
       ctx.font = '300 '+ tS +'px Roboto';
-      ctx.textBaseline = "middle";
-      ctx.fillText(appTitle,tx,ty);
+      ctx.textBaseline = "alphabetic";
+      ctx.textAlign = align;
       tW = ctx.measureText(appTitle).width;
-    }
 
-    if (options[2]) {
-      ctx.fillStyle = '#888888';
-      ctx.font = '300 '+ devS +'px Roboto';
-      ctx.textBaseline = "middle";
-      ctx.fillText(appDev,devx,devy);
-      devW = ctx.measureText(appDev).width;
+      if (align == 'center') {
+        tF = tW / 2
+      } else if (align == 'right') {
+        tF = tW
+      }
+
+      ctx.fillText(appTitle,tx + tF,ty);
+
+      if (options[2]) {
+        ctx.fillStyle = '#888888';
+        ctx.font = '300 '+ (tS / 2) +'px Roboto';
+        ctx.fillText(appDev,tx + tF,ty + tS / 1.25);
+      }
     }
 
     if (options[0]) {
@@ -306,7 +338,7 @@ $(document).ready(function() {
           clientY > ( spaceTop + (iy - iR) / ratio) && clientY < ( spaceTop + (iy + iR) / ratio)) {
         moving = 1
       } else if (clientX > (spaceLeft + tx / ratio) && clientX < (spaceLeft + (tx + tW) / ratio) &&
-        clientY > (spaceTop + (ty - tS) / ratio) && clientY < (spaceTop + (ty + tS) / ratio)) {
+        clientY > (spaceTop + (ty - tS) / ratio) && clientY < (spaceTop + (ty + tS + tS / 5) / ratio)) {
         moving = 2
       }
     } else if (phase == 'move') {
@@ -398,7 +430,7 @@ $(document).ready(function() {
           drawCanvas(currentFrame)
         }
       } else if (active == 4) {
-        var titleMaxLength = assets.data('title').length;
+        var titleMaxLength = Math.max(assets.data('title').length, assets.data('dev').length);
         trimLength += xMove * ratio / (tS / 2);
 
         if (trimLength > titleMaxLength) {
@@ -406,6 +438,7 @@ $(document).ready(function() {
         }
 
         appTitle = trimText(capitalize(assets.data('title')));
+        appDev = trimText(capitalize(assets.data('dev')));
 
         drawCanvas(currentFrame)
       } else if (active == 5) {
@@ -422,6 +455,52 @@ $(document).ready(function() {
       moving = 0;
       $('.js-size').text("");
     }
+  }
+
+  var screens, screen;
+
+  function insertIconScreen() {
+    var canvas = document.createElement("canvas");
+    var r = 100;
+    var w = 336;
+    var h = 420;
+    canvas.width = w;
+    canvas.height = h;
+    var ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0,0,w,h);
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(w / 2, h / 2, r, 0, 2 * Math.PI, false);
+    ctx.clip();
+    ctx.drawImage(appIcon,w / 2 - r,h / 2 - r,r * 2,r * 2);
+    ctx.restore();
+    ctx.beginPath();
+    ctx.arc(w / 2, h / 2, r, 0, 2 * Math.PI, false);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#000000';
+    ctx.stroke();
+
+    var image = new Image();
+    image.src = canvas.toDataURL();
+
+    assets.prepend(image);
+
+    screens = assets.children();
+    screens.eq(0).addClass('active');
+    screen = screens[0];
+
+    screens.on('click', function(){
+      if (!$(this).hasClass('active')) {
+        screens.removeClass('active');
+        $(this).addClass('active');
+        screen = screens[screens.index($(this))];
+
+        drawCanvas(currentFrame)
+      }
+    });
   }
 
   $(window).resize(function(){
