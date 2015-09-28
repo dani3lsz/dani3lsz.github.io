@@ -55,6 +55,10 @@
               '-webkit-transform': 'translate3d(0,'+ dataHeights[i] +'px,0)'
             });
           } else {
+            $(galleryImg[i]).css({
+              '-webkit-transform': ''
+            });
+
             $galleryData.eq(i).css({
               '-webkit-transform': 'translate3d(0,'+ (-maxHeight + imgHeights[i] + dataHeights[i]) +'px,0)'
             });
@@ -85,7 +89,7 @@
     }
   }
 
-  function moveGalleryTo(direction) {
+  function moveGalleryTo(direction,duration) {
     if (direction == 'next') {
       if (activeIndex != maxIndex) {
         activeIndex++
@@ -96,19 +100,21 @@
       }
     }
 
+    duration = typeof duration !== 'undefined' ? duration : speed;
+
     for (var i = 0; i < galleryImg.length; i++) {
       if (i < activeIndex) {
         $galleryElem.eq(i).addClass('prev');
         $galleryElem.eq(i).removeClass('active');
-        moveGalleryElem(i,windowHeight - baseMargin * 2 + visibleHeights[i],speed);
+        moveGalleryElem(i,windowHeight - baseMargin * 2 + visibleHeights[i],duration);
       } else if (i === activeIndex) {
         $galleryElem.eq(i).addClass('active');
         $galleryElem.eq(i).removeClass('next prev');
-        moveGalleryElem(i,activePositions[i],speed);
+        moveGalleryElem(i,activePositions[i],duration);
       } else if (i === activeIndex + 1) {
         $galleryElem.eq(i).addClass('next');
         $galleryElem.eq(i).removeClass('active');
-        moveGalleryElem(i,0,speed);
+        moveGalleryElem(i,0,duration);
       } else {
         $galleryElem.eq(i).removeClass('next');
         $galleryElem.eq(i).css({
@@ -195,7 +201,7 @@
 
     setOrientation();
     setGallery();
-    moveGalleryTo();
+    moveGalleryTo(null,0);
   })
 
 })();
