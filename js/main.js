@@ -1,522 +1,201 @@
-//
-// Handle watch app previews
-//
-
-
-
 (function(){
+  var
+    galleryImg = document.getElementsByClassName('js-gallery-img');
 
-  // Check if apng is supported
-  var aPngSupported = true;
+  var
+    $window = $(window),
+    $stage = $('.js-gallery'),
+    $galleryElem = $('.js-gallery-elem'),
+    $galleryImg = $(galleryImg),
+    $galleryData = $('.js-gallery-data'),
+    $galleryText = $('.js-gallery-text');
 
-  APNG.ifNeeded().then(function () {
-    aPngSupported = false;
-  });
+  var
+    baseMargin = 20,
+    speed = 400,
+    windowWidth = $window.width(),
+    windowHeight = $window.height(),
+    maxHeight,
+    imgHeights = [],
+    dataHeights = [],
+    textHeights = [],
+    visibleHeights = [],
+    activePositions = [],
+    imgOverflows = [],
+    activeIndex = 0,
+    maxIndex = galleryImg.length - 1,
+    isLandscape = false;
 
-  // Chek if touch device
-  var touchDevice = false;
-
-  if ($('html').hasClass('touch')) {
-    touchDevice = true;
+  function setOrientation() {
+    if (windowHeight / windowWidth <= 1 && !isLandscape) {
+      isLandscape = true;
+      $stage.addClass('landscape')
+    } else if (windowHeight / windowWidth > 1 && isLandscape) {
+      isLandscape = false;
+      $stage.removeClass('landscape')
+    }
   }
 
-  // get wrapper class of the apps
-  var watch = $('.js-watch');
-  var playingVidId = false;
+  function setGallery() {
+    maxHeight = windowHeight - 100;
 
-  if (watch.length) {
-    watch.each(function(){
+    if (galleryImg.length) {
+      for (var i = 0; i < galleryImg.length; i++) {
+        imgHeights[i] = Math.round((windowWidth - 2 * baseMargin) / galleryImg[i].getAttribute('width') * galleryImg[i].getAttribute('height'));
+        dataHeights[i] = $galleryData.eq(i).outerHeight();
+        textHeights[i] = $galleryText.eq(i).outerHeight();
 
+        if (imgHeights[i] + dataHeights[i] > maxHeight) {
+          if (imgHeights[i] > maxHeight) {
+            $(galleryImg[i]).css({
+              '-webkit-transform': 'translate3d(0,-'+ (imgHeights[i] - maxHeight) / 2 +'px,0)'
+            });
 
-
-      //
-      // Handle playing previews
-      //
-
-
-
-      var $this = $(this);
-      var elemId = watch.index($this);
-
-      var animated = false;
-      var video = false;
-
-      var base = {};
-      base.stage = $this.find('.js-base');
-
-      var app = {};
-      app.button = $this.find('.js-app-btn');
-      app.stage = $this.find('.js-app');
-      app.playing = false;
-
-      var glance = {};
-      glance.button = $this.find('.js-glance-btn');
-      glance.stage = $this.find('.js-glance');
-      glance.playing = false;
-
-      var notification = {};
-      notification.button = $this.find('.js-notification-btn');
-      notification.stage = $this.find('.js-notification');
-      notification.scroll = $this.find('.js-scroll');
-      notification.playing = false;
-
-      var allObject = [app,glance,notification];
-
-      // click events on the buttons
-      for (var i = 0; i < allObject.length; i++) {
-        (function(){
-          var currentObject = allObject[i];
-
-          currentObject.button.on('click', function(){
-            handleClick(currentObject)
-          });
-        })()
-      }
-
-      // click events on action buttons
-      var mouseMove = false; // used to prevent click at the end of swipes
-
-      $this.find('.js-close').on('click', function(){
-        if (!mouseMove) {
-          stopCurrent()
-        }
-      });
-
-      $this.find('.js-open').on('click', function(){
-        if (!mouseMove) {
-          app.button.eq(0).trigger('click');
-        }
-      });
-
-      // start/stop previews
-      function handleClick(obj) {
-        var stopped = stopCurrent();
-
-        if (stopped) {
-          if(stopped != obj) {
-            startCurrent(obj,500)
+            $galleryData.eq(i).css({
+              '-webkit-transform': 'translate3d(0,'+ dataHeights[i] +'px,0)'
+            });
+          } else {
+            $galleryData.eq(i).css({
+              '-webkit-transform': 'translate3d(0,'+ (-maxHeight + imgHeights[i] + dataHeights[i]) +'px,0)'
+            });
           }
+
+          $(galleryImg[i]).addClass('img-overflow');
+          imgOverflows[i] = true;
+          visibleHeights[i] = maxHeight;
         } else {
-          startCurrent(obj,0)
-        }
-      }
-
-      //start current object
-      function startCurrent(obj,delay) {
-        obj.button.addClass('active');
-        setTimeout(function(){
-          startPlayer(obj)
-        },delay)
-      }
-
-      //stop currently playing object
-      function stopCurrent() {
-        var playing = checkPlayers();
-
-        if (playing) {
-          stopPlayer(playing);
-          playing.button.removeClass('active');
+          visibleHeights[i] = imgHeights[i] + dataHeights[i];
+          imgOverflows[i] = false;
         }
 
-        return playing
-      }
-
-      // check which preview is playing
-      function checkPlayers() {
-        var obj = false;
-
-        for (var i = 0; i < allObject.length; i++) {
-          if (allObject[i].playing) {
-            obj = allObject[i]
-          }
+        if (textHeights[i] > 79 && !$galleryText.eq(i).parent().hasClass('noSwipe')) {
+          $galleryText.eq(i).parent().addClass('noSwipe');
+        } else if (textHeights[i] < 79 && $galleryText.eq(i).parent().hasClass('noSwipe')) {
+          $galleryText.eq(i).parent().removeClass('noSwipe')
         }
 
-        return obj
-      }
+        activePositions[i] = (windowHeight - baseMargin * 2) / 2 + visibleHeights[i] / 2;
 
-      // stop player functions
-      function stopPlayer(obj) {
-        if (obj == app) {
-          if (playingVidId === elemId) {
-            playingVidId = false;
-          }
-
-          base.stage.removeClass('zoom');
-
-          if (animated && !aPngSupported) {
-            app.stage.children("canvas").each(function() { APNG.releaseCanvas(this); })
-          }
-
-          if (animated || video) {
-            app.stage.empty();
-            video = false;
-            animated = false;
-          }
-
-          animateScreenShots('stop');
-
-          app.stage.removeClass('active');
-        } else if (obj == glance) {
-          glance.stage.removeClass('active animate');
-          glance.stage.parent().removeClass('blur');
-        } else if (obj == notification) {
-          notification.stage.removeClass('active animate');
-          notification.stage.parent().removeClass('blur');
-
-          setTimeout(function(){
-            notification.scroll.scrollTop(0);
-          },500)
-        }
-
-        obj.playing = false
-      }
-
-      // start player functions
-      function startPlayer(obj) {
-        if (obj == app) {
-          closeOtherVideos();
-          playingVidId = elemId;
-
-          base.stage.addClass('zoom');
-
-          var animatedSrc = app.stage.data('apng');
-          var videoSrc = app.stage.data('video');
-          var media;
-
-          if (typeof videoSrc != 'undefined' && videoSrc != "" && !touchDevice) {
-            media = '<video src="'+ videoSrc +'" width="136" height="170" preload autoplay loop muted webkit-playsinline >';
-            video = true;
-          } else if (typeof animatedSrc != 'undefined' && animatedSrc != "") {
-            media = '<img src="'+ animatedSrc +'" width="136" height="170" >';
-            animated = true;
-          }
-
-          if (animated || video) {
-            app.stage.append(media);
-          }
-
-          app.stage.addClass('active');
-
-          if (animated && !aPngSupported) {
-            app.stage.children("img").each(function() { APNG.animateImage(this); })
-          }
-
-          animateScreenShots('start')
-        } else if (obj == glance) {
-          glance.stage.addClass('active animate');
-          glance.stage.parent().addClass('blur');
-        } else if (obj == notification) {
-          notification.stage.addClass('active animate');
-          notification.stage.parent().addClass('blur');
-        }
-
-        obj.playing = true
-      }
-
-
-
-      //
-      // Handle app gallery
-      //
-
-
-
-      var gallery = $this.find('.application--gallery');
-      var images = gallery.children();
-      var imagesMaxIndex = images.length - 1;
-      var activeIndex = 0;
-      var nextIndex = 1;
-      var running = false, firstAnimate, secondAnimate;
-
-      function animateScreenShots(control) {
-        if (control == 'start') {
-          running = true;
-
-          loop();
-
-          function loop() {
-            firstAnimate = setTimeout(function(){
-              images.eq(activeIndex).removeClass('w-active').addClass('w-hidden');
-            },3000);
-
-            secondAnimate = setTimeout(function(){
-              images.eq(nextIndex).removeClass('w-hidden').addClass('w-active');
-
-              activeIndex = nextIndex;
-              nextIndex = nextIndex == imagesMaxIndex ? 0 : nextIndex + 1;
-
-              if (running == true) {
-                loop()
-              }
-            },4000);
-          }
-        } else {
-          running = false;
-
-          clearTimeout(firstAnimate);
-          clearTimeout(secondAnimate);
-
-          images.each(function(){
-            if ($(this).hasClass('w-active')) {
-              $(this).removeClass('w-active').addClass('w-hidden')
-            }
-          });
-          images.eq(0).removeClass('w-hidden').addClass('w-active');
-
-          activeIndex = 0;
-          nextIndex = 1;
-        }
-      }
-
-
-
-      //
-      // Handle glance carousel
-      //
-
-
-
-      var tape = $this.find('.js-tape');
-      var dots = $this.find('.js-dots').children();
-      var tapeWidth = tape.width();
-      var index = 0;
-      var maxIndex = dots.length - 1;
-      var speed = 400;
-      var moveHorizontal = false;
-      var moveVertical = false;
-
-      // click on the dots in the carousel
-      dots.on('click', function(){
-        var $this = $(this);
-
-        if (!$this.hasClass('active')) {
-          index = dots.index($this);
-
-          moveTape(index * tapeWidth, speed)
-        }
-      });
-
-      //Init touch swipe
-      tape.parent().swipe({
-        triggerOnTouchEnd: true,
-        triggerOnTouchLeave: true,
-        swipeStatus: swipeGlance,
-        allowPageScroll: "none",
-        threshold: 10,
-        tap: tap
-      });
-
-      // function if glance is tapped
-      function tap(event, target) {
-        app.button.eq(0).trigger('click')
-      }
-
-      // functions if glance is swiped
-      function swipeGlance(event,phase,direction,distance,fingers) {
-
-        //If we are moving before swipe, then manually drag the carousel
-        if (phase == "move") {
-          if (direction == "left") {
-            if (!moveVertical) {
-              moveHorizontal = true;
-
-              moveTape((index * tapeWidth) + distance, 0);
-            }
-          } else if (direction == "right") {
-            if (!moveVertical) {
-              moveHorizontal = true;
-
-              moveTape((index * tapeWidth) - distance, 0);
-            }
-          } else if (direction == "down") {
-            if (!moveHorizontal) {
-              moveVertical = true;
-
-              moveTapeParent(distance, 0);
-            }
-          }
-        } else if (phase == "cancel") {
-          if (moveHorizontal) {
-            moveHorizontal = false;
-
-            moveTape(index * tapeWidth, speed);
-          } else if (moveVertical) {
-            moveVertical = false;
-
-            tape.parent().removeAttr('style');
-          }
-        } else if (phase == "end") {
-          if (moveHorizontal) {
-            moveHorizontal = false;
-
-            if (direction == "right") {
-              if (index != 0) {
-                index -= 1;
-              }
-            } else if (direction == "left") {
-              if (index != maxIndex) {
-                index += 1;
-              }
-            }
-
-            moveTape(index * tapeWidth, speed);
-          } else if (moveVertical) {
-            moveVertical = false;
-
-            glance.button.trigger('click');
-            tape.parent().removeAttr('style');
-          }
-        }
-      }
-
-      // animate the carousel left or right
-      function moveTape(move,duration) {
-        var value = (move < 0 ? "" : "-") + Math.abs(move).toString();
-
-        tape.css({
-          "-webkit-transition-duration": (duration / 1000).toFixed(1) + "s",
-                  "transition-duration": (duration / 1000).toFixed(1) + "s",
-              "-ms-transform": "translate(" + value + "px,0)",
-          "-webkit-transform": "translate3d(" + value + "px,0,0)",
-                  "transform": "translate3d(" + value + "px,0,0)"
-        });
-
-        dots.removeClass('active');
-        dots.eq(index).addClass('active');
-      }
-
-      // animate the carousel's parent down
-      function moveTapeParent(move,duration) {
-        var value = Math.abs(move).toString();
-
-        tape.parent().css({
-          "-webkit-transition-duration": (duration / 1000).toFixed(1) + "s",
-                  "transition-duration": (duration / 1000).toFixed(1) + "s",
-              "-ms-transform": "translate(0," + value + "px)",
-          "-webkit-transform": "translate3d(0," + value + "px,0)",
-                  "transform": "translate3d(0," + value + "px,0)"
+        $(galleryImg[i]).parent().css({
+          'height': visibleHeights[i] + 'px'
         });
       }
 
+      bindSwipe()
+    }
+  }
 
-
-      //
-      // Handle notification touch move on desktop
-      //
-
-
-
-      var scrollPos = notification.scroll.scrollTop();
-
-      //Init touch swipe on desktop
-      if (!touchDevice) {
-        notification.scroll.swipe({
-          triggerOnTouchEnd: true,
-          triggerOnTouchLeave: true,
-          swipeStatus: swipeNotification,
-          threshold: 1
-        });
+  function moveGalleryTo(direction) {
+    if (direction == 'next') {
+      if (activeIndex != maxIndex) {
+        activeIndex++
       }
-
-      // functions if notification is swiped
-      function swipeNotification(event,phase,direction,distance,fingers) {
-
-        // Manual drag
-        if (phase == "start") {
-          scrollPos = notification.scroll.scrollTop();
-        } else if (phase == "move" && (direction == "up" || direction == "down")) {
-          mouseMove = true;
-
-          if (direction == "up")
-            scrollNotification(scrollPos + distance);
-
-          else if (direction == "down")
-            scrollNotification(scrollPos - distance);
-        } else if (phase == "end") {
-          setTimeout(function(){
-            mouseMove = false;
-          },10)
-        }
+    } else if (direction == 'prev') {
+      if (activeIndex != 0) {
+        activeIndex--
       }
+    }
 
-      // Scroll notification
-      function scrollNotification(distance) {
-          notification.scroll.scrollTop(distance)
-      }
-
-    });
-
-    // close previous playing video
-    function closeOtherVideos() {
-      if (playingVidId !== false) {
-        watch.eq(playingVidId).find('.js-app-btn').eq(0).trigger('click')
+    for (var i = 0; i < galleryImg.length; i++) {
+      if (i < activeIndex) {
+        $galleryElem.eq(i).addClass('prev');
+        $galleryElem.eq(i).removeClass('active');
+        moveGalleryElem(i,windowHeight - baseMargin * 2 + visibleHeights[i],speed);
+      } else if (i === activeIndex) {
+        $galleryElem.eq(i).addClass('active');
+        $galleryElem.eq(i).removeClass('next prev');
+        moveGalleryElem(i,activePositions[i],speed);
+      } else if (i === activeIndex + 1) {
+        $galleryElem.eq(i).addClass('next');
+        $galleryElem.eq(i).removeClass('active');
+        moveGalleryElem(i,0,speed);
+      } else {
+        $galleryElem.eq(i).removeClass('next');
+        $galleryElem.eq(i).css({
+          '-webkit-transition-duration': '',
+          '-webkit-transform': ''
+        })
       }
     }
   }
 
+  function moveGalleryElem(index,distance,duration) {
+    if (index < 0 || index > maxIndex) {
+      return
+    }
 
+    var
+      distanceH = 0,
+      distanceV = 0;
 
-  //
-  // Start app on phone
-  //
+    if (isLandscape) {
+      distanceH = distance
+    } else {
+      distanceV = distance
+    }
 
-  var $window = $(window);
-  var windowWidth = $window.width();
+    duration = duration || 0;
 
-  if (watch.length && touchDevice && windowWidth < 600) {
-    playInView();
-
-    $window.scroll(function(){
-      playInView()
-    });
-  }
-
-  function playInView() {
-    var scrollTop = $window.scrollTop();
-    var windowHeight = $window.height();
-
-    watch.each(function(){
-      var $this = $(this);
-
-      if (!$this.hasClass('started')) {
-        var elemOffset = $this.offset().top;
-
-        if (elemOffset + 250 < windowHeight + scrollTop) {
-          $this.find('.js-autoplay').eq(0).trigger('click');
-          $this.addClass('started')
-        }
-      }
+    $galleryElem.eq(index).css({
+      '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
+      '-webkit-transform': 'translate3d(-'+ distanceH +'px,-'+ distanceV +'px,0)'
     })
   }
 
-
-
-  //
-  // Insert actual time into the watches
-  //
-
-  var time = $('.js-time');
-
-  function updateClock() {
-    var currentTime = new Date();
-    var currentHours = currentTime.getHours();
-    var currentMinutes = currentTime.getMinutes();
-
-    // Pad the minutes and seconds with leading zeros, if required
-    currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
-
-    // Compose the string for display
-    var currentTimeString = currentHours + ":" + currentMinutes;
-
-    time.html(currentTimeString);
+  function swipeStage(event,phase,direction,distance,fingers) {
+    if (phase == 'move') {
+      if (direction == 'up' || direction == 'left') {
+        moveGalleryElem(activeIndex,activePositions[activeIndex] + distance);
+        moveGalleryElem(activeIndex + 1,distance / 2)
+      } else if (direction == 'down' || direction == 'right') {
+        $galleryElem.eq(activeIndex).addClass('next');
+        $galleryElem.eq(activeIndex + 1).removeClass('next');
+        $galleryElem.eq(activeIndex + 1).css({
+          '-webkit-transition-duration': '',
+          '-webkit-transform': ''
+        });
+        moveGalleryElem(activeIndex,activePositions[activeIndex] - distance);
+        moveGalleryElem(activeIndex - 1,windowHeight - baseMargin * 2 + visibleHeights[activeIndex - 1] - distance / 2)
+      }
+    } else if (phase == 'end') {
+      if (distance > 70) {
+        direction == 'up' || direction == 'left' ? moveGalleryTo('next') : moveGalleryTo('prev');
+      } else if (distance > 0) {
+        moveGalleryTo()
+      } else {
+        if (imgOverflows[activeIndex]) {
+          $(galleryImg[activeIndex]).toggleClass('img-overflow')
+        }
+      }
+    }
   }
 
-  setInterval(updateClock, 1000);
+  function tapStage(event,target) {
+    console.log(target)
+  }
+
+  function bindSwipe(){
+    $stage.swipe('destroy');
+
+    $stage.swipe({
+      swipeStatus: swipeStage,
+      threshold: 0,
+      allowPageScroll: 'none',
+      triggerOnTouchEnd: true
+    });
+  }
+
+  setOrientation();
+  setGallery();
+  moveGalleryTo();
+
+  $window.resize(function(){
+    windowWidth = $window.width();
+    windowHeight = $window.height();
+
+    setOrientation();
+    setGallery();
+    moveGalleryTo();
+  })
 
 })();
-
-// stop loading indicator
-
-$(window).load(function(){
-  $('.js-load').addClass('loaded')
-});
