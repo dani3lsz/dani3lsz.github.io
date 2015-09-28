@@ -14,11 +14,13 @@ body {
 h1, h2, h3, h4, h4, h6 {
   margin: 20px;
   opacity: .9;
+  -webkit-text-size-adjust: 100%
 }
 
 p {
   margin: 20px;
   opacity: .7;
+  -webkit-text-size-adjust: 100%
 }
 
 .tc-gallery {
@@ -60,7 +62,6 @@ p {
       left: 20px;
       width: -webkit-calc(100% - 40px);
       max-height: -webkit-calc(100% - 60px);
-      height: 100px;
       background-repeat:   no-repeat;
       background-position: center center;
       background-size:     cover;
@@ -75,11 +76,13 @@ p {
 
     .landscape > .tc-gallery__elem {
       top:  20px;
-      left: 50%;
-      width: auto;
+      left:  -webkit-calc(100% - 30px);
       height: -webkit-calc(100% - 40px);
-      max-width: -webkit-calc(100% - 60px);
+      width: 200px;
+      max-width: -webkit-calc(100% - 40px);
       max-height: none;
+      -webkit-transform-origin: 0 50%;
+      -webkit-transform: scale(.9) translate3d(-30px,0,0);
     }
 
     .tc-gallery__elem.next {
@@ -92,6 +95,10 @@ p {
       z-index: 1;
       opacity: .5;
       -webkit-transform: scale(.95) translate3d(0,-15px,0);
+    }
+
+    .landscape > .tc-gallery__elem.next + .tc-gallery__elem {
+      -webkit-transform: scale(.95) translate3d(-15px,0,0);
     }
 
     .tc-gallery__elem.active {
@@ -113,6 +120,11 @@ p {
         -webkit-transition: -webkit-transform .4s ease-in-out;
       }
 
+      .landscape > .tc-gallery__elem > img {
+        width:  auto;
+        height: 100%;
+      }
+
       .tc-gallery__elem > img.img-overflow {
         -webkit-transform: translate3d(0,0,0) !important;
       }
@@ -125,6 +137,14 @@ p {
         background-color: rgba(68,68,68,.6);
         -webkit-backdrop-filter: blur(40px);
         -webkit-transition: .4s ease-in-out;
+      }
+
+      .landscape .tc-gallery__elem__data {
+        top:    0;
+        right:  0;
+        bottom: 0;
+        left: auto;
+        width: 150px;
       }
 
       .img-overflow + .tc-gallery__elem__data {
@@ -148,6 +168,12 @@ p {
           -webkit-transition: .4s ease-in-out;
         }
 
+        .landscape .tc-gallery__elem__data:before {
+          top:   10px;
+          left: -46px;
+
+        }
+
         .img-overflow + .tc-gallery__elem__data:before {
           opacity: 1;
         }
@@ -156,6 +182,9 @@ p {
           margin: 0 10px;
           font-size: 24px;
           line-height: 45px;
+          white-space: nowrap !important;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .tc-gallery__elem__data__wrap {
@@ -164,6 +193,11 @@ p {
           overflow-x: hidden;
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
+        }
+
+        .landscape .tc-gallery__elem__data__wrap {
+          height: -webkit-calc(100% - 55px);
+          max-height: none;
         }
 
         .tc-gallery__elem__data__wrap.noSwipe {

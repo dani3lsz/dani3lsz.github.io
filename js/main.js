@@ -15,12 +15,13 @@
     speed = 400,
     windowWidth = $window.width(),
     windowHeight = $window.height(),
-    maxHeight,
-    imgHeights = [],
-    dataHeights = [],
-    textHeights = [],
-    visibleHeights = [],
+    maxSize,
+    imgSizes = [],
+    dataSizes = [],
+    textSizes = [],
+    visibleSizes = [],
     activePositions = [],
+    finalPositions = [],
     imgOverflows = [],
     activeIndex = 0,
     maxIndex = galleryImg.length - 1,
@@ -37,52 +38,94 @@
   }
 
   function setGallery() {
-    maxHeight = windowHeight - 100;
+    maxSize = isLandscape ? windowWidth - 80 : windowHeight - 100;
 
     if (galleryImg.length) {
       for (var i = 0; i < galleryImg.length; i++) {
-        imgHeights[i] = Math.round((windowWidth - 2 * baseMargin) / galleryImg[i].getAttribute('width') * galleryImg[i].getAttribute('height'));
-        dataHeights[i] = $galleryData.eq(i).outerHeight();
-        textHeights[i] = $galleryText.eq(i).outerHeight();
+        if (isLandscape) {
+          imgSizes[i] = Math.round((windowHeight - 3 * baseMargin) / galleryImg[i].getAttribute('height') * galleryImg[i].getAttribute('width'));
+          dataSizes[i] = 150; // hardcoded b/c of bug = to .landscape .tc-gallery__elem__data width
+        } else {
+          imgSizes[i] = Math.round((windowWidth - 2 * baseMargin) / galleryImg[i].getAttribute('width') * galleryImg[i].getAttribute('height'));
+          dataSizes[i] = $galleryData.eq(i).outerHeight();
+        }
 
-        if (imgHeights[i] + dataHeights[i] > maxHeight) {
-          if (imgHeights[i] > maxHeight) {
-            $(galleryImg[i]).css({
-              '-webkit-transform': 'translate3d(0,-'+ (imgHeights[i] - maxHeight) / 2 +'px,0)'
+        if (imgSizes[i] + dataSizes[i] > maxSize) {
+          if (imgSizes[i] > maxSize) {
+            var x = 0, y = 0, x1 = 0, y1 = 0;
+
+            if (isLandscape) {
+              x = -(imgSizes[i] - maxSize) / 2;
+              x1 = dataSizes[i]
+            } else {
+              y = -(imgSizes[i] - maxSize) / 2;
+              y1 = dataSizes[i]
+            }
+
+            $galleryImg.eq(i).css({
+              '-webkit-transform': 'translate3d('+ x +'px,'+ y +'px,0)'
             });
 
             $galleryData.eq(i).css({
-              '-webkit-transform': 'translate3d(0,'+ dataHeights[i] +'px,0)'
+              '-webkit-transform': 'translate3d('+ x1 +'px,'+ y1 +'px,0)'
             });
           } else {
-            $(galleryImg[i]).css({
+            var x2 = 0, y2 = 0;
+
+            if (isLandscape) {
+              x2 = -maxSize + imgSizes[i] + dataSizes[i];
+            } else {
+              y2 = -maxSize + imgSizes[i] + dataSizes[i];
+            }
+
+            $galleryImg.eq(i).css({
               '-webkit-transform': ''
             });
 
             $galleryData.eq(i).css({
-              '-webkit-transform': 'translate3d(0,'+ (-maxHeight + imgHeights[i] + dataHeights[i]) +'px,0)'
+              '-webkit-transform': 'translate3d('+ x2 +'px,'+ y2 +'px,0)'
             });
           }
 
-          $(galleryImg[i]).addClass('img-overflow');
+          $galleryImg.eq(i).addClass('img-overflow');
           imgOverflows[i] = true;
-          visibleHeights[i] = maxHeight;
+          visibleSizes[i] = maxSize;
         } else {
-          visibleHeights[i] = imgHeights[i] + dataHeights[i];
+          $galleryImg.eq(i).removeClass('img-overflow');
+          $galleryData.eq(i).css({
+            '-webkit-transform': ''
+          });
+
+          visibleSizes[i] = imgSizes[i] + dataSizes[i];
           imgOverflows[i] = false;
         }
 
-        if (textHeights[i] > 79 && !$galleryText.eq(i).parent().hasClass('noSwipe')) {
-          $galleryText.eq(i).parent().addClass('noSwipe');
-        } else if (textHeights[i] < 79 && $galleryText.eq(i).parent().hasClass('noSwipe')) {
-          $galleryText.eq(i).parent().removeClass('noSwipe')
+        activePositions[i] = isLandscape ? (windowWidth - baseMargin) / 2 + visibleSizes[i] / 2 : (windowHeight - baseMargin * 2) / 2 + visibleSizes[i] / 2;
+        finalPositions[i] = isLandscape ? windowWidth - baseMargin + visibleSizes[i] : windowHeight - baseMargin * 2 + visibleSizes[i];
+
+        if (isLandscape) {
+          $galleryImg.eq(i).parent().css({
+            'width': visibleSizes[i] + 'px',
+            'height': ''
+          });
+        } else {
+          $galleryImg.eq(i).parent().css({
+            'width': '',
+            'height': visibleSizes[i] + 'px'
+          });
         }
 
-        activePositions[i] = (windowHeight - baseMargin * 2) / 2 + visibleHeights[i] / 2;
+        var limit = isLandscape ? windowHeight - 95 : 79;
 
-        $(galleryImg[i]).parent().css({
-          'height': visibleHeights[i] + 'px'
-        });
+        textSizes[i] = $galleryText.eq(i).height();
+
+        console.log(textSizes[i]);
+
+        if (textSizes[i] > limit && !$galleryText.eq(i).parent().hasClass('noSwipe')) {
+          $galleryText.eq(i).parent().addClass('noSwipe');
+        } else if (textSizes[i] < limit && $galleryText.eq(i).parent().hasClass('noSwipe')) {
+          $galleryText.eq(i).parent().removeClass('noSwipe')
+        }
       }
 
       bindSwipe()
@@ -106,7 +149,7 @@
       if (i < activeIndex) {
         $galleryElem.eq(i).addClass('prev');
         $galleryElem.eq(i).removeClass('active');
-        moveGalleryElem(i,windowHeight - baseMargin * 2 + visibleHeights[i],duration);
+        moveGalleryElem(i,finalPositions[i],duration);
       } else if (i === activeIndex) {
         $galleryElem.eq(i).addClass('active');
         $galleryElem.eq(i).removeClass('next prev');
@@ -161,7 +204,7 @@
           '-webkit-transform': ''
         });
         moveGalleryElem(activeIndex,activePositions[activeIndex] - distance);
-        moveGalleryElem(activeIndex - 1,windowHeight - baseMargin * 2 + visibleHeights[activeIndex - 1] - distance / 2)
+        moveGalleryElem(activeIndex - 1,finalPositions[activeIndex - 1] - distance / 2)
       }
     } else if (phase == 'end') {
       if (distance > 70) {
@@ -170,14 +213,10 @@
         moveGalleryTo()
       } else {
         if (imgOverflows[activeIndex]) {
-          $(galleryImg[activeIndex]).toggleClass('img-overflow')
+          $galleryImg.eq(activeIndex).toggleClass('img-overflow')
         }
       }
     }
-  }
-
-  function tapStage(event,target) {
-    console.log(target)
   }
 
   function bindSwipe(){
@@ -202,6 +241,11 @@
     setOrientation();
     setGallery();
     moveGalleryTo(null,0);
+  });
+
+  $window.load(function(){
+    setGallery();
+    moveGalleryTo();
   })
 
 })();
