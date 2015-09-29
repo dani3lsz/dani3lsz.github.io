@@ -38,31 +38,42 @@
   }
 
   function setGallery() {
-    maxSize = isLandscape ? windowWidth - 80 : windowHeight - 100;
+    maxSize = isLandscape ? windowWidth - 80 : windowHeight - 80;
 
     if (galleryImg.length) {
       for (var i = 0; i < galleryImg.length; i++) {
         if (isLandscape) {
-          imgSizes[i] = Math.round((windowHeight - 3 * baseMargin) / galleryImg[i].getAttribute('height') * galleryImg[i].getAttribute('width'));
-          dataSizes[i] = 150; // hardcoded b/c of bug = to .landscape .tc-gallery__elem__data width
+          imgSizes[i] = Math.round((windowHeight - 2 * baseMargin) / galleryImg[i].getAttribute('height') * galleryImg[i].getAttribute('width'));
+          dataSizes[i] = 250; // hardcoded b/c of bug = to .landscape .tc-gallery__elem__data width
         } else {
           imgSizes[i] = Math.round((windowWidth - 2 * baseMargin) / galleryImg[i].getAttribute('width') * galleryImg[i].getAttribute('height'));
           dataSizes[i] = $galleryData.eq(i).outerHeight();
         }
 
-        if (dataSizes[i] > maxSize / 2) {
+        if (isLandscape) {
+          $galleryText.eq(i).addClass('noSwipe');
+
+          $galleryData.eq(i).css({
+            'width': dataSizes[i] + 'px',
+            'height': ''
+          })
+        } else if (dataSizes[i] > maxSize / 2) {
           dataSizes[i] = maxSize / 2;
 
           $galleryText.eq(i).addClass('noSwipe');
 
           $galleryData.eq(i).css({
+            'width': '',
             'height': dataSizes[i] + 'px'
           })
         } else {
-          $galleryText.eq(i).removeClass('noSwipe')
-        }
+          $galleryText.eq(i).removeClass('noSwipe');
 
-        console.log(dataSizes[i])
+          $galleryData.eq(i).css({
+            'width': '',
+            'height': ''
+          })
+        }
 
         if (imgSizes[i] + dataSizes[i] > maxSize) {
           if (imgSizes[i] > maxSize) {
@@ -106,6 +117,10 @@
           visibleSizes[i] = maxSize;
         } else {
           $galleryImg.eq(i).removeClass('img-overflow');
+          $galleryImg.eq(i).css({
+            '-webkit-transform': ''
+          });
+
           $galleryData.eq(i).css({
             '-webkit-transform': ''
           });
@@ -114,8 +129,8 @@
           imgOverflows[i] = false;
         }
 
-        activePositions[i] = isLandscape ? (windowWidth - baseMargin) / 2 + visibleSizes[i] / 2 : (windowHeight - baseMargin * 2) / 2 + visibleSizes[i] / 2;
-        finalPositions[i] = isLandscape ? windowWidth - baseMargin + visibleSizes[i] : windowHeight - baseMargin * 2 + visibleSizes[i];
+        activePositions[i] = isLandscape ? (windowWidth - baseMargin) / 2 + visibleSizes[i] / 2 : (windowHeight - baseMargin) / 2 + visibleSizes[i] / 2;
+        finalPositions[i] = isLandscape ? windowWidth - baseMargin + visibleSizes[i] : windowHeight - baseMargin + visibleSizes[i];
 
         if (isLandscape) {
           $galleryImg.eq(i).parent().css({
