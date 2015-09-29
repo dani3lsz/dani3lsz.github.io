@@ -50,6 +50,20 @@
           dataSizes[i] = $galleryData.eq(i).outerHeight();
         }
 
+        if (dataSizes[i] > maxSize / 2) {
+          dataSizes[i] = maxSize / 2;
+
+          $galleryText.eq(i).addClass('noSwipe');
+
+          $galleryData.eq(i).css({
+            'height': dataSizes[i] + 'px'
+          })
+        } else {
+          $galleryText.eq(i).removeClass('noSwipe')
+        }
+
+        console.log(dataSizes[i])
+
         if (imgSizes[i] + dataSizes[i] > maxSize) {
           if (imgSizes[i] > maxSize) {
             var x = 0, y = 0, x1 = 0, y1 = 0;
@@ -115,17 +129,6 @@
           });
         }
 
-        var limit = isLandscape ? windowHeight - 95 : 79;
-
-        textSizes[i] = $galleryText.eq(i).height();
-
-        console.log(textSizes[i]);
-
-        if (textSizes[i] > limit && !$galleryText.eq(i).parent().hasClass('noSwipe')) {
-          $galleryText.eq(i).parent().addClass('noSwipe');
-        } else if (textSizes[i] < limit && $galleryText.eq(i).parent().hasClass('noSwipe')) {
-          $galleryText.eq(i).parent().removeClass('noSwipe')
-        }
       }
 
       bindSwipe()
@@ -242,10 +245,5 @@
     setGallery();
     moveGalleryTo(null,0);
   });
-
-  $window.load(function(){
-    setGallery();
-    moveGalleryTo();
-  })
 
 })();
