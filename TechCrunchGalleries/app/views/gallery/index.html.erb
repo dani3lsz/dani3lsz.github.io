@@ -1,0 +1,12 @@
+<h1>Gallery Index</h1>
+
+<ul>
+	<li>
+		<a href="/gallery/a-brief-history-of-spotify">Special Case with Video</a>
+	</li>
+	<% @index['gallery'].each do |gallery| %>
+		<li>
+			<a href="<%= gallery['link'].split('techcrunch.com').last %>"><%= gallery['title'] %></a>
+		</li>
+	<% end %>
+</ul>

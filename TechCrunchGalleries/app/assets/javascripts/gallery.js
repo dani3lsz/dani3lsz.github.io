@@ -1,5 +1,7 @@
 $(window).load(function(){
+  console.log('hey');
   $('body').addClass('loaded');
+  console.log('loaded');
 
   var
     galleryImg = document.getElementsByClassName('js-gallery-img');
