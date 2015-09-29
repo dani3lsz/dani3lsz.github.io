@@ -1,4 +1,6 @@
-(function(){
+$(window).load(function(){
+  $('body').addClass('loaded');
+  
   var
     galleryImg = document.getElementsByClassName('js-gallery-img');
 
@@ -50,10 +52,10 @@
     if (galleryImg.length) {
       for (var i = 0; i < galleryImg.length; i++) {
         if (isLandscape) {
-          imgSizes[i] = Math.round((windowHeight - 2 * baseMargin) / galleryImg[i].getAttribute('height') * galleryImg[i].getAttribute('width'));
+          imgSizes[i] = Math.round((windowHeight - 2 * baseMargin) / galleryImg[i].height * galleryImg[i].width);
           dataSizes[i] = 250; // hardcoded b/c of bug = to .landscape .tc-gallery__elem__data width
         } else {
-          imgSizes[i] = Math.round((windowWidth - 2 * baseMargin) / galleryImg[i].getAttribute('width') * galleryImg[i].getAttribute('height'));
+          imgSizes[i] = Math.round((windowWidth - 2 * baseMargin) / galleryImg[i].width * galleryImg[i].height);
           dataSizes[i] = $galleryData.eq(i).outerHeight();
         }
 
@@ -267,5 +269,4 @@
     setGallery();
     moveGalleryTo(null,0);
   });
-
-})();
+});

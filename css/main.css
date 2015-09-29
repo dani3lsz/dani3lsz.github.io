@@ -28,9 +28,14 @@ p {
   height: 100%;
   overflow: hidden;
   color: #fff;
+  opacity: 0;
   -webkit-overflow-scrolling: touch;
   -webkit-scroll-snap-type: mandatory;
   -webkit-scroll-snap-destination: 0 100%;
+}
+
+.loaded > .tc-gallery {
+  opacity: 1;
 }
 
     .tc-gallery__elem {
@@ -242,3 +247,41 @@ p {
               line-height: 17px;
             }
 
+.loader {
+  position: absolute;
+  top:  50%;
+  left: 50%;
+  width:  30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border: 4px solid #089E00;
+  animation: loader 2s infinite ease;
+}
+
+.loaded > .loader {
+  display: none;
+}
+
+.loader-inner {
+  width:  100%;
+  height: 100%;
+  background-color: #089E00;
+  -webkit-transform-origin: 50% 0;
+  animation: loader-inner 2s infinite ease-in;
+}
+
+@keyframes loader {
+  0% {transform: rotate(0deg);}
+  25% {transform: rotate(180deg);}
+  50% {transform: rotate(180deg);}
+  75% {transform: rotate(360deg);}
+  100% {transform: rotate(360deg);}
+}
+
+@keyframes loader-inner {
+  0% {-webkit-transform: scaleY(0);}
+  25% {-webkit-transform: scaleY(0);}
+  50% {-webkit-transform: scaleY(1);}
+  75% {-webkit-transform: scaleY(1);}
+  100% {-webkit-transform: scaleY(0);}
+}
