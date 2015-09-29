@@ -18,13 +18,12 @@
     maxSize,
     imgSizes = [],
     dataSizes = [],
-    textSizes = [],
     visibleSizes = [],
     activePositions = [],
     finalPositions = [],
     imgOverflows = [],
     activeIndex = 0,
-    maxIndex = galleryImg.length - 1,
+    maxIndex = galleryImg.length,
     isLandscape = false;
 
   function setOrientation() {
@@ -39,6 +38,14 @@
 
   function setGallery() {
     maxSize = isLandscape ? windowWidth - 80 : windowHeight - 80;
+
+    if (isLandscape) {
+      activePositions[0] = windowWidth / 2;
+      finalPositions[0] = windowWidth * 1.5
+    } else {
+      activePositions[0] = windowHeight / 2;
+      finalPositions[0] = windowHeight * 1.5
+    }
 
     if (galleryImg.length) {
       for (var i = 0; i < galleryImg.length; i++) {
@@ -129,8 +136,8 @@
           imgOverflows[i] = false;
         }
 
-        activePositions[i] = isLandscape ? (windowWidth - baseMargin) / 2 + visibleSizes[i] / 2 : (windowHeight - baseMargin) / 2 + visibleSizes[i] / 2;
-        finalPositions[i] = isLandscape ? windowWidth - baseMargin + visibleSizes[i] : windowHeight - baseMargin + visibleSizes[i];
+        activePositions[i+1] = isLandscape ? (windowWidth - baseMargin) / 2 + visibleSizes[i] / 2 : (windowHeight - baseMargin) / 2 + visibleSizes[i] / 2;
+        finalPositions[i+1] = isLandscape ? windowWidth - baseMargin + visibleSizes[i] : windowHeight - baseMargin + visibleSizes[i];
 
         if (isLandscape) {
           $galleryImg.eq(i).parent().css({
@@ -163,7 +170,7 @@
 
     duration = typeof duration !== 'undefined' ? duration : speed;
 
-    for (var i = 0; i < galleryImg.length; i++) {
+    for (var i = 0; i <= galleryImg.length; i++) {
       if (i < activeIndex) {
         $galleryElem.eq(i).addClass('prev');
         $galleryElem.eq(i).removeClass('active');
@@ -230,8 +237,8 @@
       } else if (distance > 0) {
         moveGalleryTo()
       } else {
-        if (imgOverflows[activeIndex]) {
-          $galleryImg.eq(activeIndex).toggleClass('img-overflow')
+        if (imgOverflows[activeIndex-1]) {
+          $galleryImg.eq(activeIndex-1).toggleClass('img-overflow')
         }
       }
     }
