@@ -618,9 +618,26 @@ a {
 
 
 .tv {
-  height: 100%;
+  position: fixed;
+  top:    0;
+  right:  0;
+  bottom: 0;
+  left:   0;
   overflow: hidden;
 }
+
+  .tv__bg {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    opacity: .3;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-image: url("../images/bg.jpg");
+  }
 
   .tv__channels {
 
@@ -642,6 +659,14 @@ a {
       width:  100%;
       height: 100%;
     }
+
+  .tv__stage {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+  }
 
 
 

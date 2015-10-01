@@ -22,7 +22,7 @@
 
   var
     $global = $(global),
-    $stage = $('.js-tv'),
+    $stage = $('.js-stage'),
     $channels = $('.js-channels'),
     $video = $('.js-video');
 
@@ -69,7 +69,7 @@
     iframe.type = 'text/html';
     iframe.width = videoWidth;
     iframe.height = videoHeight;
-    iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?enablejsapi=1';
+    iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?autohide=1&rel=0&iv_load_policy=3&enablejsapi=1';
     iframe.frameBorder = 0;
 
     $video.eq(i).append(iframe);
@@ -119,7 +119,7 @@
   }
 
 
-  //
+  // called if video ends
   function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.ENDED) {
       playNextVideo()
