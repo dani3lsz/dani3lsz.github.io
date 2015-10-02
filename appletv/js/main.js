@@ -145,7 +145,7 @@
   // called if video ends
   function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.ENDED) {
-      playNextVideo()
+      playNextVideo('up')
     }
   }
 
@@ -176,7 +176,7 @@
     else if (direction == 'up')
       moveVideo(activeIndex - 1,posActive[0],-globalHeight - videoHeight,1,speed);
 
-    moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
+    moveVideo(activeIndex,posActive[0],-posActive[1],fullScreen ? scale : 1,speed);
 
     if (activeIndex != maxIndex)
     moveVideo(activeIndex + 1,posNext[0],-posNext[1],1,speed)
@@ -194,6 +194,10 @@
       '-webkit-transform': 'translate3d('+ distanceH +'px,'+ distanceV +'px,0) scale('+ scale +')'
     })
   }
+
+  $global.resize(function(){
+    getValues()
+  });
 
 
   // called if yt iframe api is loaded
