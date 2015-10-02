@@ -14,10 +14,12 @@
     globalHeight,
     videoWidth,
     videoHeight,
-    speed= 400,
-    activeIndex = 0,
+    speed = 400,
+    activeIndex = -1, // on start it needs to be -1
     maxIndex = ytArr.length - 1,
     posNext, posActive, posVote,
+    fullScreen = false,
+    scale,
     player = {};
 
   var
@@ -37,11 +39,12 @@
   function getValues() {
     globalWidth = $global.width();
     globalHeight = $global.height();
-    videoWidth = Math.round(globalWidth * 0.8);
+    videoWidth = Math.round(globalWidth) * 0.8;
     videoHeight = Math.round(videoWidth * 0.5625);
     posNext = [0, (globalHeight - videoHeight) / 4];
     posActive = [0, globalHeight / 2 + videoHeight / 2];
     posVote = [globalWidth / 2 + videoWidth / 2, globalHeight / 2 + videoHeight / 2];
+    scale = globalWidth / videoWidth;
 
     setValues()
   }
@@ -69,7 +72,7 @@
     iframe.type = 'text/html';
     iframe.width = videoWidth;
     iframe.height = videoHeight;
-    iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?autohide=1&rel=0&iv_load_policy=3&enablejsapi=1';
+    iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?autohide=1&rel=0&iv_load_policy=3&enablejsapi=1&controls=0';
     iframe.frameBorder = 0;
 
     $video.eq(i).append(iframe);
@@ -83,9 +86,31 @@
 
   // handle swipes
   function swipeStage(event,phase,direction,distance,fingers) {
-    if (phase == 'move') {
+    if (phase == 'move' && !fullScreen) {
+      if (direction == 'left') {
+        moveVideo(activeIndex,posActive[0] - distance,-posActive[1],1,0);
+      } else if (direction == 'right') {
+        moveVideo(activeIndex,posActive[0] + distance,-posActive[1],1,0);
+      } else if (direction == 'up') {
+        moveVideo(activeIndex,posActive[0],-posActive[1] - distance,1,0);
+        moveVideo(activeIndex + 1,posNext[0],-posNext[1] - distance,1,0);
+      } else if (direction == 'down') {
 
+      }
     } else if (phase == 'end') {
+      if (distance === 0) {
+        if (fullScreen) {
+          fullScreen = false;
+          moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
+        } else {
+          fullScreen = true;
+          moveVideo(activeIndex,posActive[0],-posActive[1],scale,speed);
+        }
+
+      } else {
+        if (direction != 'down' && !fullScreen) playNextVideo(direction)
+      }
+
 
     }
   }
@@ -113,9 +138,7 @@
 
   // called if the first video is ready to play
   function onPlayerReady(event) {
-    event.target.playVideo();
-    moveVideo(activeIndex,posActive[0],-posActive[1],speed);
-    moveVideo(activeIndex + 1,posNext[0],-posNext[1],speed)
+    playNextVideo()
   }
 
 
@@ -128,34 +151,47 @@
 
 
   // play next video
-  function playNextVideo() {
-    if (activeIndex == maxIndex) return;
+  function playNextVideo(direction) {
+    if (activeIndex == maxIndex) {
+      moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
+      return
+    }
+
+    if (activeIndex >= 0) {
+      player[activeIndex].stopVideo();
+      $video.eq(activeIndex).removeClass('active')
+    }
 
     activeIndex++;
 
     addVideo(activeIndex + 1);
 
     player[activeIndex].playVideo();
+    $video.eq(activeIndex).addClass('active');
 
-    moveVideo(activeIndex - 1,posVote[0],-posVote[1],speed);
-    moveVideo(activeIndex,posActive[0],-posActive[1],speed);
+    if (direction == 'left')
+      moveVideo(activeIndex - 1,-posVote[0],-posVote[1],1,speed);
+    else if (direction == 'right')
+      moveVideo(activeIndex - 1,posVote[0],-posVote[1],1,speed);
+    else if (direction == 'up')
+      moveVideo(activeIndex - 1,posActive[0],-globalHeight - videoHeight,1,speed);
+
+    moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
 
     if (activeIndex != maxIndex)
-    moveVideo(activeIndex + 1,posNext[0],-posNext[1],speed)
+    moveVideo(activeIndex + 1,posNext[0],-posNext[1],1,speed)
   }
 
 
   // move video
-  function moveVideo(index,distanceH,distanceV,duration) {
+  function moveVideo(index,distanceH,distanceV,scale,duration) {
     if (index < 0 || index > maxIndex) return;
 
-    distanceH = distanceH || 0;
-    distanceV = distanceV || 0;
     duration = duration || 0;
 
     $video.eq(index).css({
       '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
-      '-webkit-transform': 'translate3d('+ distanceH +'px,'+ distanceV +'px,0)'
+      '-webkit-transform': 'translate3d('+ distanceH +'px,'+ distanceV +'px,0) scale('+ scale +')'
     })
   }
 
@@ -163,7 +199,6 @@
   // called if yt iframe api is loaded
   global.onYouTubeIframeAPIReady = function() {
     addVideo(0);
-    addVideo(1)
   };
 
 

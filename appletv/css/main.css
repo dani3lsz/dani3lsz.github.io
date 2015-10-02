@@ -652,6 +652,10 @@ a {
             transform: translate3d(0,0,0);
   }
 
+  .tv__video.active {
+    z-index: 1;
+  }
+
     .tv__video > iframe {
       position: absolute;
       top:  0;
@@ -662,6 +666,7 @@ a {
 
   .tv__stage {
     position: absolute;
+    z-index: 2;
     top:    0;
     right:  0;
     bottom: 0;
