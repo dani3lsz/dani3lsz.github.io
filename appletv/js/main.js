@@ -72,7 +72,7 @@
     iframe.type = 'text/html';
     iframe.width = videoWidth;
     iframe.height = videoHeight;
-    iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?autohide=1&rel=0&iv_load_policy=3&enablejsapi=1&controls=0';
+    iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?autohide=1&rel=0&iv_load_policy=3&enablejsapi=1&controls=0&playsinline=1';
     iframe.frameBorder = 0;
 
     $video.eq(i).append(iframe);
