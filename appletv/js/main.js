@@ -71,8 +71,8 @@
     var iframe = document.createElement('iframe');
     iframe.id = 'player' + i;
     iframe.type = 'text/html';
-    iframe.width = videoWidth;
-    iframe.height = videoHeight;
+    iframe.width = videoWidth * 2;
+    iframe.height = videoHeight * 2;
     iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?autohide=1&rel=0&iv_load_policy=3&enablejsapi=1&controls=0&playsinline=1&vq=hd720';
     iframe.frameBorder = 0;
 
