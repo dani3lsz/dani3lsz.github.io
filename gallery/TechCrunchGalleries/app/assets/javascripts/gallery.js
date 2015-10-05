@@ -62,7 +62,7 @@ $(window).load(function(){
         }
 
         if (isLandscape) {
-          $galleryText.eq(i).addClass('noSwipe');
+          //$galleryText.eq(i).addClass('noSwipe');
 
           $galleryData.eq(i).css({
             'width': dataSizes[i] + 'px',
@@ -71,7 +71,7 @@ $(window).load(function(){
         } else if (dataSizes[i] > maxSize / 2) {
           dataSizes[i] = maxSize / 2;
 
-          $galleryText.eq(i).addClass('noSwipe');
+          //$galleryText.eq(i).addClass('noSwipe');
 
           $galleryData.eq(i).css({
             'width': '',

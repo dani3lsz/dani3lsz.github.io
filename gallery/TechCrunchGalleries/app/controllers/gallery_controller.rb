@@ -12,10 +12,13 @@ class GalleryController < ApplicationController
     uri = "https://zr52d8r7tc.execute-api.us-east-1.amazonaws.com/test/parse?url=http://techcrunch.com/gallery/#{@gallerySlug}/"
     request = Typhoeus.get(uri, followlocation: true)
     @gallery = JSON.parse(request.body)
+    @title = @gallery['title']
     # Reformat Slides
+    @gallery['description'] = (@gallery['description'].to_s.split('.')[0..3].join('. ')+".").gsub('. .','')
     @gallery['slides'].each_with_index do |slide,idx|
       if slide['image']
         @gallery['slides'][idx]['type'] = 'image'
+        @gallery['leadImage'] = slide['image'] #unless @gallery['leadImage']
       elsif slide['slide-html'].include?('youtube-holder')
         @gallery['slides'][idx]['type'] = 'youtube'
         @gallery['slides'][idx]['iframe'] = slide['slide-html'].to_s.scan(/<iframe.+\/iframe>/).first
@@ -28,5 +31,6 @@ class GalleryController < ApplicationController
       @gallery['slides'][idx]['description'] = @gallery['captions'][idx]['caption'] if @gallery['captions'][idx]['caption']
       @gallery['slides'][idx]['description_html'] = @gallery['captions'][idx]['caption-html'].gsub(/<h3>.+<\/h3>/,'').gsub(/<div[^>]+>/,'').gsub('</div>','').gsub(/^[ ]+/,'').gsub(/[ ]+$/,'') if @gallery['captions'][idx]['caption-html']
     end
+    
   end
 end

@@ -99,7 +99,7 @@ a {
         margin: 0 0 0 -16px;
         background-repeat:   no-repeat;
         background-position: center center;
-        background-color: #444;
+        background-color: transparent;
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAMCAMAAAA0yk+LAAAAP1BMVEUAAAD///////////////////////////////////////////////////////////////////////////////9Du/pqAAAAFHRSTlMABvDt583EvbWVjIVkXVUtJgwgH8iBUnYAAABmSURBVBjTddBXDoAgEATQwa50nPuf1RCMqyDvc5Ntg9lEdEUzgxx2j19+H0gwW6xCRdmFGViMR8BLOEYW4GN16m52q1SxUUw6AUlPFFtT+Dac7chqZXuUHN15S97uBCPBdaKto78AjIkNomMw6TAAAAAASUVORK5CYII=);
       }
 
@@ -123,6 +123,8 @@ a {
       }
 
       .tc-gallery__elem--start__text {
+        -webkit-backdrop-filter: blur(40px);
+        height: -webkit-calc(100% - 50px);
         max-height: -webkit-calc(100% - 50px);
         overflow-x: hidden;
         overflow-y: auto;
