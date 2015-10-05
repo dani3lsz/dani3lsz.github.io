@@ -21,6 +21,7 @@
     fullScreen = false,
     videoPaused = false,
     scale,
+    timeOut = new Date(),
     player = {};
 
   var
@@ -88,35 +89,38 @@
 
   // handle swipes
   function swipeStage(event,phase,direction,distance,fingers) {
-    console.log(fingers);
-    if (fingers === 1) {
-      if (phase == 'move' && !fullScreen) {
-        if (direction == 'left') {
-          moveVideo(activeIndex,posActive[0] - distance,-posActive[1],1,0);
-        } else if (direction == 'right') {
-          moveVideo(activeIndex,posActive[0] + distance,-posActive[1],1,0);
-        } else if (direction == 'up') {
-          moveVideo(activeIndex,posActive[0],-posActive[1] - distance,1,0);
-          moveVideo(activeIndex + 1,posNext[0],-posNext[1] - distance,1,0);
-        } else if (direction == 'down') {
+    if (phase == 'move' && !fullScreen) {
+      if (direction == 'left') {
+        moveVideo(activeIndex,posActive[0] - distance,-posActive[1],1,0);
+      } else if (direction == 'right') {
+        moveVideo(activeIndex,posActive[0] + distance,-posActive[1],1,0);
+      } else if (direction == 'up') {
+        moveVideo(activeIndex,posActive[0],-posActive[1] - distance,1,0);
+        moveVideo(activeIndex + 1,posNext[0],-posNext[1] - distance,1,0);
+      } else if (direction == 'down') {
 
-        }
-      } else if (phase == 'end') {
-        if (distance === 0) {
-          toggleVideoPlay()
-        } else {
-          if (direction != 'down' && !fullScreen) playNextVideo(direction)
-        }
       }
-    } else if (fingers === 2 && phase == 'end' && distance === 0) {
-      if (fullScreen) {
-        fullScreen = false;
-        moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
-        $overlay.removeClass('active');
+    } else if (phase == 'end') {
+      if (distance === 0) {
+        var delay = new Date() - timeOut;
+
+        if (delay < 300) {
+          if (fullScreen) {
+            fullScreen = false;
+            moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
+            $overlay.removeClass('active');
+          } else {
+            fullScreen = true;
+            moveVideo(activeIndex,posActive[0],-posActive[1],scale,speed);
+            $overlay.addClass('active');
+          }
+        } else {
+          toggleVideoPlay();
+        }
+
+        timeOut = new Date();
       } else {
-        fullScreen = true;
-        moveVideo(activeIndex,posActive[0],-posActive[1],scale,speed);
-        $overlay.addClass('active');
+        if (direction != 'down' && !fullScreen) playNextVideo(direction)
       }
     }
   }
@@ -212,7 +216,7 @@
     } else {
       console.log('stop');
       videoPaused = true;
-      player[activeIndex].stopVideo()
+      player[activeIndex].pauseVideo()
     }
   }
 
