@@ -648,12 +648,14 @@ a {
     top:  100%;
     left: 50%;
     background-color: #ccc;
+    -webkit-transition: .4s ease-out;
+            transition: .4s ease-out;
     -webkit-transform: translate3d(0,0,0);
             transform: translate3d(0,0,0);
   }
 
   .tv__video.active {
-    z-index: 1;
+    z-index: 2;
   }
 
     .tv__video > iframe {
@@ -664,9 +666,26 @@ a {
       height: 100%;
     }
 
+  .tv__overlay{
+    position: absolute;
+    z-index: 1;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    opacity: 0;
+    background-color: #000;
+    -webkit-transition: .4s ease-out;
+            transition: .4s ease-out;
+  }
+
+  .tv__overlay.active {
+    opacity: 1;
+  }
+
   .tv__stage {
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     top:    0;
     right:  0;
     bottom: 0;

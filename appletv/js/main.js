@@ -24,6 +24,7 @@
 
   var
     $global = $(global),
+    $overlay = $('.js-overlay'),
     $stage = $('.js-stage'),
     $channels = $('.js-channels'),
     $video = $('.js-video');
@@ -41,7 +42,7 @@
     globalHeight = $global.height();
     videoWidth = Math.round(globalWidth) * 0.8;
     videoHeight = Math.round(videoWidth * 0.5625);
-    posNext = [0, (globalHeight - videoHeight) / 4];
+    posNext = [0, 40];
     posActive = [0, globalHeight / 2 + videoHeight / 2];
     posVote = [globalWidth / 2 + videoWidth / 2, globalHeight / 2 + videoHeight / 2];
     scale = globalWidth / videoWidth;
@@ -72,7 +73,7 @@
     iframe.type = 'text/html';
     iframe.width = videoWidth;
     iframe.height = videoHeight;
-    iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?autohide=1&rel=0&iv_load_policy=3&enablejsapi=1&controls=0&playsinline=1';
+    iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?autohide=1&rel=0&iv_load_policy=3&enablejsapi=1&controls=0&playsinline=1&vq=hd720';
     iframe.frameBorder = 0;
 
     $video.eq(i).append(iframe);
@@ -102,9 +103,11 @@
         if (fullScreen) {
           fullScreen = false;
           moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
+          $overlay.removeClass('active');
         } else {
           fullScreen = true;
           moveVideo(activeIndex,posActive[0],-posActive[1],scale,speed);
+          $overlay.addClass('active');
         }
 
       } else {
