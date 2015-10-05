@@ -19,6 +19,7 @@
     maxIndex = ytArr.length - 1,
     posNext, posActive, posVote,
     fullScreen = false,
+    videoPaused = false,
     scale,
     player = {};
 
@@ -71,8 +72,8 @@
     var iframe = document.createElement('iframe');
     iframe.id = 'player' + i;
     iframe.type = 'text/html';
-    iframe.width = videoWidth * 2;
-    iframe.height = videoHeight * 2;
+    iframe.width = videoWidth;
+    iframe.height = videoHeight;
     iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?autohide=1&rel=0&iv_load_policy=3&enablejsapi=1&controls=0&playsinline=1&vq=hd720';
     iframe.frameBorder = 0;
 
@@ -87,34 +88,36 @@
 
   // handle swipes
   function swipeStage(event,phase,direction,distance,fingers) {
-    if (phase == 'move' && !fullScreen) {
-      if (direction == 'left') {
-        moveVideo(activeIndex,posActive[0] - distance,-posActive[1],1,0);
-      } else if (direction == 'right') {
-        moveVideo(activeIndex,posActive[0] + distance,-posActive[1],1,0);
-      } else if (direction == 'up') {
-        moveVideo(activeIndex,posActive[0],-posActive[1] - distance,1,0);
-        moveVideo(activeIndex + 1,posNext[0],-posNext[1] - distance,1,0);
-      } else if (direction == 'down') {
+    console.log(fingers);
+    if (fingers === 1) {
+      if (phase == 'move' && !fullScreen) {
+        if (direction == 'left') {
+          moveVideo(activeIndex,posActive[0] - distance,-posActive[1],1,0);
+        } else if (direction == 'right') {
+          moveVideo(activeIndex,posActive[0] + distance,-posActive[1],1,0);
+        } else if (direction == 'up') {
+          moveVideo(activeIndex,posActive[0],-posActive[1] - distance,1,0);
+          moveVideo(activeIndex + 1,posNext[0],-posNext[1] - distance,1,0);
+        } else if (direction == 'down') {
 
-      }
-    } else if (phase == 'end') {
-      if (distance === 0) {
-        if (fullScreen) {
-          fullScreen = false;
-          moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
-          $overlay.removeClass('active');
-        } else {
-          fullScreen = true;
-          moveVideo(activeIndex,posActive[0],-posActive[1],scale,speed);
-          $overlay.addClass('active');
         }
-
-      } else {
-        if (direction != 'down' && !fullScreen) playNextVideo(direction)
+      } else if (phase == 'end') {
+        if (distance === 0) {
+          toggleVideoPlay()
+        } else {
+          if (direction != 'down' && !fullScreen) playNextVideo(direction)
+        }
       }
-
-
+    } else if (fingers === 2 && phase == 'end' && distance === 0) {
+      if (fullScreen) {
+        fullScreen = false;
+        moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
+        $overlay.removeClass('active');
+      } else {
+        fullScreen = true;
+        moveVideo(activeIndex,posActive[0],-posActive[1],scale,speed);
+        $overlay.addClass('active');
+      }
     }
   }
 
@@ -198,6 +201,23 @@
     })
   }
 
+
+  // toggle video play
+  function toggleVideoPlay() {
+    console.log('call');
+    if (videoPaused) {
+      console.log('play');
+      videoPaused = false;
+      player[activeIndex].playVideo()
+    } else {
+      console.log('stop');
+      videoPaused = true;
+      player[activeIndex].stopVideo()
+    }
+  }
+
+
+  // on window resize
   $global.resize(function(){
     getValues()
   });
