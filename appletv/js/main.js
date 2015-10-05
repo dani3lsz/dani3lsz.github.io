@@ -21,7 +21,7 @@
     fullScreen = false,
     videoPaused = false,
     scale,
-    timeOut = new Date(),
+    timeOut,
     player = {};
 
   var
@@ -102,9 +102,11 @@
       }
     } else if (phase == 'end') {
       if (distance === 0) {
-        var delay = new Date() - timeOut;
 
-        if (delay < 300) {
+        if (timeOut) {
+          clearTimeout(timeOut);
+          timeOut = 0;
+
           if (fullScreen) {
             fullScreen = false;
             moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
@@ -115,10 +117,12 @@
             $overlay.addClass('active');
           }
         } else {
-          toggleVideoPlay();
+          timeOut = setTimeout(function(){
+            clearTimeout(timeOut);
+            timeOut = 0;
+            toggleVideoPlay();
+          },300);
         }
-
-        timeOut = new Date();
       } else {
         if (direction != 'down' && !fullScreen) playNextVideo(direction)
       }
@@ -208,13 +212,10 @@
 
   // toggle video play
   function toggleVideoPlay() {
-    console.log('call');
     if (videoPaused) {
-      console.log('play');
       videoPaused = false;
       player[activeIndex].playVideo()
     } else {
-      console.log('stop');
       videoPaused = true;
       player[activeIndex].pauseVideo()
     }
