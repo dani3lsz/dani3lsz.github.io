@@ -270,6 +270,8 @@
     };
     newImg.onerror = function() {
       imgToLoad++;
+
+      setGallery(imgToLoad - 1);
       loadImages()
     };
     newImg.src = imgSrc
