@@ -280,7 +280,10 @@
   setOrientation();
   moveGalleryTo();
   loadImages();
-  bindSwipe();
+
+  $window.load(function(){
+    bindSwipe();
+  });
 
   $window.resize(function(){
     windowWidth = $window.width();
