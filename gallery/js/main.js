@@ -1,6 +1,4 @@
-$(window).load(function(){
-  $('body').addClass('loaded');
-
+(function(){
   var
     galleryImg = document.getElementsByClassName('js-gallery-img');
 
@@ -18,6 +16,7 @@ $(window).load(function(){
     windowWidth = $window.width(),
     windowHeight = $window.height(),
     maxSize,
+    imgToLoad = 0,
     imgSizes = [],
     dataSizes = [],
     visibleSizes = [],
@@ -36,9 +35,7 @@ $(window).load(function(){
       isLandscape = false;
       $stage.removeClass('landscape')
     }
-  }
 
-  function setGallery() {
     maxSize = isLandscape ? windowWidth - 80 : windowHeight - 80;
 
     if (isLandscape) {
@@ -48,115 +45,115 @@ $(window).load(function(){
       activePositions[0] = windowHeight / 2;
       finalPositions[0] = windowHeight * 1.5
     }
+  }
 
-    if (galleryImg.length) {
-      for (var i = 0; i < galleryImg.length; i++) {
-        if (isLandscape) {
-          imgSizes[i] = Math.round((windowHeight - 2 * baseMargin) / galleryImg[i].height * galleryImg[i].width);
-          dataSizes[i] = 250; // hardcoded b/c of bug = to .landscape .tc-gallery__elem__data width
-        } else {
-          imgSizes[i] = Math.round((windowWidth - 2 * baseMargin) / galleryImg[i].width * galleryImg[i].height);
-          dataSizes[i] = $galleryData.eq(i).outerHeight();
-        }
+  function setGallery(from) {
+    from = typeof from !== 'undefined' ? from : 0;
 
-        if (isLandscape) {
-          $galleryText.eq(i).addClass('noSwipe');
+    for (var i = from; i < imgToLoad; i++) {
+      if (isLandscape) {
+        imgSizes[i] = Math.round((windowHeight - 2 * baseMargin) / galleryImg[i].height * galleryImg[i].width);
+        dataSizes[i] = 250; // hardcoded b/c of bug = to .landscape .tc-gallery__elem__data width
+      } else {
+        imgSizes[i] = Math.round((windowWidth - 2 * baseMargin) / galleryImg[i].width * galleryImg[i].height);
+        dataSizes[i] = $galleryData.eq(i).outerHeight();
+      }
 
-          $galleryData.eq(i).css({
-            'width': dataSizes[i] + 'px',
-            'height': ''
-          })
-        } else if (dataSizes[i] > maxSize / 2) {
-          dataSizes[i] = maxSize / 2;
+      if (isLandscape) {
+        //$galleryText.eq(i).addClass('noSwipe');
 
-          $galleryText.eq(i).addClass('noSwipe');
+        $galleryData.eq(i).css({
+          'width': dataSizes[i] + 'px',
+          'height': ''
+        })
+      } else if (dataSizes[i] >= maxSize / 2) {
+        dataSizes[i] = maxSize / 2;
 
-          $galleryData.eq(i).css({
-            'width': '',
-            'height': dataSizes[i] + 'px'
-          })
-        } else {
-          $galleryText.eq(i).removeClass('noSwipe');
+        //$galleryText.eq(i).addClass('noSwipe');
+        $galleryData.eq(i).css({
+          'width': '',
+          'height': dataSizes[i] + 'px'
+        })
+      } else {
+        //$galleryText.eq(i).removeClass('noSwipe');
 
-          $galleryData.eq(i).css({
-            'width': '',
-            'height': ''
-          })
-        }
+        $galleryData.eq(i).css({
+          'width': '',
+          'height': ''
+        })
+      }
 
-        if (imgSizes[i] + dataSizes[i] > maxSize) {
-          if (imgSizes[i] > maxSize) {
-            var x = 0, y = 0, x1 = 0, y1 = 0;
+      if (imgSizes[i] + dataSizes[i] > maxSize) {
+        if (imgSizes[i] > maxSize) {
+          var x = 0, y = 0, x1 = 0, y1 = 0;
 
-            if (isLandscape) {
-              x = -(imgSizes[i] - maxSize) / 2;
-              x1 = dataSizes[i]
-            } else {
-              y = -(imgSizes[i] - maxSize) / 2;
-              y1 = dataSizes[i]
-            }
-
-            $galleryImg.eq(i).css({
-              '-webkit-transform': 'translate3d('+ x +'px,'+ y +'px,0)'
-            });
-
-            $galleryData.eq(i).css({
-              '-webkit-transform': 'translate3d('+ x1 +'px,'+ y1 +'px,0)'
-            });
+          if (isLandscape) {
+            x = -(imgSizes[i] - maxSize) / 2;
+            x1 = dataSizes[i]
           } else {
-            var x2 = 0, y2 = 0;
-
-            if (isLandscape) {
-              x2 = -maxSize + imgSizes[i] + dataSizes[i];
-            } else {
-              y2 = -maxSize + imgSizes[i] + dataSizes[i];
-            }
-
-            $galleryImg.eq(i).css({
-              '-webkit-transform': ''
-            });
-
-            $galleryData.eq(i).css({
-              '-webkit-transform': 'translate3d('+ x2 +'px,'+ y2 +'px,0)'
-            });
+            y = -(imgSizes[i] - maxSize) / 2;
+            y1 = dataSizes[i]
           }
 
-          $galleryImg.eq(i).addClass('img-overflow');
-          imgOverflows[i] = true;
-          visibleSizes[i] = maxSize;
+          $galleryImg.eq(i).css({
+            '-webkit-transform': 'translate3d('+ x +'px,'+ y +'px,0)'
+          });
+
+          $galleryData.eq(i).css({
+            '-webkit-transform': 'translate3d('+ x1 +'px,'+ y1 +'px,0)'
+          });
         } else {
-          $galleryImg.eq(i).removeClass('img-overflow');
+          var x2 = 0, y2 = 0;
+
+          if (isLandscape) {
+            x2 = -maxSize + imgSizes[i] + dataSizes[i];
+          } else {
+            y2 = -maxSize + imgSizes[i] + dataSizes[i];
+          }
+
           $galleryImg.eq(i).css({
             '-webkit-transform': ''
           });
 
           $galleryData.eq(i).css({
-            '-webkit-transform': ''
-          });
-
-          visibleSizes[i] = imgSizes[i] + dataSizes[i];
-          imgOverflows[i] = false;
-        }
-
-        activePositions[i+1] = isLandscape ? (windowWidth - baseMargin) / 2 + visibleSizes[i] / 2 : (windowHeight - baseMargin) / 2 + visibleSizes[i] / 2;
-        finalPositions[i+1] = isLandscape ? windowWidth - baseMargin + visibleSizes[i] : windowHeight - baseMargin + visibleSizes[i];
-
-        if (isLandscape) {
-          $galleryImg.eq(i).parent().css({
-            'width': visibleSizes[i] + 'px',
-            'height': ''
-          });
-        } else {
-          $galleryImg.eq(i).parent().css({
-            'width': '',
-            'height': visibleSizes[i] + 'px'
+            '-webkit-transform': 'translate3d('+ x2 +'px,'+ y2 +'px,0)'
           });
         }
 
+        $galleryImg.eq(i).addClass('img-overflow');
+        imgOverflows[i] = true;
+        visibleSizes[i] = maxSize;
+      } else {
+        $galleryImg.eq(i).removeClass('img-overflow');
+        $galleryImg.eq(i).css({
+          '-webkit-transform': ''
+        });
+
+        $galleryData.eq(i).css({
+          '-webkit-transform': ''
+        });
+
+        visibleSizes[i] = imgSizes[i] + dataSizes[i];
+        imgOverflows[i] = false;
       }
 
-      bindSwipe()
+      activePositions[i+1] = isLandscape ? (windowWidth - baseMargin) / 2 + visibleSizes[i] / 2 : (windowHeight - baseMargin) / 2 + visibleSizes[i] / 2;
+      finalPositions[i+1] = isLandscape ? windowWidth - baseMargin + visibleSizes[i] : windowHeight - baseMargin + visibleSizes[i];
+
+      if (isLandscape) {
+        $galleryImg.eq(i).parent().css({
+          'width': visibleSizes[i] + 'px',
+          'height': ''
+        });
+      } else {
+        $galleryImg.eq(i).parent().css({
+          'width': '',
+          'height': visibleSizes[i] + 'px'
+        });
+      }
     }
+
+    moveGalleryTo(null,0)
   }
 
   function moveGalleryTo(direction,duration) {
@@ -172,7 +169,7 @@ $(window).load(function(){
 
     duration = typeof duration !== 'undefined' ? duration : speed;
 
-    for (var i = 0; i <= galleryImg.length; i++) {
+    for (var i = 0; i <= imgToLoad; i++) {
       if (i < activeIndex) {
         $galleryElem.eq(i).addClass('prev');
         $galleryElem.eq(i).removeClass('active');
@@ -257,9 +254,31 @@ $(window).load(function(){
     });
   }
 
+  function loadImages() {
+    if (imgToLoad == maxIndex) return;
+
+    var imgSrc = galleryImg[imgToLoad].getAttribute('data-img');
+
+    var newImg = new Image();
+    newImg.onload = function() {
+      galleryImg[imgToLoad].src = imgSrc;
+
+      imgToLoad++;
+
+      setGallery(imgToLoad - 1);
+      loadImages()
+    };
+    newImg.onerror = function() {
+      imgToLoad++;
+      loadImages()
+    };
+    newImg.src = imgSrc
+  }
+
   setOrientation();
-  setGallery();
   moveGalleryTo();
+  loadImages();
+  bindSwipe();
 
   $window.resize(function(){
     windowWidth = $window.width();
@@ -267,6 +286,5 @@ $(window).load(function(){
 
     setOrientation();
     setGallery();
-    moveGalleryTo(null,0);
   });
-});
+})();
