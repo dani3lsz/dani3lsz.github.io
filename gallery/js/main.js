@@ -255,6 +255,10 @@
   }
 
   function loadImages() {
+    if ((maxIndex >= 3 && imgToLoad === 3) || maxIndex < 3) {
+      $('body').addClass('loaded')
+    }
+
     if (imgToLoad == maxIndex) return;
 
     var imgSrc = galleryImg[imgToLoad].getAttribute('data-img');
