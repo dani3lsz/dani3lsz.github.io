@@ -15,11 +15,13 @@
     videoWidth,
     videoHeight,
     speed = 400,
+    pad = 80,
+    threshold,
     activeIndex = -1, // on start it needs to be -1
     maxIndex = ytArr.length - 1,
     posNext, posActive, posVote,
     fullScreen = false,
-    videoPaused = false,
+    autoPlay = true,
     scale,
     timeOut,
     player = {};
@@ -29,6 +31,10 @@
     $overlay = $('.js-overlay'),
     $stage = $('.js-stage'),
     $channels = $('.js-channels'),
+    $info = $('.js-info'),
+    $score = $('#js-score'),
+    $voteUp = $('.js-vote-up'),
+    $voteDown = $('.js-vote-down'),
     $video = $('.js-video');
 
 
@@ -42,9 +48,16 @@
   function getValues() {
     globalWidth = $global.width();
     globalHeight = $global.height();
-    videoWidth = Math.round(globalWidth) * 0.8;
+    videoWidth = Math.round(globalWidth) - pad * 2;
     videoHeight = Math.round(videoWidth * 0.5625);
-    posNext = [0, 40];
+
+    if (videoHeight > globalHeight - pad * 2) {
+      videoHeight = Math.round(globalHeight - pad * 2);
+      videoWidth = Math.round(videoHeight / 0.5625)
+    }
+
+    threshold = (globalWidth - videoWidth) / 4;
+    posNext = [0, pad / 2];
     posActive = [0, globalHeight / 2 + videoHeight / 2];
     posVote = [globalWidth / 2 + videoWidth / 2, globalHeight / 2 + videoHeight / 2];
     scale = globalWidth / videoWidth;
@@ -55,6 +68,19 @@
 
   // set some necessary css on video parents
   function setValues() {
+    $info.css({
+      'width': videoWidth,
+      'margin-top': ((globalHeight - videoHeight) / 2 - 50) / 2
+    });
+
+    $voteUp.css({
+      'right': threshold + 'px'
+    });
+
+    $voteDown.css({
+      'left': threshold + 'px'
+    });
+
     $video.css({
       'width': videoWidth,
       'height': videoHeight,
@@ -84,6 +110,15 @@
 
     ytPlayer(i);
     setValues()
+  }
+
+
+  // set score
+  function setScore() {
+    var v = Math.round(Math.random() * 76);
+    $score.css({
+      'stroke-dashoffset': v
+    })
   }
 
 
@@ -180,7 +215,8 @@
 
     addVideo(activeIndex + 1);
 
-    player[activeIndex].playVideo();
+    if (autoPlay) player[activeIndex].playVideo();
+
     $video.eq(activeIndex).addClass('active');
 
     if (direction == 'left')
@@ -193,7 +229,9 @@
     moveVideo(activeIndex,posActive[0],-posActive[1],fullScreen ? scale : 1,speed);
 
     if (activeIndex != maxIndex)
-    moveVideo(activeIndex + 1,posNext[0],-posNext[1],1,speed)
+    moveVideo(activeIndex + 1,posNext[0],-posNext[1],1,speed);
+
+    setScore()
   }
 
 
@@ -212,12 +250,12 @@
 
   // toggle video play
   function toggleVideoPlay() {
-    if (videoPaused) {
-      videoPaused = false;
-      player[activeIndex].playVideo()
-    } else {
-      videoPaused = true;
+    if (autoPlay) {
+      autoPlay = false;
       player[activeIndex].pauseVideo()
+    } else {
+      autoPlay = true;
+      player[activeIndex].playVideo()
     }
   }
 
