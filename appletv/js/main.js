@@ -25,6 +25,7 @@
     scale,
     timeOut,
     startX, startY,
+    vote,
     player = {};
 
   var
@@ -67,7 +68,7 @@
   }
 
 
-  // set some necessary css on video parents
+  // set some necessary css
   function setValues() {
     $info.css({
       'width': videoWidth,
@@ -130,9 +131,11 @@
       startY = event.clientY;
     } else if (phase == 'move' && !fullScreen) {
       if (direction == 'left') {
-        moveVideo(activeIndex,-distance,-posActive,1,0);
+        moveVideo(activeIndex,-distance / 2,-posActive,1,0);
+        increaseThumb(direction,distance / 2,0)
       } else if (direction == 'right') {
-        moveVideo(activeIndex,distance,-posActive,1,0);
+        moveVideo(activeIndex,distance / 2,-posActive,1,0);
+        increaseThumb(direction,distance / 2,0)
       } else if (direction == 'up') {
         moveVideo(activeIndex,0,-posActive - distance,1,0);
         moveVideo(activeIndex + 1,0,-posNext - distance,1,0);
@@ -211,6 +214,7 @@
       // return if no next video
       if (activeIndex === maxIndex) {
         moveVideo(activeIndex,0,-posActive,1,speed);
+        increaseThumb();
         return
       }
 
@@ -221,6 +225,7 @@
       }
 
       activeIndex++;
+      vote = null;
 
       // load next video if not loaded already
       if ($video.length - 2 === activeIndex && activeIndex < maxIndex)
@@ -231,6 +236,7 @@
       if (activeIndex === 0) {
         moveVideo(activeIndex,0,-posActive,1,speed);
         moveVideo(activeIndex + 1,0,-posNext,1,speed);
+        increaseThumb();
         return
       }
 
@@ -238,11 +244,13 @@
       $video.eq(activeIndex).removeClass('active');
 
       activeIndex--;
+      vote = null;
     }
 
     moveVideo(activeIndex + 1,0,-posNext,1,speed);
     moveVideo(activeIndex,0,-posActive,fullScreen ? scale : 1,speed);
     moveVideo(activeIndex - 1,0,-posPrev,1,speed);
+    increaseThumb();
 
     if (autoPlay)
       player[activeIndex].playVideo();
@@ -264,6 +272,85 @@
       '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
       '-webkit-transform': 'translate3d('+ distanceH +'px,'+ distanceV +'px,0) scale('+ scale +')'
     })
+  }
+
+
+  function increaseThumb(direction,distance,duration) {
+    if ((direction == 'left' && vote == 'down') || (direction == 'right' && vote == 'up')) return;
+
+    var scaleActive, scalePassive, opacityActive, opacityPassive, voteActive, votePassive;
+    duration = duration || 0;
+
+    if (!direction) {
+      if (vote) {
+        voteActive = vote == 'down' ? $voteDown : $voteUp;
+        votePassive = vote == 'down' ? $voteUp : $voteDown;
+
+        scaleActive = 1;
+        scalePassive = 1;
+
+        opacityActive = 1;
+        opacityPassive = 0.25;
+      } else {
+        voteActive = $voteUp;
+        votePassive = $voteDown;
+
+        scaleActive = 1;
+        scalePassive = 1;
+
+        opacityActive = 0.25;
+        opacityPassive = 0.25;
+      }
+      duration = speed;
+    } else {
+      if (vote) {
+        voteActive = direction == 'left' ? $voteDown : $voteUp;
+        votePassive = direction == 'left' ? $voteUp : $voteDown;
+
+        scaleActive = distance / threshold + 1;
+        scalePassive = 1;
+
+        opacityActive = Math.max(distance / threshold, 0.25);
+        opacityPassive = Math.max(1 - distance / threshold, 0.25);
+
+        if (scaleActive >= 2) {
+          vote = direction == 'left' ? 'down' : 'up';
+          opacityActive = 1;
+          opacityPassive = 0.25;
+          duration = speed;
+          scaleActive = 1;
+          scalePassive = 1;
+        }
+      } else {
+        voteActive = direction == 'left' ? $voteDown : $voteUp;
+
+        scaleActive = distance / threshold + 1;
+        opacityActive = Math.max(distance / threshold, 0.25);
+
+        if (scaleActive >= 2 && !vote) {
+          vote = direction == 'left' ? 'down' : 'up';
+          opacityActive = 1;
+          duration = speed;
+          scaleActive = 1;
+        }
+      }
+    }
+
+    if (voteActive) {
+      voteActive.css({
+        'opacity': opacityActive,
+        '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
+        '-webkit-transform': 'scale('+ scaleActive +')'
+      });
+    }
+
+    if (votePassive) {
+      votePassive.css({
+        'opacity': opacityPassive,
+        '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
+        '-webkit-transform': 'scale('+ scalePassive +')'
+      });
+    }
   }
 
 
