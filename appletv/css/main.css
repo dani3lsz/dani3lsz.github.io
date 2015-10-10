@@ -781,6 +781,28 @@ a {
     margin: -15px 0 0 -15px;
   }
 
+    .tv__vote:before {
+      content: '';
+      position: absolute;
+      top:  50%;
+      left: 50%;
+      width:  30px;
+      height: 30px;
+      margin: -15px 0 0 -15px;
+      border-radius: 50%;
+      background-color: #35f;
+      opacity: 0;
+      -webkit-transition: 0s
+              transition: 0s;
+      -webkit-transform: scale(0);
+              transform: scale(0);
+    }
+
+    .tv__vote.active:before {
+      -webkit-animation: scaleUp .4s linear;
+              animation: scaleUp .4s linear;
+    }
+
   .tv__video {
     position: absolute;
     top:  100%;
@@ -1419,3 +1441,20 @@ a {
 
 
 
+
+
+/*--------------*\
+   #ANUMATIONS
+\*--------------*/
+
+
+
+@-webkit-keyframes scaleUp {
+  50% {opacity: .5; -webkit-transform: scale(1.5)}
+  100% {opacity: 0; -webkit-transform: scale(3)}
+}
+
+@keyframes scaleUp {
+  50% {opacity: .5; transform: scale(1.5)}
+  100% {opacity: 0; transform: scale(3)}
+}

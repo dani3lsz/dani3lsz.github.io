@@ -138,11 +138,11 @@
         increaseThumb(direction,distance / 2,0)
       } else if (direction == 'up') {
         moveVideo(activeIndex,0,-posActive - distance,1,0);
-        moveVideo(activeIndex + 1,0,-posNext - distance,1,0);
+        moveVideo(activeIndex + 1,0,-posNext - distance / 2,1,0);
       } else if (direction == 'down') {
-        moveVideo(activeIndex - 1,0,-posPrev + distance,1,0);
+        moveVideo(activeIndex - 1,0,-posPrev + distance / 2,1,0);
         moveVideo(activeIndex,0,-posActive + distance,1,0);
-        moveVideo(activeIndex + 1,0,-posNext + distance,1,0);
+        moveVideo(activeIndex + 1,0,-posNext + distance / 2,1,0);
       }
     } else if (phase == 'end') {
       if (distance === 0) {
@@ -226,6 +226,8 @@
 
       activeIndex++;
       vote = null;
+      $voteDown.removeClass('active');
+      $voteUp.removeClass('active');
 
       // load next video if not loaded already
       if ($video.length - 2 === activeIndex && activeIndex < maxIndex)
@@ -245,6 +247,8 @@
 
       activeIndex--;
       vote = null;
+      $voteDown.removeClass('active');
+      $voteUp.removeClass('active');
     }
 
     moveVideo(activeIndex + 1,0,-posNext,1,speed);
@@ -320,6 +324,8 @@
           duration = speed;
           scaleActive = 1;
           scalePassive = 1;
+          voteActive.addClass('active');
+          votePassive.removeClass('active')
         }
       } else {
         voteActive = direction == 'left' ? $voteDown : $voteUp;
@@ -332,6 +338,7 @@
           opacityActive = 1;
           duration = speed;
           scaleActive = 1;
+          voteActive.addClass('active');
         }
       }
     }
