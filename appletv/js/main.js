@@ -131,10 +131,10 @@
       startY = event.clientY;
     } else if (phase == 'move' && !fullScreen) {
       if (direction == 'left') {
-        moveVideo(activeIndex,-distance / 2,-posActive,1,0);
+        moveVideo(activeIndex,Math.max(-distance / 2,-threshold),-posActive,1,0);
         increaseThumb(direction,distance / 2,0)
       } else if (direction == 'right') {
-        moveVideo(activeIndex,distance / 2,-posActive,1,0);
+        moveVideo(activeIndex,Math.min(distance / 2,threshold),-posActive,1,0);
         increaseThumb(direction,distance / 2,0)
       } else if (direction == 'up') {
         moveVideo(activeIndex,0,-posActive - distance,1,0);
@@ -153,12 +153,16 @@
 
           if (fullScreen) {
             fullScreen = false;
-            moveVideo(activeIndex,0,-posActive,1,speed);
             $overlay.removeClass('active');
+            $voteUp.removeClass('invisible');
+            $voteDown.removeClass('invisible');
+            moveVideo(activeIndex,0,-posActive,1,speed);
           } else {
             fullScreen = true;
-            moveVideo(activeIndex,0,-posActive,scale,speed);
             $overlay.addClass('active');
+            $voteUp.addClass('invisible');
+            $voteDown.addClass('invisible');
+            moveVideo(activeIndex,0,-posActive,scale,speed);
           }
         } else {
           timeOut = setTimeout(function(){
