@@ -19,11 +19,12 @@
     threshold,
     activeIndex = -1, // on start it needs to be -1
     maxIndex = ytArr.length - 1,
-    posNext, posActive, posVote,
+    posNext, posPrev, posActive,
     fullScreen = false,
     autoPlay = true,
     scale,
     timeOut,
+    startX, startY,
     player = {};
 
   var
@@ -57,9 +58,9 @@
     }
 
     threshold = (globalWidth - videoWidth) / 4;
-    posNext = [0, pad / 2];
-    posActive = [0, globalHeight / 2 + videoHeight / 2];
-    posVote = [globalWidth / 2 + videoWidth / 2, globalHeight / 2 + videoHeight / 2];
+    posNext = pad / 2;
+    posActive = globalHeight / 2 + videoHeight / 2;
+    posPrev = globalHeight + videoHeight;
     scale = globalWidth / videoWidth;
 
     setValues()
@@ -124,16 +125,21 @@
 
   // handle swipes
   function swipeStage(event,phase,direction,distance,fingers) {
-    if (phase == 'move' && !fullScreen) {
+    if (phase == 'start') {
+      startX = event.clientX;
+      startY = event.clientY;
+    } else if (phase == 'move' && !fullScreen) {
       if (direction == 'left') {
-        moveVideo(activeIndex,posActive[0] - distance,-posActive[1],1,0);
+        moveVideo(activeIndex,-distance,-posActive,1,0);
       } else if (direction == 'right') {
-        moveVideo(activeIndex,posActive[0] + distance,-posActive[1],1,0);
+        moveVideo(activeIndex,distance,-posActive,1,0);
       } else if (direction == 'up') {
-        moveVideo(activeIndex,posActive[0],-posActive[1] - distance,1,0);
-        moveVideo(activeIndex + 1,posNext[0],-posNext[1] - distance,1,0);
+        moveVideo(activeIndex,0,-posActive - distance,1,0);
+        moveVideo(activeIndex + 1,0,-posNext - distance,1,0);
       } else if (direction == 'down') {
-
+        moveVideo(activeIndex - 1,0,-posPrev + distance,1,0);
+        moveVideo(activeIndex,0,-posActive + distance,1,0);
+        moveVideo(activeIndex + 1,0,-posNext + distance,1,0);
       }
     } else if (phase == 'end') {
       if (distance === 0) {
@@ -144,11 +150,11 @@
 
           if (fullScreen) {
             fullScreen = false;
-            moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
+            moveVideo(activeIndex,0,-posActive,1,speed);
             $overlay.removeClass('active');
           } else {
             fullScreen = true;
-            moveVideo(activeIndex,posActive[0],-posActive[1],scale,speed);
+            moveVideo(activeIndex,0,-posActive,scale,speed);
             $overlay.addClass('active');
           }
         } else {
@@ -159,7 +165,7 @@
           },300);
         }
       } else {
-        if (direction != 'down' && !fullScreen) playNextVideo(direction)
+        if (!fullScreen) playNextVideo(direction)
       }
     }
   }
@@ -187,7 +193,7 @@
 
   // called if the first video is ready to play
   function onPlayerReady(event) {
-    playNextVideo()
+    playNextVideo('up')
   }
 
 
@@ -201,36 +207,49 @@
 
   // play next video
   function playNextVideo(direction) {
-    if (activeIndex == maxIndex) {
-      moveVideo(activeIndex,posActive[0],-posActive[1],1,speed);
-      return
-    }
+    if (direction == 'up') {
+      // return if no next video
+      if (activeIndex === maxIndex) {
+        moveVideo(activeIndex,0,-posActive,1,speed);
+        return
+      }
 
-    if (activeIndex >= 0) {
+      // if not called the first time
+      if (activeIndex >= 0) {
+        player[activeIndex].stopVideo();
+        $video.eq(activeIndex).removeClass('active');
+      }
+
+      activeIndex++;
+
+      // load next video if not loaded already
+      if ($video.length - 2 === activeIndex && activeIndex < maxIndex)
+        addVideo(activeIndex + 1);
+
+    } else if (direction == 'down') {
+      // return if no prev video
+      if (activeIndex === 0) {
+        moveVideo(activeIndex,0,-posActive,1,speed);
+        moveVideo(activeIndex + 1,0,-posNext,1,speed);
+        return
+      }
+
       player[activeIndex].stopVideo();
-      $video.eq(activeIndex).removeClass('active')
+      $video.eq(activeIndex).removeClass('active');
+
+      activeIndex--;
     }
 
-    activeIndex++;
+    moveVideo(activeIndex + 1,0,-posNext,1,speed);
+    moveVideo(activeIndex,0,-posActive,fullScreen ? scale : 1,speed);
+    moveVideo(activeIndex - 1,0,-posPrev,1,speed);
 
-    addVideo(activeIndex + 1);
-
-    if (autoPlay) player[activeIndex].playVideo();
+    if (autoPlay)
+      player[activeIndex].playVideo();
 
     $video.eq(activeIndex).addClass('active');
 
-    if (direction == 'left')
-      moveVideo(activeIndex - 1,-posVote[0],-posVote[1],1,speed);
-    else if (direction == 'right')
-      moveVideo(activeIndex - 1,posVote[0],-posVote[1],1,speed);
-    else if (direction == 'up')
-      moveVideo(activeIndex - 1,posActive[0],-globalHeight - videoHeight,1,speed);
-
-    moveVideo(activeIndex,posActive[0],-posActive[1],fullScreen ? scale : 1,speed);
-
-    if (activeIndex != maxIndex)
-    moveVideo(activeIndex + 1,posNext[0],-posNext[1],1,speed);
-
+    // temp function
     setScore()
   }
 
