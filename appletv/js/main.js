@@ -138,8 +138,8 @@
   // handle swipes
   function swipeStage(event,phase,direction,distance,fingers) {
     if (phase == 'start') {
-      startX = event.clientX;
-      startY = event.clientY;
+      startX = event.pageX;
+      startY = event.pageY;
     } else if (phase == 'move' && !fullScreen) {
       if (direction == 'left') {
         if (topOpen) {
