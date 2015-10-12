@@ -14,6 +14,8 @@
     globalHeight,
     videoWidth,
     videoHeight,
+    topElemWidth,
+    topElemHeight,
     speed = 400,
     pad = 80,
     threshold,
@@ -26,13 +28,15 @@
     timeOut,
     startX, startY,
     vote,
+    topOpen = false,
     player = {};
 
   var
     $global = $(global),
     $overlay = $('.js-overlay'),
     $stage = $('.js-stage'),
-    $channels = $('.js-channels'),
+    $top = $('.js-top'),
+    $topElem = $('.js-top-elem'),
     $info = $('.js-info'),
     $score = $('#js-score'),
     $voteUp = $('.js-vote-up'),
@@ -58,6 +62,8 @@
       videoWidth = Math.round(videoHeight / 0.5625)
     }
 
+    topElemHeight = Math.round(globalHeight / 3 - 70);
+    topElemWidth = Math.round(topElemHeight / 0.5625);
     threshold = (globalWidth - videoWidth) / 4;
     posNext = pad / 2;
     posActive = globalHeight / 2 + videoHeight / 2;
@@ -70,6 +76,11 @@
 
   // set some necessary css
   function setValues() {
+    $topElem.css({
+      'width': topElemWidth,
+      'height': topElemHeight,
+      'margin': '0 ' + ((globalWidth - topElemWidth * 3) / 6) + 'px'
+    });
     $info.css({
       'width': videoWidth,
       'margin-top': ((globalHeight - videoHeight) / 2 - 50) / 2
@@ -131,23 +142,43 @@
       startY = event.clientY;
     } else if (phase == 'move' && !fullScreen) {
       if (direction == 'left') {
-        moveVideo(activeIndex,Math.max(-distance / 2,-threshold),-posActive,1,0);
-        increaseThumb(direction,distance / 2,0)
+        if (topOpen) {
+
+        } else {
+          moveVideo(activeIndex,Math.max(-distance / 2,-threshold),-posActive,1,0);
+          increaseThumb(direction,distance / 2,0)
+        }
       } else if (direction == 'right') {
-        moveVideo(activeIndex,Math.min(distance / 2,threshold),-posActive,1,0);
-        increaseThumb(direction,distance / 2,0)
+        if (topOpen) {
+
+        } else {
+          moveVideo(activeIndex,Math.min(distance / 2,threshold),-posActive,1,0);
+          increaseThumb(direction,distance / 2,0)
+        }
       } else if (direction == 'up') {
-        moveVideo(activeIndex,0,-posActive - distance,1,0);
-        moveVideo(activeIndex + 1,0,-posNext - distance / 2,1,0);
+        if (topOpen) {
+          moveTop(-distance,0)
+        } else {
+          moveVideo(activeIndex,0,-posActive - distance,1,0);
+          moveVideo(activeIndex + 1,0,-posNext - distance / 2,1,0);
+        }
       } else if (direction == 'down') {
-        moveVideo(activeIndex - 1,0,-posPrev + distance / 2,1,0);
-        moveVideo(activeIndex,0,-posActive + distance,1,0);
-        moveVideo(activeIndex + 1,0,-posNext + distance / 2,1,0);
+        if (startY < (globalHeight - videoHeight) / 2 && !topOpen) {
+          moveTop(-globalHeight + distance,0)
+        } else {
+          moveVideo(activeIndex - 1,0,-posPrev + distance / 2,1,0);
+          moveVideo(activeIndex,0,-posActive + distance,1,0);
+          moveVideo(activeIndex + 1,0,-posNext + distance / 2,1,0);
+        }
+
       }
     } else if (phase == 'end') {
       if (distance === 0) {
-
-        if (timeOut) {
+        if (topOpen) {
+          topOpen = false;
+          $top.removeClass('active');
+          moveTop(-globalHeight,speed)
+        } else if (timeOut) {
           clearTimeout(timeOut);
           timeOut = 0;
 
@@ -172,7 +203,25 @@
           },300);
         }
       } else {
-        if (!fullScreen) playNextVideo(direction)
+        if (topOpen && direction == 'up') {
+          if (distance > threshold) {
+            topOpen = false;
+            $top.removeClass('active');
+            moveTop(-globalHeight,speed)
+          } else {
+            moveTop(0,speed)
+          }
+        } else if (!topOpen && direction == 'down' && startY < (globalHeight - videoHeight) / 2) {
+          if (distance > threshold) {
+            topOpen = true;
+            $top.addClass('active');
+            moveTop(0,speed)
+          } else {
+            moveTop(-globalHeight,speed)
+          }
+        } else if (!fullScreen) {
+          playNextVideo(direction)
+        }
       }
     }
   }
@@ -279,6 +328,17 @@
     $video.eq(index).css({
       '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
       '-webkit-transform': 'translate3d('+ distanceH +'px,'+ distanceV +'px,0) scale('+ scale +')'
+    })
+  }
+
+
+  // move top
+  function moveTop(distance,duration) {
+    duration = duration || 0;
+
+    $top.css({
+      '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
+      '-webkit-transform': 'translate3d(0,'+ distance +'px,0)'
     })
   }
 

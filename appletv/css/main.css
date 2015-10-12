@@ -691,9 +691,73 @@ a {
     background-image: url("../images/bg.jpg");
   }
 
-  .tv__channels {
-
+  .tv__top {
+    position: absolute;
+    z-index: 5;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    background-color: rgba(255,255,255,.5);
+    -webkit-backdrop-filter: blur(80px);
+    -webkit-transition: .4s ease-out;
+            transition: .4s ease-out;
+    -webkit-transform: translate3d(0,-100%,0);
+            transform: translate3d(0,-100%,0);
   }
+
+    .tv__top__row {
+      position: relative;
+      height: 33.33337%;
+      box-shadow: 0 1px rgba(0,0,0,.1);
+      opacity: 0;
+      -webkit-transition: .4s ease-out;
+              transition: .4s ease-out;
+      -webkit-transition-delay: .5s;
+              transition-delay: .5s;
+      -webkit-transform: translate3d(10px,0,0);
+              transform: translate3d(10px,0,0);
+    }
+
+    .tv__top__row:nth-child(2) {
+      -webkit-transition-delay: .6s;
+              transition-delay: .6s;
+    }
+
+    .tv__top__row:nth-child(3) {
+      -webkit-transition-delay: .7s;
+              transition-delay: .7s;
+    }
+
+    .active > .tv__top__row {
+      opacity: 1;
+      -webkit-transform: translate3d(0,0,0);
+              transform: translate3d(0,0,0);
+    }
+
+      .tv__top__row__title {
+        font-size: 22px;
+        line-height: 50px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .tv__top__row__content {
+        position: absolute;
+        top:    50px; /* =to .tv__top__row__title line-height */
+        right:  0;
+        bottom: 0;
+        left:   0;
+        white-space: nowrap;
+        font-size: 0; /* remove space between inline-block elements */
+      }
+
+        .tv__top__row__content__elem {
+          display: inline-block;
+          font-size: 14px;
+          white-space: normal;
+          background-color: #000;
+        }
 
   .tv__info {
     height: 50px;
@@ -762,7 +826,7 @@ a {
 
   .tv__vote {
     position: absolute;
-    z-index: 5;
+    z-index: 3;
     top: 50%;
     width:  30px;
     height: 30px;
@@ -845,7 +909,7 @@ a {
 
   .tv__stage {
     position: absolute;
-    z-index: 3;
+    z-index: 10;
     top:    0;
     right:  0;
     bottom: 0;
