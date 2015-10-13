@@ -49,6 +49,18 @@
 .aai-screen:before {
   content: "\e006";
 }
+.aai-bin-o:before {
+  content: "\e007";
+}
+.aai-bin:before {
+  content: "\e008";
+}
+.aai-heart-o:before {
+  content: "\e009";
+}
+.aai-heart:before {
+  content: "\e00a";
+}
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 
