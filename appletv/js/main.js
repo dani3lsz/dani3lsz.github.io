@@ -33,9 +33,10 @@
 
   var
     $global = $(global),
+    $tv = $('.js-tv'),
     $overlay = $('.js-overlay'),
     $stage = $('.js-stage'),
-    $top = $('.js-top'),
+    $topRow = $('.js-top-row'),
     $topElem = $('.js-top-elem'),
     $info = $('.js-info'),
     $score = $('#js-score'),
@@ -77,10 +78,8 @@
   // set some necessary css
   function setValues() {
     $topElem.css({
-      'width': topElemWidth,
-      'height': topElemHeight,
-      'margin': '0 ' + ((globalWidth - topElemWidth * 3) / 6) + 'px'
     });
+
     $info.css({
       'width': videoWidth,
       'margin-top': ((globalHeight - videoHeight) / 2 - 50) / 2
@@ -107,7 +106,7 @@
     if (typeof i === 'undefined' || i >= ytArr.length || player[i]) return;
 
     var newDiv = document.createElement('div');
-    newDiv.setAttribute('class','tv__video js-video');
+    newDiv.setAttribute('class','tv__main__video js-video');
 
     var iframe = document.createElement('iframe');
     iframe.id = 'player' + i;
@@ -157,14 +156,14 @@
         }
       } else if (direction == 'up') {
         if (topOpen) {
-          moveTop(-distance,0)
+          moveTv(-distance,0)
         } else {
           moveVideo(activeIndex,0,-posActive - distance,1,0);
           moveVideo(activeIndex + 1,0,-posNext - distance / 2,1,0);
         }
       } else if (direction == 'down') {
         if (startY < (globalHeight - videoHeight) / 2 && !topOpen) {
-          moveTop(-globalHeight + distance,0)
+          moveTv(-globalHeight + distance,0)
         } else {
           moveVideo(activeIndex - 1,0,-posPrev + distance / 2,1,0);
           moveVideo(activeIndex,0,-posActive + distance,1,0);
@@ -176,8 +175,7 @@
       if (distance === 0) {
         if (topOpen) {
           topOpen = false;
-          $top.removeClass('active');
-          moveTop(-globalHeight,speed)
+          moveTv(-globalHeight,speed)
         } else if (timeOut) {
           clearTimeout(timeOut);
           timeOut = 0;
@@ -206,18 +204,16 @@
         if (topOpen && direction == 'up') {
           if (distance > threshold) {
             topOpen = false;
-            $top.removeClass('active');
-            moveTop(-globalHeight,speed)
+            moveTv(-globalHeight,speed)
           } else {
-            moveTop(0,speed)
+            moveTv(0,speed)
           }
         } else if (!topOpen && direction == 'down' && startY < (globalHeight - videoHeight) / 2) {
           if (distance > threshold) {
             topOpen = true;
-            $top.addClass('active');
-            moveTop(0,speed)
+            moveTv(0,speed)
           } else {
-            moveTop(-globalHeight,speed)
+            moveTv(-globalHeight,speed)
           }
         } else if (!fullScreen) {
           playNextVideo(direction)
@@ -333,10 +329,10 @@
 
 
   // move top
-  function moveTop(distance,duration) {
+  function moveTv(distance,duration) {
     duration = duration || 0;
 
-    $top.css({
+    $tv.css({
       '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
       '-webkit-transform': 'translate3d(0,'+ distance +'px,0)'
     })

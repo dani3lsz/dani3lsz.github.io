@@ -11,71 +11,73 @@
 </head>
 <body>
 
-<div class="tv">
-  <div class="tv__bg"></div>
+<div class="tv-wrapper">
+  <div class="tv js-tv">
+    <div class="tv__top">
+      <div class="tv__top__row js-top-row active">
+        <div class="tv__top__row__title">Channels</div>
 
-  <div class="tv__top js-top">
-    <div class="tv__top__row">
-      <div class="tv__top__row__title">Channels</div>
+        <div class="tv__top__row__content">
+          <div class="tv__top__row__content__elem js-top-elem active"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+        </div>
+      </div>
 
-      <div class="tv__top__row__content">
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
+      <div class="tv__top__row js-top-row">
+        <div class="tv__top__row__title">Recommended</div>
+
+        <div class="tv__top__row__content">
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+        </div>
+      </div>
+
+      <div class="tv__top__row js-top-row">
+        <div class="tv__top__row__title">History</div>
+
+        <div class="tv__top__row__content">
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+          <div class="tv__top__row__content__elem js-top-elem"></div>
+        </div>
       </div>
     </div>
 
-    <div class="tv__top__row">
-      <div class="tv__top__row__title">Recommended</div>
+    <div class="tv__main">
+      <div class="tv__main__info js-info">
+        <div class="tv__main__info__score">
+          <div class="tv__main__info__score__svg">
+            <svg width="28" height="28">
+              <circle id="js-score" cx="14" cy="14" r="12"/>
+            </svg>
+          </div>
+          +154
+        </div>
 
-      <div class="tv__top__row__content">
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
+        <div class="tv__main__info__channel">Scinece</div>
+
+        <div class="tv__main__info__title truncate">Some title comes here</div>
       </div>
-    </div>
 
-    <div class="tv__top__row">
-      <div class="tv__top__row__title">History</div>
+      <div class="tv__main__vote tv__main__vote--up js-vote-up"><i class="aai-thumbs-up"></i></div>
 
-      <div class="tv__top__row__content">
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-        <div class="tv__top__row__content__elem js-top-elem"></div>
-      </div>
+      <div class="tv__main__vote tv__main__vote--down js-vote-down"><i class="aai-thumbs-down"></i></div>
+
+      <div class="tv__main__video js-video"></div>
+
+      <div class="tv__main__overlay js-overlay"></div>
     </div>
   </div>
 
-  <div class="tv__info js-info">
-    <div class="tv__info__score">
-      <div class="tv__info__score__svg">
-        <svg width="28" height="28">
-          <circle id="js-score" cx="14" cy="14" r="12"/>
-        </svg>
-      </div>
-      +154
-    </div>
-
-    <div class="tv__info__channel">Scinece</div>
-
-    <div class="tv__info__title truncate">Some title comes here</div>
-  </div>
-
-  <div class="tv__vote tv__vote--up js-vote-up"><i class="aai-thumbs-up"></i></div>
-
-  <div class="tv__vote tv__vote--down js-vote-down"><i class="aai-thumbs-down"></i></div>
-
-  <div class="tv__video js-video"></div>
-
-  <div class="tv__overlay js-overlay"></div>
-
-  <div class="tv__stage js-stage"></div>
+  <div class="tv-stage js-stage"></div>
 </div>
 
 <script src="js/jquery.min.js"></script>
