@@ -728,12 +728,12 @@ a {
     .tv__top__row {
       position: relative;
       height: 33.33337%;
+      -webkit-transform: translate3d(0,0,0);
+              transform: translate3d(0,0,0);
     }
 
     .active > .tv__top__row {
       opacity: 1;
-      -webkit-transform: translate3d(0,0,0);
-              transform: translate3d(0,0,0);
     }
 
       .tv__top__row:after {
@@ -747,10 +747,8 @@ a {
       }
 
       .tv__top__row__title {
-        margin-left: 6%;
-        font-size: 22px;
-        line-height: 50px;
-        color: #fff;
+        position: relative;
+        height: 25%;
         opacity: .5;
         -webkit-transition: .4s ease-out;
                 transition: .4s ease-out;
@@ -760,9 +758,19 @@ a {
         opacity: 1;
       }
 
+        .tv__top__row__title:before {
+          content: attr(data-title);
+          position: absolute;
+          top: 50%;
+          margin: -20px 0 0 6%;
+          font-size: 22px;
+          line-height: 40px;
+          color: #fff;
+        }
+
       .tv__top__row__content {
         position: absolute;
-        top:    50px;
+        top:    25%;
         right:  0;
         bottom: 0;
         left:   0;
@@ -781,7 +789,7 @@ a {
         .tv__top__row__content__elem {
           display: inline-block;
           vertical-align: bottom;
-          width: 22%;
+          height: 90%;
           margin: 0 3%;
           font-size: 14px;
           white-space: normal;
@@ -804,13 +812,6 @@ a {
           -webkit-transform: translate3d(0,-20px,0) scale(1.1);
                   transform: translate3d(0,-20px,0) scale(1.1);
         }
-
-          .tv__top__row__content__elem:before {
-            content: '';
-            display: block;
-            width: 100%;
-            padding-bottom: 56.25%;
-          }
 
 
 
