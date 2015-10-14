@@ -166,7 +166,11 @@
           moveTV = true;
           moveTv(clientYm + threshold,0)
         } else {
-          moveTV = false;
+          if (moveTV) {
+            moveTV = false;
+            clientY += clientYm;
+            moveTv(0,speed)
+          }
 
           if (Math.abs(clientXm) >= threshold * 2) {
             clientX += clientXm;
