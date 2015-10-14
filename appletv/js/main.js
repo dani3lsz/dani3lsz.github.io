@@ -168,7 +168,7 @@
         } else {
           moveTV = false;
 
-          if (Math.abs(clientXm) >= threshold) {
+          if (Math.abs(clientXm) >= threshold * 2) {
             clientX += clientXm;
 
             if (clientXm < 0) {
@@ -178,7 +178,7 @@
             }
           }
 
-          if (Math.abs(clientYm) >= threshold) {
+          if (Math.abs(clientYm) >= threshold * 2) {
             clientY += clientYm;
 
             if (clientYm < 0) {
@@ -435,14 +435,14 @@
           viewIndex--;
         } else if (rowsMoved[activeRow] > 0) {
           rowsMoved[activeRow]--;
-          moveRow(-rowsMoved[activeRow] * rowPieceWidth,200)
+          moveRow(-rowsMoved[activeRow] * rowPieceWidth,400)
         }
       } else {
         if (viewIndex < viewMaxIndex) {
           viewIndex++;
         } else if (rowsMoved[activeRow] < rowsMaxMove[activeRow]) {
           rowsMoved[activeRow]++;
-          moveRow(-rowsMoved[activeRow] * rowPieceWidth,200)
+          moveRow(-rowsMoved[activeRow] * rowPieceWidth,400)
         }
       }
 
