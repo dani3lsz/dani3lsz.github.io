@@ -36,6 +36,7 @@
     rowsMoved = [0,0,0],
     rowsMaxMove = [],
     moveTV,
+    longSwipe = false,
     player = {};
 
   var
@@ -155,6 +156,8 @@
       if (phase == 'start') {
         clientX = event.pageX;
         clientY = event.pageY;
+
+        longSwipe = false;
       } else if (phase == 'move') {
         clientXn = event.pageX;
         clientYn = event.pageY;
@@ -174,6 +177,7 @@
 
           if (Math.abs(clientXm) >= threshold * 2) {
             clientX += clientXm;
+            longSwipe = true;
 
             if (clientXm < 0) {
               moveFocus('left')
@@ -184,6 +188,7 @@
 
           if (Math.abs(clientYm) >= threshold * 2) {
             clientY += clientYm;
+            longSwipe = true;
 
             if (clientYm < 0) {
               moveFocus('up')
@@ -202,6 +207,8 @@
           } else {
             moveTv(0,speed);
           }
+        } else if (!longSwipe) {
+          moveFocus(direction)
         }
       }
     } else {
