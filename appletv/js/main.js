@@ -26,9 +26,16 @@
     autoPlay = true,
     scale,
     timeOut,
-    startX, startY,
+    startX, startY, clientX, clientY, clientXn, clientYn, clientXm, clientYm,
     vote,
     topOpen = false,
+    rowPieceWidth,
+    viewMaxIndex,
+    viewIndex = 0,
+    activeRow = 0,
+    rowsMoved = [0,0,0],
+    rowsMaxMove = [],
+    moveTV,
     player = {};
 
   var
@@ -65,6 +72,13 @@
 
     topElemHeight = $topElem.height();
     topElemWidth = Math.round(topElemHeight / 0.5625);
+    rowPieceWidth = Math.round((topElemWidth + globalWidth * 0.06) * 10) / 10;
+    viewMaxIndex = Math.floor(globalWidth / rowPieceWidth) - 1;
+
+    for (var i = 0; i < $topRow.length; i++) {
+      rowsMaxMove[i] = $topRow.eq(i).children().length - 1 - viewMaxIndex
+    }
+
     threshold = (globalWidth - videoWidth) / 4;
     posNext = pad / 2;
     posActive = globalHeight / 2 + videoHeight / 2;
@@ -137,11 +151,60 @@
 
   // handle swipes
   function swipeStage(event,phase,direction,distance,fingers) {
-    if (phase == 'start') {
-      startX = event.pageX;
-      startY = event.pageY;
+    if (topOpen) {
+      if (phase == 'start') {
+        clientX = event.pageX;
+        clientY = event.pageY;
+      } else if (phase == 'move') {
+        clientXn = event.pageX;
+        clientYn = event.pageY;
+
+        clientXm = clientXn - clientX;
+        clientYm = clientYn - clientY;
+
+        if (clientYm < -threshold && Math.abs(clientYm) > Math.abs(clientXm) && activeRow === 0) {
+          moveTV = true;
+          moveTv(clientYm + threshold,0)
+        } else {
+          moveTV = false;
+
+          if (Math.abs(clientXm) >= threshold) {
+            clientX += clientXm;
+
+            if (clientXm < 0) {
+              moveFocus('left')
+            } else {
+              moveFocus('right')
+            }
+          }
+
+          if (Math.abs(clientYm) >= threshold) {
+            clientY += clientYm;
+
+            if (clientYm < 0) {
+              moveFocus('up')
+            } else {
+              moveFocus('down')
+            }
+          }
+        }
+      } else if (phase == 'end') {
+        if (moveTV) {
+          moveTV = false;
+
+          if (clientYm < -threshold * 2) {
+            topOpen = false;
+            moveTv(-globalHeight,speed);
+          } else {
+            moveTv(0,speed);
+          }
+        }
+      }
     } else {
-      if (phase == 'move' && !fullScreen) {
+      if (phase == 'start') {
+        startX = event.pageX;
+        startY = event.pageY;
+      } else if (phase == 'move' && !fullScreen) {
         if (direction == 'left') {
           if (topOpen) {
 
@@ -334,6 +397,7 @@
   // move top
   function moveTv(distance,duration) {
     duration = duration || 0;
+    distance = Math.min(distance,0);
 
     $tv.css({
       '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
@@ -343,15 +407,47 @@
 
 
   // move rows
-  function moveRow(index,distance,duration) {
-    if (index < 0 || index > maxIndex) return;
-
+  function moveRow(distance,duration) {
     duration = duration || 0;
 
-    $video.eq(index).css({
+    $topRow.eq(activeRow).css({
       '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
       '-webkit-transform': 'translate3d('+ distance +'px,0,0)'
     })
+  }
+
+
+  // move focus
+  function moveFocus(direction) {
+    if (direction == 'up' || direction == 'down') {
+      $topRow.eq(activeRow).parent().removeClass('active');
+      $topRow.eq(activeRow).children().eq(rowsMoved[activeRow] + viewIndex).removeClass('active');
+
+      activeRow = direction == 'up' ? Math.max(activeRow - 1,0) : Math.min(activeRow + 1,2);
+
+      $topRow.eq(activeRow).parent().addClass('active');
+      $topRow.eq(activeRow).children().eq(rowsMoved[activeRow] + viewIndex).addClass('active');
+    } else if (direction == 'left' || direction == 'right') {
+      $topRow.eq(activeRow).children().eq(rowsMoved[activeRow] + viewIndex).removeClass('active');
+
+      if (direction == 'left') {
+        if (viewIndex > 0) {
+          viewIndex--;
+        } else if (rowsMoved[activeRow] > 0) {
+          rowsMoved[activeRow]--;
+          moveRow(-rowsMoved[activeRow] * rowPieceWidth,200)
+        }
+      } else {
+        if (viewIndex < viewMaxIndex) {
+          viewIndex++;
+        } else if (rowsMoved[activeRow] < rowsMaxMove[activeRow]) {
+          rowsMoved[activeRow]++;
+          moveRow(-rowsMoved[activeRow] * rowPieceWidth,200)
+        }
+      }
+
+      $topRow.eq(activeRow).children().eq(rowsMoved[activeRow] + viewIndex).addClass('active');
+    }
   }
 
 

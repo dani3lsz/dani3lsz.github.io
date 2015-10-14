@@ -728,8 +728,6 @@ a {
     .tv__top__row {
       position: relative;
       height: 33.33337%;
-      -webkit-transform: translate3d(0,0,0);
-              transform: translate3d(0,0,0);
     }
 
     .active > .tv__top__row {
@@ -776,6 +774,8 @@ a {
         left:   0;
         white-space: nowrap;
         font-size: 0; /* remove space between inline-block elements */
+        -webkit-transform: translate3d(0,0,0);
+                transform: translate3d(0,0,0);
       }
 
         .tv__top__row__content:before {
