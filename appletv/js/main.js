@@ -17,7 +17,7 @@
     topElemWidth,
     topElemHeight,
     speed = 400,
-    pad = 80,
+    pad = 100,
     threshold,
     activeIndex = -1, // on start it needs to be -1
     maxIndex = ytArr.length - 1,
