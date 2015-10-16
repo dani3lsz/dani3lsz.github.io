@@ -21,7 +21,7 @@
     threshold,
     activeIndex = -1, // on start it needs to be -1
     maxIndex = ytArr.length - 1,
-    posNext, posPrev, posActive,
+    posNext, posPrev, posActive, posReady,
     fullScreen = false,
     autoPlay = true,
     scale,
@@ -42,6 +42,8 @@
     activeChannel = 0,
     maxChannelIndex = 1,
     movingChannel = false,
+    playerTimeout,
+    playerState,
     player = {};
 
   var
@@ -90,6 +92,7 @@
     threshold = (globalWidth - videoWidth) / 4;
     posNext = pad / 2;
     posActive = globalHeight / 2 + videoHeight / 2;
+    posReady = globalHeight / 3;
     posPrev = globalHeight + videoHeight;
     scale = globalWidth / videoWidth;
 
@@ -109,6 +112,11 @@
     $info.css({
       'width': videoWidth,
       'margin-top': ((globalHeight - videoHeight) / 2 - 50) / 2
+    });
+
+    $score.parent().css({
+      'top': globalHeight / 2 - videoHeight / 2 - 50,
+      'right': threshold + 'px'
     });
 
     $voteUp.css({
@@ -134,6 +142,10 @@
     var newDiv = document.createElement('div');
     newDiv.setAttribute('class','tv__main__video js-video');
 
+    var newTitle = document.createElement('div');
+    newTitle.setAttribute('class', 'tv__main__video__title truncate js-title');
+    newTitle.innerHTML = 'Some title';
+
     var iframe = document.createElement('iframe');
     iframe.id = 'player' + i;
     iframe.type = 'text/html';
@@ -142,6 +154,7 @@
     iframe.src = 'http://www.youtube.com/embed/'+ ytArr[i] +'?autohide=1&rel=0&iv_load_policy=3&enablejsapi=1&controls=0&playsinline=1&vq=hd720';
     iframe.frameBorder = 0;
 
+    $video.eq(i).append(newTitle);
     $video.eq(i).append(iframe);
     $video.eq(i).after(newDiv);
     $video = $('.js-video');
@@ -218,48 +231,58 @@
         startY = event.pageY;
       } else if (phase == 'move' && !fullScreen) {
         if (direction == 'left') {
-          if (topOpen) {
-
-          } else if (startX > globalWidth - threshold && activeChannel < maxChannelIndex) {
+          if (startX > globalWidth - threshold && activeChannel < maxChannelIndex) {
             movingChannel = true;
             moveChannel(globalWidth * activeChannel - distance,0)
-          } else {
+          } else if (playerState) {
             moveVideo(activeIndex,Math.max(-distance / 2,-threshold),-posActive,1,0);
             increaseThumb(direction,distance / 2,0)
           }
         } else if (direction == 'right') {
-          if (topOpen) {
-
-          } else if (startX < threshold && activeChannel > 0) {
+          if (startX < threshold && activeChannel > 0) {
             movingChannel = true;
             moveChannel(-globalWidth * activeChannel + distance,0)
-          } else {
+          } else if (playerState) {
             moveVideo(activeIndex,Math.min(distance / 2,threshold),-posActive,1,0);
             increaseThumb(direction,distance / 2,0)
           }
         } else if (direction == 'up') {
-          if (topOpen) {
-            moveTv(-distance,0)
-          } else {
-            moveVideo(activeIndex,0,-posActive - distance,1,0);
-            moveVideo(activeIndex + 1,0,-posNext - distance / 2,1,0);
-          }
-        } else if (direction == 'down') {
-          if (startY < (globalHeight - videoHeight) / 2 && !topOpen) {
-            moveTv(-globalHeight + distance,0)
-          } else {
-            moveVideo(activeIndex - 1,0,-posPrev + distance / 2,1,0);
-            moveVideo(activeIndex,0,-posActive + distance,1,0);
-            moveVideo(activeIndex + 1,0,-posNext + distance / 2,1,0);
+          if (playerTimeout) {
+            clearTimeout(playerTimeout);
+            playerTimeout = null;
           }
 
+          if (playerState) {
+            moveVideo(activeIndex,0,-posActive - distance,1,0);
+            moveVideo(activeIndex + 1,0,-posNext - distance / 4,1,0);
+          } else {
+            moveVideo(activeIndex,0,-posReady - distance,1,0);
+            moveVideo(activeIndex + 1,0,-posNext - distance / 4,1,0);
+            moveTitle(activeIndex,-globalHeight / 3 + distance / 2,1,2,0)
+          }
+
+        } else if (direction == 'down') {
+          if (playerTimeout) {
+            clearTimeout(playerTimeout);
+            playerTimeout = null;
+          }
+
+          if (startY < (globalHeight - videoHeight) / 2 && !topOpen) {
+            moveTv(-globalHeight + distance,0)
+          } else if (playerState) {
+            moveVideo(activeIndex - 1,0,-posPrev + distance / 4,1,0);
+            moveVideo(activeIndex,0,-posActive + distance,1,0);
+            moveVideo(activeIndex + 1,0,-posNext + distance / 4,1,0);
+          } else {
+            moveVideo(activeIndex - 1,0,-posPrev + distance / 4,1,0);
+            moveVideo(activeIndex,0,-posReady + distance,1,0);
+            moveVideo(activeIndex + 1,0,-posNext + distance / 4,1,0);
+            moveTitle(activeIndex,-globalHeight / 3 + distance / 2,1,2,0)
+          }
         }
       } else if (phase == 'end') {
         if (distance === 0) {
-          if (topOpen) {
-            topOpen = false;
-            moveTv(-globalHeight,speed)
-          } else if (timeOut) {
+          if (timeOut) {
             clearTimeout(timeOut);
             timeOut = 0;
 
@@ -284,14 +307,7 @@
             },300);
           }
         } else {
-          if (topOpen && direction == 'up') {
-            if (distance > threshold) {
-              topOpen = false;
-              moveTv(-globalHeight,speed)
-            } else {
-              moveTv(0,speed)
-            }
-          } else if (!topOpen && direction == 'down' && startY < (globalHeight - videoHeight) / 2) {
+          if (!topOpen && direction == 'down' && startY < (globalHeight - videoHeight) / 2) {
             if (distance > threshold) {
               topOpen = true;
               moveTv(0,speed)
@@ -363,6 +379,7 @@
       // return if no next video
       if (activeIndex === maxIndex) {
         moveVideo(activeIndex,0,-posActive,1,speed);
+        moveTitle(activeIndex,0,1,1,speed);
         increaseThumb();
         return
       }
@@ -375,6 +392,7 @@
 
       activeIndex++;
       vote = null;
+      playerState = 0;
       $voteDown.removeClass('active');
       $voteUp.removeClass('active');
 
@@ -387,6 +405,7 @@
       if (activeIndex === 0) {
         moveVideo(activeIndex,0,-posActive,1,speed);
         moveVideo(activeIndex + 1,0,-posNext,1,speed);
+        moveTitle(activeIndex,0,1,1,speed);
         increaseThumb();
         return
       }
@@ -396,22 +415,45 @@
 
       activeIndex--;
       vote = null;
+      playerState = 0;
       $voteDown.removeClass('active');
       $voteUp.removeClass('active');
     }
 
-    moveVideo(activeIndex + 1,0,-posNext,1,speed);
-    moveVideo(activeIndex,0,-posActive,fullScreen ? scale : 1,speed);
-    moveVideo(activeIndex - 1,0,-posPrev,1,speed);
-    increaseThumb();
 
-    if (autoPlay)
-      player[activeIndex].playVideo();
+
+    moveVideo(activeIndex + 1,0,-posNext,1,speed);
+
+    if (fullScreen) {
+      moveVideo(activeIndex,0,-posActive,scale,speed);
+    } else if (direction == 'up' || direction == 'down') {
+      moveVideo(activeIndex,0,-posReady,1,speed);
+
+      if (autoPlay && fullScreen) {
+        playerState = 1;
+        player[activeIndex].playVideo();
+      } else if (autoPlay) {
+        playerTimeout = setTimeout(function(){
+          clearTimeout(playerTimeout);
+          playerTimeout = null;
+          playerState = 1;
+
+          moveVideo(activeIndex,0,-posActive,1,speed);
+          moveTitle(activeIndex,0,1,1,speed);
+          player[activeIndex].playVideo();
+        },3000);
+      }
+
+      moveTitle(activeIndex,-globalHeight / 3,1,2,speed);
+      moveTitle(activeIndex + 1,0,0,1,speed);
+      increaseThumb();
+    } else {
+      moveVideo(activeIndex,0,-posActive,1,speed);
+    }
+
+    moveVideo(activeIndex - 1,0,-posPrev,1,speed);
 
     $video.eq(activeIndex).addClass('active');
-
-    // temp function
-    setScore()
   }
 
 
@@ -447,6 +489,19 @@
     $topRow.eq(activeRow).css({
       '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
       '-webkit-transform': 'translate3d('+ distance +'px,0,0)'
+    })
+  }
+
+
+  // move title
+  function moveTitle(index,distance,opacity,scale,duration) {
+    if (index < 0 || index > maxIndex) return;
+    duration = duration || 0;
+
+    $video.eq(index).children().eq(0).css({
+      '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
+      '-webkit-transform': 'translate3d(0,'+ distance +'px,0) scale('+ scale +')',
+      'opacity': opacity
     })
   }
 
@@ -631,12 +686,32 @@
 
   // toggle video play
   function toggleVideoPlay() {
-    if (autoPlay) {
-      autoPlay = false;
-      player[activeIndex].pauseVideo()
+    if (playerTimeout) {
+      playerTimeout = setTimeout(function(){
+        clearTimeout(playerTimeout);
+        playerTimeout = null;
+        playerState = 1;
+
+        moveVideo(activeIndex,0,-posActive,1,speed);
+        moveTitle(activeIndex,0,1,1,speed);
+        player[activeIndex].playVideo();
+      },0);
     } else {
-      autoPlay = true;
-      player[activeIndex].playVideo()
+      if (autoPlay) {
+        autoPlay = false;
+        player[activeIndex].pauseVideo()
+      } else {
+        autoPlay = true;
+
+        if (!playerState) {
+          playerState = 1;
+
+          moveVideo(activeIndex,0,-posActive,1,speed);
+          moveTitle(activeIndex,0,1,1,speed);
+        }
+
+        player[activeIndex].playVideo();
+      }
     }
   }
 
