@@ -40,6 +40,8 @@
     moveTV,
     longSwipe = false,
     activeChannel = 0,
+    maxChannelIndex = 1,
+    movingChannel = false,
     player = {};
 
   var
@@ -54,7 +56,8 @@
     $scoreCircle = $('#js-score-circle'),
     $voteUp = $('.js-vote-up'),
     $voteDown = $('.js-vote-down'),
-    $video = $('.js-video');
+    $video = $('.js-video'),
+    $channel = $('.js-channel');
 
 
 
@@ -217,6 +220,9 @@
         if (direction == 'left') {
           if (topOpen) {
 
+          } else if (startX > globalWidth - threshold && activeChannel < maxChannelIndex) {
+            movingChannel = true;
+            moveChannel(globalWidth * activeChannel - distance,0)
           } else {
             moveVideo(activeIndex,Math.max(-distance / 2,-threshold),-posActive,1,0);
             increaseThumb(direction,distance / 2,0)
@@ -224,6 +230,9 @@
         } else if (direction == 'right') {
           if (topOpen) {
 
+          } else if (startX < threshold && activeChannel > 0) {
+            movingChannel = true;
+            moveChannel(-globalWidth * activeChannel + distance,0)
           } else {
             moveVideo(activeIndex,Math.min(distance / 2,threshold),-posActive,1,0);
             increaseThumb(direction,distance / 2,0)
@@ -289,6 +298,22 @@
             } else {
               moveTv(-globalHeight,speed)
             }
+          } else if (movingChannel) {
+            movingChannel = false;
+            
+            if (distance > threshold) {
+              if (direction == 'left') {
+                $channel.children().eq(activeChannel).removeClass('active');
+                activeChannel++;
+                $channel.children().eq(activeChannel).addClass('active')
+              } else {
+                $channel.children().eq(activeChannel).removeClass('active');
+                activeChannel--;
+                $channel.children().eq(activeChannel).addClass('active')
+              }
+            }
+
+            moveChannel(-globalWidth * activeChannel,speed)
           } else if (!fullScreen) {
             playNextVideo(direction)
           }
@@ -420,6 +445,17 @@
     duration = duration || 0;
 
     $topRow.eq(activeRow).css({
+      '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
+      '-webkit-transform': 'translate3d('+ distance +'px,0,0)'
+    })
+  }
+
+
+  // move channel
+  function moveChannel(distance,duration) {
+    duration = duration || 0;
+
+    $channel.css({
       '-webkit-transition-duration': (duration / 1000).toFixed(1) + 's',
       '-webkit-transform': 'translate3d('+ distance +'px,0,0)'
     })

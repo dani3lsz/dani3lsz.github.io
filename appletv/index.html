@@ -52,29 +52,58 @@
     </div>
 
     <div class="tv__main">
-      <div class="tv__main__info js-info">
-        <div class="tv__main__info__score">
-          <div class="tv__main__info__score__svg">
-            <svg width="28" height="28">
-              <circle id="js-score-circle" cx="14" cy="14" r="12"/>
-            </svg>
+      <div class="tv__channels js-channel">
+        <div class="tv__channels__channel active">
+          <div class="tv__main__info js-info">
+            <div class="tv__main__info__score">
+              <div class="tv__main__info__score__svg">
+                <svg width="28" height="28">
+                  <circle id="js-score-circle" cx="14" cy="14" r="12"/>
+                </svg>
+              </div>
+              <span class="js-score">0</span>
+            </div>
+
+            <div class="tv__main__info__channel">Scinece</div>
+
+            <div class="tv__main__info__title truncate">Some title comes here</div>
           </div>
-          <span class="js-score">0</span>
+
+          <div class="tv__main__vote tv__main__vote--up js-vote-up"><i class="aai-plus-circ-o"></i></div>
+
+          <div class="tv__main__vote tv__main__vote--down js-vote-down"><i class="aai-minus-circ-o"></i></div>
+
+          <div class="tv__main__video js-video"></div>
+
+          <div class="tv__main__overlay js-overlay"></div>
         </div>
 
-        <div class="tv__main__info__channel">Scinece</div>
+        <div class="tv__channels__channel">
+          <div class="tv__main__info js-info">
+            <div class="tv__main__info__score">
+              <div class="tv__main__info__score__svg">
+                <svg width="28" height="28">
+                  <circle cx="14" cy="14" r="12"/>
+                </svg>
+              </div>
+              <span>10</span>
+            </div>
 
-        <div class="tv__main__info__title truncate">Some title comes here</div>
+            <div class="tv__main__info__channel">Placeholder Channel</div>
+
+            <div class="tv__main__info__title truncate">Some title comes here</div>
+          </div>
+
+          <div class="tv__main__vote tv__main__vote--up"><i class="aai-plus-circ-o"></i></div>
+
+          <div class="tv__main__vote tv__main__vote--down"><i class="aai-minus-circ-o"></i></div>
+
+          <div class="tv__main__video"></div>
+
+          <div class="tv__main__overlay"></div>
+        </div>
       </div>
-
-      <div class="tv__main__vote tv__main__vote--up js-vote-up"><i class="aai-plus-circ-o"></i></div>
-
-      <div class="tv__main__vote tv__main__vote--down js-vote-down"><i class="aai-minus-circ-o"></i></div>
-
-      <div class="tv__main__video js-video"></div>
-
-      <div class="tv__main__overlay js-overlay"></div>
-    </div>
+      </div>
   </div>
 
   <div class="tv-stage js-stage"></div>
