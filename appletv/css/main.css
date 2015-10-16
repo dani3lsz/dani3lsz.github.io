@@ -61,6 +61,18 @@
 .aai-heart:before {
   content: "\e00a";
 }
+.aai-plus-circ-o:before {
+  content: "\e00b";
+}
+.aai-plus-circ:before, .aai-plus-circ-o.full:before {
+  content: "\e00c";
+}
+.aai-minus-circ-o:before {
+  content: "\e00d";
+}
+.aai-minus-circ:before, .aai-minus-circ-o.full:before {
+  content: "\e00e";
+}
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 
@@ -633,7 +645,7 @@ body {
   height: 100%;
   font-size: 1.4rem;
   line-height: 1.2;
-  color: #333;
+  color: #fff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -818,7 +830,7 @@ a {
   .tv__main {
     position: relative;
     height: 50%;
-    background-color: rgba(255,255,255,.7);
+    background-color: rgba(0,0,0,.7);
     overflow: hidden;
   }
 
@@ -832,7 +844,7 @@ a {
         float: left;
         font-size: 18px;
         font-weight: 700;
-        color: rgba(51,85,255,.5);
+        color: rgba(170,187,255,.5);
       }
 
         .tv__main__info__score__svg {
@@ -852,7 +864,7 @@ a {
             bottom: 4px;
             left:   4px;
             border-radius: 50%;
-            box-shadow: 0 0 0 1px #35f;
+            box-shadow: 0 0 0 1px #abf;
           }
 
           .tv__main__info__score__svg > svg {
@@ -861,7 +873,7 @@ a {
           }
 
             .tv__main__info__score__svg > svg > circle {
-              stroke: #35f;
+              stroke: #abf;
               fill: none;
               stroke-width: 3;
               stroke-dasharray: 76; /* circumference for 10px radius */
@@ -877,14 +889,14 @@ a {
         font-size: 16px;
         font-weight: 700;
         text-transform: uppercase;
-        color: #35f;
+        color: #abf;
       }
 
       .tv__main__info__title {
         padding: 0 20px;
         font-size: 22px;
         text-align: center;
-        color: #222;
+        color: #fff;
       }
 
     .tv__main__vote {
@@ -894,7 +906,7 @@ a {
       width:  30px;
       height: 30px;
       font-size: 30px;
-      color: #35f;
+      color: #abf;
       opacity: .25;
     }
 
@@ -908,26 +920,36 @@ a {
       margin: -15px 0 0 -15px;
     }
 
+      .tv__main__vote--up:before {
+        content: '+1';
+        -webkit-transform: translate3d(30px,0,0);
+      }
+
+      .tv__main__vote--down:before {
+        content: '-1';
+        -webkit-transform: translate3d(-30px,0,0);
+      }
+
       .tv__main__vote:before {
-        content: '';
         position: absolute;
         top:  50%;
         left: 50%;
         width:  30px;
         height: 30px;
         margin: -15px 0 0 -15px;
+        font-size: 20px;
+        line-height: 30px;
+        text-align: center;
         border-radius: 50%;
-        background-color: #35f;
+        color: #abf;
         opacity: 0;
         -webkit-transition: 0s;
                 transition: 0s;
-        -webkit-transform: scale(0);
-                transform: scale(0);
       }
 
       .tv__main__vote.active:before {
-        -webkit-animation: scaleUp .4s linear;
-                animation: scaleUp .4s linear;
+        -webkit-animation: vote .4s linear;
+                animation: vote .4s linear;
       }
 
     .tv__main__video {
@@ -1567,12 +1589,12 @@ a {
 
 
 
-@-webkit-keyframes scaleUp {
-  50% {opacity: .5; -webkit-transform: scale(1.5)}
-  100% {opacity: 0; -webkit-transform: scale(3)}
+@-webkit-keyframes vote {
+  0%   {opacity: 1;}
+  100% {opacity: 0;}
 }
 
-@keyframes scaleUp {
-  50% {opacity: .5; transform: scale(1.5)}
-  100% {opacity: 0; transform: scale(3)}
+@keyframes vote {
+  0%   {opacity: 1;}
+  100% {opacity: 0;}
 }

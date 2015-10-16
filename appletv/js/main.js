@@ -28,6 +28,8 @@
     timeOut,
     startX, startY, clientX, clientY, clientXn, clientYn, clientXm, clientYm,
     vote,
+    voteUp = 0, voteDown = 0,
+    scoreCircleRadius = 12,
     topOpen = false,
     rowPieceWidth,
     viewMaxIndex,
@@ -37,6 +39,7 @@
     rowsMaxMove = [],
     moveTV,
     longSwipe = false,
+    activeChannel = 0,
     player = {};
 
   var
@@ -47,7 +50,8 @@
     $topRow = $('.js-top-row'),
     $topElem = $('.js-top-elem'),
     $info = $('.js-info'),
-    $score = $('#js-score'),
+    $score = $('.js-score'),
+    $scoreCircle = $('#js-score-circle'),
     $voteUp = $('.js-vote-up'),
     $voteDown = $('.js-vote-down'),
     $video = $('.js-video');
@@ -96,6 +100,9 @@
       'width': topElemWidth
     });
 
+    $topRow.css({
+    });
+
     $info.css({
       'width': videoWidth,
       'margin-top': ((globalHeight - videoHeight) / 2 - 50) / 2
@@ -138,15 +145,6 @@
 
     ytPlayer(i);
     setValues()
-  }
-
-
-  // set score
-  function setScore() {
-    var v = Math.round(Math.random() * 76);
-    $score.css({
-      'stroke-dashoffset': v
-    })
   }
 
 
@@ -478,6 +476,9 @@
 
         opacityActive = 1;
         opacityPassive = 0.25;
+
+        voteActive.children().addClass('full');
+        votePassive.children().removeClass('full')
       } else {
         voteActive = $voteUp;
         votePassive = $voteDown;
@@ -487,6 +488,9 @@
 
         opacityActive = 0.25;
         opacityPassive = 0.25;
+
+        voteActive.children().removeClass('full');
+        votePassive.children().removeClass('full')
       }
       duration = speed;
     } else {
@@ -508,7 +512,15 @@
           scaleActive = 1;
           scalePassive = 1;
           voteActive.addClass('active');
-          votePassive.removeClass('active')
+          votePassive.removeClass('active');
+          voteActive.children().addClass('full');
+          votePassive.children().removeClass('full');
+
+          if (direction == 'left') {
+            setScore(-1,-1)
+          } else {
+            setScore(1,1)
+          }
         }
       } else {
         voteActive = direction == 'left' ? $voteDown : $voteUp;
@@ -522,6 +534,13 @@
           duration = speed;
           scaleActive = 1;
           voteActive.addClass('active');
+          voteActive.children().addClass('full');
+
+          if (direction == 'left') {
+            setScore(0,-1)
+          } else {
+            setScore(1,0)
+          }
         }
       }
     }
@@ -541,6 +560,36 @@
         '-webkit-transform': 'scale('+ scalePassive +')'
       });
     }
+  }
+
+
+  // set score
+  function setScore(up,down) {
+    up = typeof up != 'undefined' ? up : 0;
+    down = typeof down != 'undefined' ? down : 0;
+
+    voteUp += up;
+    voteDown -= down;
+
+    var s = voteUp - voteDown;
+
+    console.log(voteUp + ' ' + voteDown);
+
+    if (s > 0) {
+      s = '+' + s;
+    }
+
+    var p = Math.ceil(2 * scoreCircleRadius * Math.PI);
+    var sum = voteUp + voteDown;
+    var ratio = sum ? voteUp / sum : 0.5;
+
+    var v = p - Math.round(ratio * p);
+
+    $scoreCircle.css({
+      'stroke-dashoffset': v
+    });
+
+    $score.text(s)
   }
 
 
