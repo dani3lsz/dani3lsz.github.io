@@ -300,7 +300,7 @@
             }
           } else if (movingChannel) {
             movingChannel = false;
-            
+
             if (distance > threshold) {
               if (direction == 'left') {
                 $channel.children().eq(activeChannel).removeClass('active');
