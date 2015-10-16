@@ -233,6 +233,8 @@
         if (direction == 'left') {
           if (startX > globalWidth - threshold && activeChannel < maxChannelIndex) {
             movingChannel = true;
+            autoPlay = false;
+            player[activeIndex].pauseVideo();
             moveChannel(globalWidth * activeChannel - distance,0)
           } else if (playerState) {
             moveVideo(activeIndex,Math.max(-distance / 2,-threshold),-posActive,1,0);
@@ -241,6 +243,8 @@
         } else if (direction == 'right') {
           if (startX < threshold && activeChannel > 0) {
             movingChannel = true;
+            autoPlay = false;
+            player[activeIndex].pauseVideo();
             moveChannel(-globalWidth * activeChannel + distance,0)
           } else if (playerState) {
             moveVideo(activeIndex,Math.min(distance / 2,threshold),-posActive,1,0);
@@ -420,19 +424,19 @@
       $voteUp.removeClass('active');
     }
 
-
-
     moveVideo(activeIndex + 1,0,-posNext,1,speed);
 
     if (fullScreen) {
       moveVideo(activeIndex,0,-posActive,scale,speed);
-    } else if (direction == 'up' || direction == 'down') {
+      playerState = 1;
+
+      if (autoPlay) {
+        player[activeIndex].playVideo();
+      }
+    } else if (direction == 'up') {
       moveVideo(activeIndex,0,-posReady,1,speed);
 
-      if (autoPlay && fullScreen) {
-        playerState = 1;
-        player[activeIndex].playVideo();
-      } else if (autoPlay) {
+      if (autoPlay) {
         playerTimeout = setTimeout(function(){
           clearTimeout(playerTimeout);
           playerTimeout = null;
@@ -445,6 +449,17 @@
       }
 
       moveTitle(activeIndex,-globalHeight / 3,1,2,speed);
+      moveTitle(activeIndex + 1,0,0,1,speed);
+      increaseThumb();
+    } else if (direction == 'down') {
+      moveVideo(activeIndex,0,-posActive,1,speed);
+      playerState = 1;
+
+      if (autoPlay) {
+        player[activeIndex].playVideo();
+      }
+
+      moveTitle(activeIndex,0,1,1,speed);
       moveTitle(activeIndex + 1,0,0,1,speed);
       increaseThumb();
     } else {
