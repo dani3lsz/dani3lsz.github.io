@@ -33,31 +33,6 @@
   }
 
 
-  function fillCanvas() {
-    for (var i = 0; i <= maxIndex; i++) {
-      (function(){
-        var index = i;
-
-        var image = new Image();
-        image.onload = function() {
-          var image = this;
-          var w = image.width;
-          var h = image.height;
-          var cw = 1920;
-          var ch = 1080;
-
-          var canvas = $canvas[index];
-          var ctx = canvas.getContext("2d");
-
-          ctx.drawImage(image, 33, 71, 104, 124, 21, 20, 87, 104);
-        };
-
-        image.src = $canvas[i].getAttribute('data-img')
-      })();
-    }
-  }
-
-
   // handle swipes
   function swipeStage(event,phase,direction,distance,fingers) {
     if (phase == 'start') {
@@ -149,7 +124,6 @@
   }
 
   getInfo();
-  fillCanvas();
 
   // bind swipe events to stage
   $stage.swipe({

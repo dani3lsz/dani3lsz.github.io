@@ -732,16 +732,17 @@ a {
       height: 100%;
     }
 
-      .noob__video__elem__canvas {
+      .noob__video__elem__overlay {
         position: absolute;
         top:    0;
         right:  0;
         bottom: 0;
         left:   0;
         -webkit-transition: .4s ease-in-out;
+        -webkit-backdrop-filter: blur(60px)
       }
 
-      .playing .active > .noob__video__elem__canvas {
+      .playing .active > .noob__video__elem__overlay {
         opacity: 0;
       }
 
