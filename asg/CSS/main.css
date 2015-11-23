@@ -1,0 +1,45 @@
+* {
+  margin:  0;
+  padding: 0;
+}
+
+body {
+  background-color: #f0f0f0;
+  color: #666;
+  font-size: 62.5%;
+}
+
+.main-wrapper {
+  text-align: center;
+}
+
+.draw-canvas {
+  display: block;
+  width:  500px;
+  height: 500px;
+  margin: 50px auto 0;
+  background-color: #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+}
+
+.draw-btn {
+  position: relative;
+  margin-top: 50px;
+  border:  none;
+  outline: none;
+  background-color: #ddd;
+  box-shadow: inset 0 0 0 1px, 0 2px;
+  font-size: 1.4em;
+  color: inherit;
+  padding: .5em 1em;
+  cursor: pointer;
+}
+
+.draw-btn:hover, .draw-btn:focus {
+  background-color: #e5e5e5;
+}
+
+.draw-btn:active {
+  top: 1px;
+  box-shadow: inset 0 0 0 1px, 0 1px;
+}
