@@ -1,0 +1,188 @@
+/*
+ * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION CAREFULLY:
+ *
+ * http://cssguidelin.es/
+ *
+ * What differs from the guideline:
+ *
+ * - Indentations are 2px
+ * - Columns are 120px wide
+ * - don't use [] in html inside class="" for grouping
+ * - in html class="" don't use 2 space between classes, but put the related ones next to each other
+ * - low level commenting is not necessary but u can use, just try to explain the things u think is important
+ *
+ */
+
+/*
+ * RULES
+ *
+ *  1) GLOBAL.................................global rules for regular html elements
+ *
+ *  2) MAIN LAYOUT............................rules for the main wrapper elements
+ *
+ *  3) NOW GAMING.............................rules for nowGaming section
+ *
+ *  4) GAME LISTS.............................rules for gameLists section
+ *
+ *  5) GAMING SOON............................rules for gamingSoon section
+ *
+ *  6) GAME SWIPE.............................rules for gameSwipe section
+ *
+ *  7) GAME DETAILS...........................rules for the details section
+ *
+ */
+
+
+
+
+
+
+
+/*----------*\
+   #GLOBAL
+\*----------*/
+
+
+
+html {
+  -webkit-tap-highlight-color: rgba(0,0,0,0); /* prevent highlight on tap */
+  -webkit-text-size-adjust: 100%; /* text may be inflated of this exact proportion on mobile browsers */
+  font-size: 62.5%; /* setting default font size to 10px */
+}
+
+html, body {
+  height: 100%; /* needed for setting height of other elements */
+  margin:  0;
+  padding: 0;
+}
+
+body {
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.45;
+  background-color: #e9e9e9;
+  /* Prevent user selection */
+  -webkit-user-select: none;
+          user-select: none;
+}
+
+form {
+  position: relative;
+}
+
+input, textarea {
+  /* enable to select the text here */
+  -webkit-user-select: text;
+          user-select: text;
+}
+
+input[type="search"] {
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+button, select {
+  border:  none;
+  outline: none;
+  background: transparent;
+  text-transform: none;
+}
+
+button, input[type='text'], input[type='submit'], textarea{
+  -webkit-appearance: none; /* prevent to change the look in webkit browsers to the default */
+}
+
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+  cursor: pointer;
+}
+
+button[disabled], input[disabled] {
+  cursor: default;
+}
+
+a {
+  color: #aaa;
+  text-decoration: none;
+}
+
+a:active, a:focus, a:hover {
+  outline: 0;
+  color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+  line-height: 1.1;
+  margin-top:    10px;
+  margin-bottom: 10px;
+}
+
+h1 {font-size: 3.6rem;}
+h2 {font-size: 3.2rem;}
+h3 {font-size: 2.4rem;}
+h4 {font-size: 1.8rem;}
+h5 {font-size: 1.4rem;}
+h6 {font-size: 1.2rem;}
+
+p {
+  margin: 0 0 10px;
+}
+
+::-webkit-scrollbar {
+  /* hide scrollbars in webkit browsers */
+  display: none;
+}
+
+
+
+
+
+/*--------------*\
+   #MAIN LAYOUT
+\*--------------*/
+
+
+
+.main-wrapper {
+  height: 100%;
+  background-repeat:   no-repeat;
+  background-position: center center;
+  background-size:     cover;
+}
+
+
+
+
+
+/*--------------*\
+   #NOW GAMING
+\*--------------*/
+
+
+
+/*--------------*\
+   #GAME LISTS
+\*--------------*/
+
+
+
+/*---------------*\
+   #GAMING SOON
+\*---------------*/
+
+
+
+/*--------------*\
+   #GAME SWIPE
+\*--------------*/
+
+
+
+/*----------------*\
+   #GAME DETAILS
+\*----------------*/
