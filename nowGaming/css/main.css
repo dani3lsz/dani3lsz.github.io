@@ -1,5 +1,5 @@
 /*
- * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION CAREFULLY:
+ * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION:
  *
  * http://cssguidelin.es/
  *
@@ -148,12 +148,48 @@ p {
 
 
 
-.main-wrapper {
-  height: 100%;
+.aa {
+  position: fixed;
+  top:    0;
+  right:  0;
+  bottom: 0;
+  left:   0;
   background-repeat:   no-repeat;
   background-position: center center;
   background-size:     cover;
 }
+
+
+
+nav {
+  background-color: rgba(255,255,255,.75);
+  font-size: 0; /* prevent spaces between inline-blocks */
+  white-space: nowrap;
+  text-align: center;
+}
+
+  nav > button {
+    display: inline-block;
+    padding: 0 2rem;
+    font-size: 1.8rem;
+    line-height: 4;
+    color: rgba(0,0,0,.5);
+  }
+
+  nav > button:hover, nav > button:focus {
+    color: rgba(255,255,255,1);
+  }
+
+
+
+article {
+  height: 100%;
+  background-color: rgba(0,0,0,.75);
+}
+
+  article > header {
+
+  }
 
 
 
@@ -162,6 +198,19 @@ p {
 /*--------------*\
    #NOW GAMING
 \*--------------*/
+
+
+
+.ng {
+
+}
+
+  .ng__video {
+    width: 50%;
+    margin: 20px;
+    background-color: #000;
+  }
+
 
 
 
