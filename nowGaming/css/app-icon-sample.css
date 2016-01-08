@@ -51,6 +51,7 @@
 .s_icon {
   display: inline-block;
   vertical-align: top;
+  width: 100%;
 }
 
   .s_icon__pad {
