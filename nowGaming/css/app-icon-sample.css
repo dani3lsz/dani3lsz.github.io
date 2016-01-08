@@ -184,6 +184,25 @@
           background-image: url('../images/minutes-2.png');
         }
 
+        .s_icon__box--toddler > .s_icon__layer {
+        }
+
+        .s_icon__box--toddler > .s_icon__layer--1 {
+          top:    -10px;
+          right:  -10px;
+          bottom: -10px;
+          left:   -10px;
+          background-image: url('../images/toddler-0.jpg');
+          transform-origin: 50% 10px;
+          animation: swing 2s ease-in-out infinite alternate;
+        }
+
+        .s_icon__box--toddler > .s_icon__layer--2 {
+          background-image: url('../images/toddler-1.png');
+          transform-origin: 50% -10px;
+          animation: swing-small 1.5s ease-in-out infinite alternate;
+        }
+
 
 
 @media screen and (min-width: 480px) {
@@ -206,6 +225,24 @@
    #ANIMATIONS
 \*--------------*/
 
+
+@keyframes swing {
+  0% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes swing-small {
+  0% {
+    transform: rotate(-1deg);
+  }
+  100% {
+    transform: rotate(1deg);
+  }
+}
 
 @keyframes rotate {
   0% {
