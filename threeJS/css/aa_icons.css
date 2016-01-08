@@ -1,0 +1,206 @@
+@charset "UTF-8";
+
+/*
+ * Basic icon set for AppAdvice content.
+ * Generated through fontastic.com
+ * aai- prefix is important on all icon classes.
+ *
+ */
+
+
+
+
+
+@font-face {
+  font-family: "appadviceicons";
+  src:url("../fonts/appadviceicons.eot");
+  src:url("../fonts/appadviceicons.eot?#iefix") format("embedded-opentype"),
+      url("../fonts/appadviceicons.woff") format("woff"),
+      url("../fonts/appadviceicons.ttf") format("truetype"),
+      url("../fonts/appadviceicons.svg#appadviceicons") format("svg");
+  font-weight: normal;
+  font-style:  normal;
+}
+
+[data-icon]:before {
+  font-family: "appadviceicons" !important;
+  content: attr(data-icon);
+  font-style:   normal !important;
+  font-weight:  normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing:  antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="aai-"]:before,
+[class*=" aai-"]:before {
+  font-family: "appadviceicons" !important;
+  font-style:   normal !important;
+  font-weight:  normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing:  antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.aai-appadvice:before {
+  content: "\e000";
+}
+.aai-watchaware:before {
+  content: "\e001";
+}
+.aai-app-play:before {
+  content: "\e002";
+}
+.aai-thumbs-down:before {
+  content: "\e003";
+}
+.aai-thumbs-up:before {
+  content: "\e004";
+}
+.aai-screen-o:before {
+  content: "\e005";
+}
+.aai-screen:before {
+  content: "\e006";
+}
+.aai-bin-o:before {
+  content: "\e007";
+}
+.aai-bin:before {
+  content: "\e008";
+}
+.aai-heart-o:before {
+  content: "\e009";
+}
+.aai-heart:before {
+  content: "\e00a";
+}
+.aai-plus-circ-o:before {
+  content: "\e00b";
+}
+.aai-plus-circ:before {
+  content: "\e00c";
+}
+.aai-minus-circ-o:before {
+  content: "\e00d";
+}
+.aai-minus-circ:before {
+  content: "\e00e";
+}
+.aai-play-o:before {
+  content: "\e00f";
+}
+.aai-play:before {
+  content: "\e010";
+}
+.aai-pause-o:before {
+  content: "\e011";
+}
+.aai-pause:before {
+  content: "\e012";
+}
+.aai-stop-o:before {
+  content: "\e013";
+}
+.aai-stop:before {
+  content: "\e014";
+}
+.aai-record-o:before {
+  content: "\e015";
+}
+.aai-record:before {
+  content: "\e016";
+}
+.aai-backward-o:before {
+  content: "\e017";
+}
+.aai-backward:before {
+  content: "\e018";
+}
+.aai-forward-o:before {
+  content: "\e019";
+}
+.aai-forward:before {
+  content: "\e01a";
+}
+.aai-previous-o:before {
+  content: "\e01b";
+}
+.aai-previous:before {
+  content: "\e01c";
+}
+.aai-next-o:before {
+  content: "\e01d";
+}
+.aai-next:before {
+  content: "\e01e";
+}
+.aai-arrow-down-o:before {
+  content: "\e01f";
+}
+.aai-arrow-down:before {
+  content: "\e020";
+}
+.aai-arrow-up-o:before {
+  content: "\e021";
+}
+.aai-arrow-up:before {
+  content: "\e022";
+}
+.aai-arrow-left-o:before {
+  content: "\e023";
+}
+.aai-arrow-left:before {
+  content: "\e024";
+}
+.aai-arrow-right-o:before {
+  content: "\e025";
+}
+.aai-arrow-right:before {
+  content: "\e026";
+}
+.aai-search:before {
+  content: "\e027";
+}
+.aai-share:before {
+  content: "\e028";
+}
+.aai-android:before {
+  content: "\e029";
+}
+.aai-apple:before {
+  content: "\e02a";
+}
+.aai-facebook:before {
+  content: "\e02b";
+}
+.aai-github:before {
+  content: "\e02c";
+}
+.aai-globe:before {
+  content: "\e02d";
+}
+.aai-google-plus:before {
+  content: "\e02e";
+}
+.aai-pinterest:before {
+  content: "\e02f";
+}
+.aai-rss:before {
+  content: "\e030";
+}
+.aai-stackoverflow:before {
+  content: "\e031";
+}
+.aai-twitter:before {
+  content: "\e032";
+}
+.aai-youtube:before {
+  content: "\e033";
+}
