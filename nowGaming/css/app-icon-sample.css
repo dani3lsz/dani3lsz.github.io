@@ -163,6 +163,27 @@
           animation-timing-function: ease-in-out;
         }
 
+        .s_icon__box--minutes > .s_icon__layer {
+        }
+
+        .s_icon__box--minutes > .s_icon__layer--1 {
+          background-color: #eff0e4;
+        }
+
+        .s_icon__box--minutes > .s_icon__layer--2 {
+          top:  56%;
+          left: 61%;
+          width:  100%;
+          height: 3px;
+          background-color: #de2823;
+          transform-origin: 15% 0;
+          animation: rotate 60s infinite steps(60);
+        }
+
+        .s_icon__box--minutes > .s_icon__layer--3 {
+          background-image: url('../images/minutes-2.png');
+        }
+
 
 
 @media screen and (min-width: 480px) {
@@ -185,12 +206,14 @@
    #ANIMATIONS
 \*--------------*/
 
-@-webkit-keyframes shake {
 
-}
-
-@keyframes shake {
-
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes shake-horizontal {
