@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>n.o;i's/e</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .noise {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      animation: noise 0s infinite alternate;
+    }
+    .noise:nth-child(1) {background-image: url("images/noise.jpg");display: block}
+    .noise:nth-child(2) {background-image: url("images/noise2.jpg")}
+    .noise:nth-child(3) {background-image: url("images/noise3.jpg")}
+    .noise:nth-child(4) {background-image: url("images/noise4.jpg")}
+    .noise:nth-child(5) {background-image: url("images/noise5.jpg")}
+    .noise:nth-child(6) {background-image: url("images/noise6.jpg")}
+    .noise:nth-child(7) {background-image: url("images/noise7.jpg")}
+    .noise:nth-child(8) {background-image: url("images/noise8.jpg")}
+    .noise:nth-child(9) {background-image: url("images/noise9.jpg")}
+    .noise:nth-child(10) {background-image: url("images/noise10.jpg")}
+    .show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="noise"></div>
+<div class="noise"></div>
+<div class="noise"></div>
+<div class="noise"></div>
+<div class="noise"></div>
+<div class="noise"></div>
+<div class="noise"></div>
+<div class="noise"></div>
+<div class="noise"></div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+  $(window).load(function(){
+    var noise = $('.noise');
+
+    var rand, prev;
+
+    setInterval(function(){
+      rand = Math.floor(Math.random() * 10) + 1;
+
+      noise.eq(prev).removeClass('show');
+      noise.eq(rand).addClass('show');
+
+      prev = rand;
+    },50);
+
+  })
+</script>
+</body>
+</html>
