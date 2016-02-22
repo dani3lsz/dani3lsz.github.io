@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Fly | My CSS loaders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="Css loader: Fly">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="../css/aa.css" type="text/css">
+  <link rel="stylesheet" href="../css/main.css" type="text/css">
+
+  <script src="../js/modernizr-custom.min.js"></script>
+</head>
+<body>
+
+<div class="mcl">
+  <div class="mcl_col-resp">
+    <h1 class="mcl_title">My <span class="aa_text--black">CSS</span> loaders</h1>
+
+    <h3 class="mcl_subtitle">Fly</h3>
+
+    <div class="mcl_sample">
+      <div class="mcl_frame">
+        <div class="mcl_frame__canvas" data-title="Fly">
+          <!-- loader -->
+          <div class="mcl_loader mcl_loader--fly">
+            <div class="mcl_loader__inner"></div>
+          </div>
+          <!-- /loader -->
+        </div>
+      </div>
+    </div>
+
+    <div class="mcl_code">
+      <h3>Html:</h3>
+
+      <div class="mcl_code__frame">
+        &lt;div class="mcl_loader mcl_loader--fly"&gt;<br />
+        &lt;div class="mcl_loader__inner"&gt;&lt;/div&gt;<br />
+        &lt;/div&gt;
+      </div>
+
+      <h3>Css:</h3>
+
+      <div class="mcl_code__frame">
+        .mcl_loader {<br />
+        position: absolute;<br />
+        top:    0;<br />
+        right:  0;<br />
+        bottom: 0;<br />
+        left:   0;<br />
+        transform: translate3d(0,0,0);<br />
+        }<br />
+        <br />
+        /* fly */<br />
+        <br />
+        .mcl_loader--fly {<br />
+        animation: fly-1 5s infinite linear;<br />
+        animation-delay: .1s; /* safari 9.0.3 doesn't render animation on load */<br />
+        }<br />
+        <br />
+        .mcl_loader--fly &gt; .mcl_loader__inner {<br />
+        position: absolute;<br />
+        top:    0;<br />
+        right:  0;<br />
+        bottom: 0;<br />
+        left:   0;<br />
+        animation: fly-2 4s infinite linear;<br />
+        animation-delay: .1s; /* safari 9.0.3 doesn't render animation on load */<br />
+        }<br />
+        <br />
+        .mcl_loader--fly &gt; .mcl_loader__inner:before {<br />
+        content: '';<br />
+        position: absolute;<br />
+        top:  50%;<br />
+        left: 50%;<br />
+        width:  4px;<br />
+        height: 4px;<br />
+        margin: -2px 0 0 -2px;<br />
+        border-radius: 50%;<br />
+        background-color: #000;<br />
+        }<br />
+        <br />
+        @keyframes fly-1 {<br />
+        0% {transform: translate3d(  0%,0,0)}<br />
+        2% {transform: translate3d(  2%,0,0)}<br />
+        6% {transform: translate3d( -2%,0,0)}<br />
+        10% {transform: translate3d(  4%,0,0)}<br />
+        14% {transform: translate3d(  6%,0,0)}<br />
+        18% {transform: translate3d( 11%,0,0)}<br />
+        22% {transform: translate3d( 18%,0,0)}<br />
+        26% {transform: translate3d( 23%,0,0)}<br />
+        30% {transform: translate3d( 21%,0,0)}<br />
+        34% {transform: translate3d( 15%,0,0)}<br />
+        38% {transform: translate3d( 13%,0,0)}<br />
+        42% {transform: translate3d( 10%,0,0)}<br />
+        46% {transform: translate3d( 12%,0,0)}<br />
+        50% {transform: translate3d( 17%,0,0)}<br />
+        54% {transform: translate3d( 15%,0,0)}<br />
+        58% {transform: translate3d(  9%,0,0)}<br />
+        62% {transform: translate3d(  5%,0,0)}<br />
+        66% {transform: translate3d(  1%,0,0)}<br />
+        70% {transform: translate3d( -5%,0,0)}<br />
+        74% {transform: translate3d(-10%,0,0)}<br />
+        78% {transform: translate3d(-12%,0,0)}<br />
+        82% {transform: translate3d(-19%,0,0)}<br />
+        86% {transform: translate3d(-15%,0,0)}<br />
+        90% {transform: translate3d(-11%,0,0)}<br />
+        94% {transform: translate3d(-12%,0,0)}<br />
+        98% {transform: translate3d( -4%,0,0)}<br />
+        100% {transform: translate3d(  0%,0,0)}<br />
+        }<br />
+        <br />
+        @keyframes fly-2 {<br />
+        0% {transform: translate3d(0,  0%,0)}<br />
+        4% {transform: translate3d(0,  5%,0)}<br />
+        8% {transform: translate3d(0, 11%,0)}<br />
+        12% {transform: translate3d(0, 18%,0)}<br />
+        16% {transform: translate3d(0, 13%,0)}<br />
+        20% {transform: translate3d(0,  7%,0)}<br />
+        24% {transform: translate3d(0,  4%,0)}<br />
+        28% {transform: translate3d(0,  2%,0)}<br />
+        32% {transform: translate3d(0,  1%,0)}<br />
+        36% {transform: translate3d(0,  5%,0)}<br />
+        40% {transform: translate3d(0,  1%,0)}<br />
+        44% {transform: translate3d(0, -5%,0)}<br />
+        48% {transform: translate3d(0, -1%,0)}<br />
+        52% {transform: translate3d(0, -3%,0)}<br />
+        56% {transform: translate3d(0, -7%,0)}<br />
+        60% {transform: translate3d(0, -6%,0)}<br />
+        64% {transform: translate3d(0,-11%,0)}<br />
+        68% {transform: translate3d(0, -5%,0)}<br />
+        72% {transform: translate3d(0,  2%,0)}<br />
+        76% {transform: translate3d(0,  5%,0)}<br />
+        80% {transform: translate3d(0,  9%,0)}<br />
+        84% {transform: translate3d(0,  7%,0)}<br />
+        88% {transform: translate3d(0,  3%,0)}<br />
+        92% {transform: translate3d(0,  5%,0)}<br />
+        96% {transform: translate3d(0,  1%,0)}<br />
+        100% {transform: translate3d(0,  0%,0)}<br />
+        }      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

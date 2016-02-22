@@ -80,10 +80,17 @@ button {
 
 .mcl_title {
   margin:  5rem 0 0;
-  padding: 0 20px;
   font-size: 4.6rem;
   font-weight: 100;
   text-align: center;
+}
+
+.mcl_subtitle {
+  margin:  5rem 0 0;
+  padding: 2rem 0;
+  font-size: 3.6rem;
+  font-weight: 100;
+  border-top: solid 1px rgba(0,0,0,.2);
 }
 
 
@@ -223,11 +230,15 @@ button {
     border: solid 1px rgba(0,0,0,.2);
     box-shadow: 0 0 20px rgba(0,0,0,.05);
     overflow: hidden;
+  }
+
+  a.mcl_frame__canvas {
+    display: block;
     cursor: pointer;
     transition: .3s;
   }
 
-  .mcl_frame__canvas:hover {
+  a.mcl_frame__canvas:hover {
     border: solid 1px rgba(0,0,0,1);
   }
 
@@ -243,7 +254,7 @@ button {
       line-height: 2.4rem;
     }
 
-    .mcl_frame__canvas:after {
+    a.mcl_frame__canvas:after {
       content: attr(data-title);
       position: absolute;
       bottom: 0;
@@ -270,10 +281,46 @@ button {
       display: none;
     }
 
-    .mcl_frame__canvas:hover:after {
+    a.mcl_frame__canvas:hover:after {
       opacity: 1;
       transform: translate3d(0,0,0);
     }
+
+
+
+.mcl_sample {
+}
+
+@media all and (min-width: 769px) {
+  .mcl_sample {
+    position: -webkit-sticky;
+    position:         sticky;
+    top: 20px;
+    width: 33.3333%;
+    float: left;
+  }
+}
+
+
+
+.mcl_code {
+  padding: 25px 0 0 0;
+  overflow: hidden;
+}
+
+  .mcl_code__frame {
+    margin-bottom: 25px;
+    padding: 20px;
+    border: solid 1px rgba(0,0,0,.2);
+    font-family: monospace;
+  }
+
+@media all and (min-width: 769px) {
+  .mcl_code {
+    padding: 0 0 0 25px;
+  }
+}
+
 
 
 
