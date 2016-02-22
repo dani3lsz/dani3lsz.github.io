@@ -1,0 +1,388 @@
+/*
+ * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION:
+ *
+ * http://cssguidelin.es/
+ *
+ * What differs from the guideline:
+ *
+ * - Use mcl_ prefix for all classes
+ * - Indentations are 2px
+ * - Columns are 120px wide
+ * - Don't use [] in html inside class="" for grouping
+ * - In html class="" don't use 2 space between classes, but put the related ones next to each other
+ * - Low level commenting is not necessary but u can use, just try to explain the things u think is important
+ *
+ */
+
+/*
+ * RULES
+ *
+ *  1) GLOBAL
+ *
+ *  2) LAYOUT
+ *
+ *  3) LOADER
+ *
+ */
+
+
+
+
+
+/*---------*\
+   #GLOBAL
+\*---------*/
+
+
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: #efefef;
+  color: #000;
+  font-size: 1.6rem;
+}
+
+img[src=""] {
+  height: 0;
+  visibility: hidden; /* chrome fix not to show borders */
+}
+
+input[type="search"] {
+  -webkit-appearance: none;
+}
+
+ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+button {
+  padding: 0;
+}
+
+
+
+/*----------*\
+   #LAYOUT
+\*----------*/
+
+
+
+.mcl {
+  min-height: 100%;
+  border-top: solid 25px;
+}
+
+
+
+.mcl_title {
+  margin:  5rem 0 0;
+  padding: 0 20px;
+  font-size: 4.6rem;
+  font-weight: 100;
+  text-align: center;
+}
+
+
+
+.mcl_col-resp {
+  margin: 0 25px;
+}
+
+@media all and (min-width: 718px) {
+  .mcl_col-resp {
+    margin: 0 auto;
+    max-width: 668px;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .mcl_col-resp {
+    margin: 0 50px;
+    max-width: none
+  }
+}
+
+@media all and (min-width: 1124px) {
+  .mcl_col-resp {
+    margin: 0 auto;
+    max-width: 1024px;
+  }
+}
+
+@media only screen and (min-width: 1224px) {
+  .mcl_col-resp {
+    margin: 0 100px;
+    max-width: none;
+  }
+}
+
+@media only screen and (min-width: 1640px) {
+  .mcl_col-resp {
+    margin: 0 auto;
+    max-width: 1440px;
+  }
+}
+
+
+
+.mcl_grid {
+  padding: 25px 0;
+  font-size: 0; /* prevent space between display-block */
+}
+
+.mcl_grid__elem {
+  display: inline-block;
+  vertical-align: bottom;
+  padding: 25px 0;
+  width: 100%;
+  font-size: 1.4rem;
+  white-space: normal;
+}
+
+.mcl_grid--no-pad > .mcl_grid__elem {
+  padding: 0 !important;
+}
+
+.mcl_grid--4 > .mcl_grid__elem {
+  width: 50%;
+  padding: 25px 25px 25px 0;
+}
+
+.mcl_grid--4 > .mcl_grid__elem:nth-child(2n) {
+  padding: 25px 0 25px 25px;
+}
+
+@media all and (min-width: 480px) {
+  .mcl_grid--2 > .mcl_grid__elem, .mcl_grid--3 > .mcl_grid__elem {
+    width: 50%;
+    padding: 25px 25px 25px 0;
+  }
+
+  .mcl_grid--2 > .mcl_grid__elem:nth-child(2n), .mcl_grid--3 > .mcl_grid__elem:nth-child(2n) {
+    padding: 25px 0 25px 25px;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .mcl_grid--3 > .mcl_grid__elem, .mcl_grid--4 > .mcl_grid__elem, .mcl_grid--3 > .mcl_grid__elem:nth-child(2n), .mcl_grid--4 > .mcl_grid__elem:nth-child(2n) {
+    width: 33.33337%;
+    padding: 25px 16px;
+  }
+
+  .mcl_grid--3 > .mcl_grid__elem:nth-child(3n), .mcl_grid--4 > .mcl_grid__elem:nth-child(3n) {
+    padding: 25px 0 25px 32px;
+  }
+
+  .mcl_grid--3 > .mcl_grid__elem:nth-child(3n+1), .mcl_grid--4 > .mcl_grid__elem:nth-child(3n+1) {
+    padding: 25px 32px 25px 0;
+  }
+}
+
+@media all and (min-width: 1320px) {
+  .mcl_grid--4 > .mcl_grid__elem, .mcl_grid--4 > .mcl_grid__elem:nth-child(2n), .mcl_grid--4 > .mcl_grid__elem:nth-child(3n), .mcl_grid--4 > .mcl_grid__elem:nth-child(3n+1) {
+    width: 25%;
+    padding: 25px 0;
+  }
+
+  .mcl_grid--4 > .mcl_grid__elem:nth-child(4n+3) {
+    padding: 25px 10px 25px 20px;
+  }
+
+  .mcl_grid--4 > .mcl_grid__elem:nth-child(4n+2) {
+    padding: 25px 20px 25px 10px;
+  }
+
+  .mcl_grid--4 > .mcl_grid__elem:nth-child(4n+1) {
+    padding: 25px 30px 25px 0;
+  }
+
+  .mcl_grid--4 > .mcl_grid__elem:nth-child(4n) {
+    padding: 25px 0 25px 30px;
+  }
+}
+
+
+
+.mcl_frame {
+  position: relative;
+  padding-bottom: 100%;
+}
+
+  .mcl_frame__canvas {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    border-radius: 3px;
+    background-color: #fdfdfd;
+    border: solid 1px rgba(0,0,0,.2);
+    box-shadow: 0 0 20px rgba(0,0,0,.05);
+    overflow: hidden;
+    cursor: pointer;
+    transition: .3s;
+  }
+
+  .mcl_frame__canvas:hover {
+    border: solid 1px rgba(0,0,0,1);
+  }
+
+    .no-csstransforms3d .mcl_frame__canvas:before {
+      content: 'Update your browser!';
+      position: absolute;
+      top:   50%;
+      right: 10px;
+      left:  10px;
+      margin: -1.2rem 0 0;
+      text-align: center;
+      font-size: 2rem;
+      line-height: 2.4rem;
+    }
+
+    .mcl_frame__canvas:after {
+      content: attr(data-title);
+      position: absolute;
+      bottom: 0;
+      left:   0;
+      max-width: 100%;
+      padding: 2px 7px;
+      font-size: 1.4rem;
+      font-weight: 300;
+      background-color: #000;
+      color: #fff;
+      border-radius: 0 3px 0 0;
+      opacity: 0;
+      white-space: nowrap !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      text-align: center;
+      pointer-events: none;
+      transition: .3s;
+      transform: translate3d(-100%,0,0);
+    }
+
+    .no-csstransforms3d .mcl_frame__canvas:after {
+      display: none;
+    }
+
+    .mcl_frame__canvas:hover:after {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+
+
+
+
+/*----------*\
+   #LOADER
+\*----------*/
+
+
+
+.mcl_loader {
+  position: absolute;
+  top:    0;
+  right:  0;
+  bottom: 0;
+  left:   0;
+  transform: translate3d(0,0,0);
+}
+
+.no-csstransforms3d .mcl_loader {
+  display: none;
+}
+
+
+
+/* fly */
+
+.mcl_loader--fly {
+  animation: fly-1 5s infinite linear;
+  animation-delay: .1s; /* safari 9.0.3 doesn't render animation on load */
+}
+
+  .mcl_loader--fly > .mcl_loader__inner {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    animation: fly-2 4s infinite linear;
+    animation-delay: .1s; /* safari 9.0.3 doesn't render animation on load */
+  }
+
+    .mcl_loader--fly > .mcl_loader__inner:before {
+      content: '';
+      position: absolute;
+      top:  50%;
+      left: 50%;
+      width:  4px;
+      height: 4px;
+      margin: -2px 0 0 -2px;
+      border-radius: 50%;
+      background-color: #000;
+    }
+
+@keyframes fly-1 {
+    0% {transform: translate3d(  0%,0,0)}
+    2% {transform: translate3d(  2%,0,0)}
+    6% {transform: translate3d( -2%,0,0)}
+   10% {transform: translate3d(  4%,0,0)}
+   14% {transform: translate3d(  6%,0,0)}
+   18% {transform: translate3d( 11%,0,0)}
+   22% {transform: translate3d( 18%,0,0)}
+   26% {transform: translate3d( 23%,0,0)}
+   30% {transform: translate3d( 21%,0,0)}
+   34% {transform: translate3d( 15%,0,0)}
+   38% {transform: translate3d( 13%,0,0)}
+   42% {transform: translate3d( 10%,0,0)}
+   46% {transform: translate3d( 12%,0,0)}
+   50% {transform: translate3d( 17%,0,0)}
+   54% {transform: translate3d( 15%,0,0)}
+   58% {transform: translate3d(  9%,0,0)}
+   62% {transform: translate3d(  5%,0,0)}
+   66% {transform: translate3d(  1%,0,0)}
+   70% {transform: translate3d( -5%,0,0)}
+   74% {transform: translate3d(-10%,0,0)}
+   78% {transform: translate3d(-12%,0,0)}
+   82% {transform: translate3d(-19%,0,0)}
+   86% {transform: translate3d(-15%,0,0)}
+   90% {transform: translate3d(-11%,0,0)}
+   94% {transform: translate3d(-12%,0,0)}
+   98% {transform: translate3d( -4%,0,0)}
+  100% {transform: translate3d(  0%,0,0)}
+}
+
+@keyframes fly-2 {
+    0% {transform: translate3d(0,  0%,0)}
+    4% {transform: translate3d(0,  5%,0)}
+    8% {transform: translate3d(0, 11%,0)}
+   12% {transform: translate3d(0, 18%,0)}
+   16% {transform: translate3d(0, 13%,0)}
+   20% {transform: translate3d(0,  7%,0)}
+   24% {transform: translate3d(0,  4%,0)}
+   28% {transform: translate3d(0,  2%,0)}
+   32% {transform: translate3d(0,  1%,0)}
+   36% {transform: translate3d(0,  5%,0)}
+   40% {transform: translate3d(0,  1%,0)}
+   44% {transform: translate3d(0, -5%,0)}
+   48% {transform: translate3d(0, -1%,0)}
+   52% {transform: translate3d(0, -3%,0)}
+   56% {transform: translate3d(0, -7%,0)}
+   60% {transform: translate3d(0, -6%,0)}
+   64% {transform: translate3d(0,-11%,0)}
+   68% {transform: translate3d(0, -5%,0)}
+   72% {transform: translate3d(0,  2%,0)}
+   76% {transform: translate3d(0,  5%,0)}
+   80% {transform: translate3d(0,  9%,0)}
+   84% {transform: translate3d(0,  7%,0)}
+   88% {transform: translate3d(0,  3%,0)}
+   92% {transform: translate3d(0,  5%,0)}
+   96% {transform: translate3d(0,  1%,0)}
+  100% {transform: translate3d(0,  0%,0)}
+}
