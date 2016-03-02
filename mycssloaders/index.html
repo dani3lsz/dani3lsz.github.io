@@ -19,14 +19,18 @@
 <body>
 
 <div class="mcl">
-  <div class="mcl_col-resp">
-    <h1 class="mcl_title">My <span class="aa_text--black">CSS</span> loaders</h1>
+  <div class="mcl_top aa_clearfix">
+    <div class="mcl_col-resp">
+      <h1 class="mcl_top__title">My <span class="aa_text--black">CSS</span> loaders</h1>
+    </div>
+  </div>
 
+  <div class="mcl_col-resp">
     <div class="mcl_grid mcl_grid--3">
       <!-- grid elem -->
       <div class="mcl_grid__elem">
         <div class="mcl_frame">
-          <div class="mcl_frame__canvas" data-title="Fruit fly">
+          <div class="mcl_frame__canvas" style="background-color: #fffcf4">
             <!-- loader -->
             <div class="mcl_loader mcl_loader--fly">
               <div class="mcl_loader__inner"></div>
@@ -34,6 +38,12 @@
             <!-- /loader -->
 
             <a href="/" target="_blank" class="mcl_frame__link fa fa-codepen"></a>
+
+            <div class="mcl_frame__description">
+              <h3>Fruit fly</h3>
+
+              <p>Single dot css loader, mimicking the move of a fruit fly.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -42,7 +52,7 @@
       <!-- grid elem -->
       <div class="mcl_grid__elem">
         <div class="mcl_frame">
-          <div class="mcl_frame__canvas mcl_frame__canvas--dark" style="background-color: #444" data-title="Nostromo">
+          <div class="mcl_frame__canvas mcl_frame__canvas--dark" style="background-color: #444">
             <!-- loader -->
             <div class="mcl_loader mcl_loader--nostromo">
               <div class="mcl_loader__helper mcl_loader__helper--1"></div>
@@ -61,6 +71,15 @@
             <!-- /loader -->
 
             <a href="/" target="_blank" class="mcl_frame__link fa fa-codepen"></a>
+
+            <div class="mcl_frame__description">
+              <h3>Nostromo</h3>
+
+              <p>Nostromo self destruct css loader animation from the movie Alien.</p>
+
+              <p class="mcl_note">Some browsers don't support clip-path: polygon yet. For those, make sure the helper
+                pseudo elements' backgound color match the original background.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -69,7 +88,35 @@
       <!-- grid elem -->
       <div class="mcl_grid__elem">
         <div class="mcl_frame">
-          <div class="mcl_frame__canvas" data-title="...">
+          <div class="mcl_frame__canvas mcl_frame__canvas--dark" style="background-color: #000">
+            <!-- loader -->
+            <div class="mcl_loader">
+              <div class="bg"></div>
+
+              <div class="rotate">
+                <div class="wrapper">
+                  <div class="holes"></div>
+                </div>
+              </div>
+            </div>
+            <!-- /loader -->
+
+            <a href="/" target="_blank" class="mcl_frame__link fa fa-codepen"></a>
+
+            <div class="mcl_frame__description">
+              <h3>Black holes</h3>
+
+              <p>Merging black holes css loader inspired by the successful detection of gravitational waves by LIGO.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /grid elem -->
+
+      <!-- grid elem -->
+      <div class="mcl_grid__elem">
+        <div class="mcl_frame">
+          <div class="mcl_frame__canvas">
             <!-- loader -->
             <div class="mcl_loader">
 
