@@ -91,6 +91,14 @@ body {
     box-shadow: inset 0 0 4px rgba(0,0,0,.5)
   }
 
+  .p6--grey > .p6__body {
+    background: linear-gradient(to top, #707175 0%, #a3a4a9 100%);
+  }
+
+  .p6--rose > .p6__body {
+    background: linear-gradient(to top, #c4af9a 0%, #fceeda 100%);
+  }
+
     .p6__body:before {
       content: '';
       position: absolute;
@@ -102,6 +110,14 @@ body {
       border-radius: 13%/7%;
     }
 
+    .p6--grey > .p6__body:before {
+      background-color: #373737;
+    }
+
+    .p6--rose > .p6__body:before {
+      background-color: #e7e8e8;
+    }
+
     .p6__body:after {
       content: '';
       position: absolute;
@@ -111,6 +127,14 @@ body {
       left:   2.3%;
       background-color: #f5f5f5;
       border-radius: 13%/6.5%;
+    }
+
+    .p6--grey > .p6__body:after {
+      background-color: #090808;
+    }
+
+    .p6--rose > .p6__body:after {
+      background-color: #f5f5f5;
     }
 
     .p6__body__speaker, .p6__body__camera, .p6__body__sensor {
@@ -149,6 +173,16 @@ body {
       background-color: #b5b8ba;
       box-shadow: inset 0 5px 5px -3px rgba(0,0,0,.5), inset 0 -5px 5px -3px rgba(0,0,0,.5);
       transform: translate(0,-50%);
+    }
+
+    .p6--grey > .p6__body > .p6__body__mute, .p6--grey > .p6__body > .p6__body__up,
+    .p6--grey > .p6__body > .p6__body__down, .p6--grey > .p6__body > .p6__body__right {
+      background-color: #6a6b71;
+    }
+
+    .p6--rose > .p6__body > .p6__body__mute, .p6--rose > .p6__body > .p6__body__up,
+    .p6--rose > .p6__body > .p6__body__down, .p6--rose > .p6__body > .p6__body__right {
+      background-color: #c8b5a2;
     }
 
     .p6__body__mute {
@@ -194,6 +228,14 @@ body {
       transform: translate(-50%,50%);
     }
 
+    .p6--grey > .p6__body > .p6__body__btn {
+      background: linear-gradient(10deg, #050708 0%, #46484e 50%, #050708 100%);
+    }
+
+    .p6--rose > .p6__body > .p6__body__btn {
+      background: linear-gradient(10deg, #432a1d 0%, #fbe8d5 50%, #432a1d 100%);
+    }
+
       .p6__body__btn:before {
         content: '';
         position: absolute;
@@ -203,6 +245,14 @@ body {
         left:   5%;
         background-color: #ebecec;
         border-radius: 50%;
+      }
+
+      .p6--grey > .p6__body > .p6__body__btn:before {
+        background-color: #000;
+      }
+
+      .p6--rose > .p6__body > .p6__body__btn:before {
+        background-color: #ebecec;
       }
 
   .p6__screen {
