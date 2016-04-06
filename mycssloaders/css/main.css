@@ -720,3 +720,154 @@ button {
   80% {transform: scaleX(1.003) scaleY(.997)}
   100% {transform: scaleX(1) scaleY(1)}
 }
+
+
+/* cloud */
+
+
+.mcl_loader--cloud {
+  background-color: #dff5ff;
+}
+
+  .cloud {
+    position: absolute;
+    top:  40%;
+    left: 50%;
+    width: 160px;
+    height: 90px;
+    margin: -45px 0 0 -75px;
+    -webkit-filter: drop-shadow(0 5px 10px rgba(0,0,0,.1))
+  }
+
+    .cloud__1, .cloud__2, .cloud__3, .cloud__4, .cloud__5 {
+      position: absolute;
+      background-color: #fff;
+    }
+
+    .cloud__1, .cloud__2 {
+      bottom: 0;
+      width: 100px;
+    }
+
+    .cloud__1 {
+      left:   0;
+      height: 50px;
+      border-radius: 25px 0 0 25px;
+      animation: cloud-1 1.5s infinite ease-in-out alternate;
+    }
+
+    .cloud__2 {
+      right:  0;
+      height: 60px;
+      border-radius: 0 30px 30px 0;
+      animation: cloud-2 2s infinite ease-in-out alternate;
+    }
+
+    .cloud__3 {
+      top:  16px;
+      left: 20px;
+      width:  40px;
+      height: 40px;
+      border-radius: 50%;
+      animation: cloud-3 1s infinite ease-in-out alternate;
+    }
+
+    .cloud__4, .cloud__5 {
+      width:  50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .cloud__4 {
+      top:   0;
+      left: 50px;
+      animation: cloud-4 1.25s infinite ease-in-out alternate;
+    }
+
+    .cloud__5 {
+      top:    5px;
+      right: 25px;
+      animation: cloud-5 2.5s infinite ease-in-out alternate;
+    }
+
+    .rain {
+      position: absolute;
+      bottom: 0;
+      width:   5px;
+      height: 15px;
+      background-color: #fff;
+      border-radius: 3px;
+      animation: rain 1s infinite ease-in forwards;
+    }
+
+    .rain--1 {
+      left: 40px;
+    }
+
+    .rain--2 {
+      left: 56px;
+    }
+
+    .rain--3 {
+      left: 72px;
+    }
+
+    .rain--4 {
+      left: 88px;
+    }
+
+    .rain--5 {
+      left: 104px;
+    }
+
+    .rain--6 {
+      left: 120px;
+    }
+
+    .rain:nth-child(6)  {animation-delay: 0s;}
+    .rain:nth-child(7)  {animation-delay: .5s;}
+    .rain:nth-child(8)  {animation-delay: .25s;}
+    .rain:nth-child(9)  {animation-delay: .75s;}
+    .rain:nth-child(10) {animation-delay: .1s;}
+    .rain:nth-child(11) {animation-delay: .35s;}
+    .rain:nth-child(12) {animation-delay: .6s;}
+    .rain:nth-child(13) {animation-delay: .85s;}
+    .rain:nth-child(14) {animation-delay: .15s;}
+    .rain:nth-child(15) {animation-delay: .65s;}
+    .rain:nth-child(16) {animation-delay:  0s;}
+    .rain:nth-child(17) {animation-delay: .25s;}
+    .rain:nth-child(18) {animation-delay: .5s;}
+    .rain:nth-child(19) {animation-delay: .75s;}
+    .rain:nth-child(20) {animation-delay: .35s;}
+    .rain:nth-child(21) {animation-delay: .85s;}
+
+
+@keyframes cloud-1 {
+  0%   {transform: translate3d( 0,  0,0)}
+  100% {transform: translate3d(-5px,0,0)}
+}
+
+@keyframes cloud-2 {
+  0%   {transform: translate3d(0,  0,0)}
+  100% {transform: translate3d(5px,0,0)}
+}
+
+@keyframes cloud-3 {
+  0%   {transform: translate3d( 0,  0,  0)}
+  100% {transform: translate3d(-2px,2px,0)}
+}
+
+@keyframes cloud-4 {
+  0%   {transform: scale(1)}
+  100% {transform: scale(1.1)}
+}
+
+@keyframes cloud-5 {
+  0%   {transform: translate3d(0,  0,  0)}
+  100% {transform: translate3d(3px,3px,0)}
+}
+
+@keyframes rain {
+  0%   {transform: translate3d(0,  0,  0); opacity: 1}
+  100% {transform: translate3d(0,100px,0); opacity: 0}
+}
