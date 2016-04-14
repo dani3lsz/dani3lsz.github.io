@@ -947,12 +947,12 @@ button {
     .search__handle {
       width:  14px;
       height: 60px;
-      margin: -1px auto 0;
+      margin: 0 auto;
       background-color: #222;
       border-radius: 0 0 7px 7px;
-      transform-origin: 50% -54px;
+      transform-origin: 50% -55px;
       transform: rotate(-20deg);
-      animation: rotation2 3s infinite cubic-bezier(.6,.5,.4,.5);
+      animation: rotation2 3s infinite cubic-bezier(.4,.5,.6,.5);
     }
 
 @keyframes rotation {
