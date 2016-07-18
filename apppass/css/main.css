@@ -1,0 +1,427 @@
+/*
+ * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION:
+ *
+ * http://cssguidelin.es/
+ *
+ * What differs from the guideline:
+ *
+ * - Indentations are 2px
+ * - Columns are 120px wide
+ * - don't use [] in html inside class="" for grouping
+ * - in html class="" don't use 2 space between classes, but put the related ones next to each other
+ * - low level commenting is not necessary but u can use, just try to explain the things u think is important
+ *
+ */
+
+/*
+ * RULES
+ *
+ *  1) GLOBAL.................................global rules for regular html elements
+ *
+ *  2) LAYOUT
+ *
+ */
+
+
+
+
+
+
+
+/*-----------*\
+   #GLOBAL
+\*-----------*/
+
+
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  font-weight: 300;
+  line-height: 1.5;
+  background-color: #f3f3f3;
+  color: #444;
+}
+
+
+
+p {
+  font-size: 1.4rem;
+  margin: 0 0 1em;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: 400;
+  line-height: 1.25;
+  margin-top:    .5em;
+  margin-bottom: .5em;
+}
+
+h1, .h1 { font-size: 4.6rem; }
+h2, .h2 { font-size: 3.0rem; }
+h3, .h3 { font-size: 2.2rem; }
+h4, .h4 { font-size: 1.8rem; }
+h5, .h5 { font-size: 1.4rem; }
+h6, .h6 { font-size: 1.2rem; }
+
+@media only screen and (max-width: 768px) {
+  h1, .h1 { font-size: 3.0rem; }
+  h2, .h2 { font-size: 2.2rem; }
+}
+
+
+
+a {
+  color: #06a;
+  text-decoration: none;
+}
+
+
+
+img {
+  vertical-align: middle;
+  border: 0;
+}
+
+
+
+ul, ol {
+  margin: 0 0 2em 2em;
+  padding: 0;
+}
+
+ul {
+  list-style-type: circle;
+}
+
+li {
+  margin: 0 0 .5em;
+}
+
+
+
+
+
+/*-----------*\
+   #LAYOUT
+\*-----------*/
+
+
+
+.ap {
+  position: relative;
+  height: 100%;
+  font-size: 0;
+}
+
+  .ap_header {
+    height: 15%;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #222;
+    color: #f3f3f3;
+  }
+
+    .ap_header:before {
+      content: '';
+      height: 100%;
+      display: inline-block;
+      vertical-align: bottom;
+    }
+
+    .ap_header__ {
+      display: inline-block;
+      vertical-align: bottom;
+      width: 100%;
+    }
+
+      .ap_header__title {
+        margin: 0 0 .5rem;
+        padding: 0 1.5rem;
+      }
+
+      .ap_header__select {
+        position: relative;
+      }
+
+        .ap_header__select:before {
+          content: '';
+          position: absolute;
+          top:   50%;
+          right: 1.5rem;
+          width:  1rem;
+          height: 1rem;
+          box-shadow: 1px 1px;
+          -webkit-transform: translate3d(0,-75%,0) rotate(45deg);
+                  transform: translate3d(0,-75%,0) rotate(45deg);
+        }
+
+        .ap_header__select__ {
+          width: 100%;
+          padding: 0 1.5rem;
+          border-top: solid 1px rgba(130,130,130,.15);
+          border-bottom: solid 1px rgba(130,130,130,.15);
+          border-radius: 0;
+          font-size: 1.6rem;
+          line-height: 2;
+          cursor: pointer;
+          -webkit-appearance: none;
+        }
+
+  .ap_body {
+    height: 75%;
+    margin: 0 auto;
+  }
+
+    .ap_body__col {
+      position: relative;
+      display: inline-block;
+      vertical-align: top;
+      width:   50%;
+      height: 100%;
+
+    }
+
+      .ap_body__col:first-child:before {
+        content: '';
+        position: absolute;
+        top:  1.5rem;
+        right:  0;
+        bottom: 0;
+        width: 1px;
+        background-color: rgba(130,130,130,.15);
+      }
+
+      .ap_body__col__ {
+        height: 100%;
+        padding-bottom: 4rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+        .ap_body__col__icon {
+          display: inline-block;
+          vertical-align: middle;
+          width:  8rem;
+          height: 8rem;
+          margin: 1.5rem 0 1.5rem 1.5rem;
+          border-radius: 22%;
+          background-color: rgba(130,130,130,.15);
+          overflow: hidden;
+          -webkit-transform: translate3d(0,0,0);
+                  transform: translate3d(0,0,0);
+        }
+
+          .ap_body__col__icon__bg {
+            height: 100%;
+            background-repeat:   no-repeat;
+            background-position: center center;
+            background-size:     cover;
+          }
+
+            .ap_body__col__icon__bg > img {
+              width:  100%;
+              height: 100%;
+            }
+
+        .ap_body__col__title {
+          display: inline-block;
+          vertical-align: middle;
+          width: 100%;
+          padding: 0 1.5rem;
+        }
+
+          .ap_body__col__title__text {
+            margin:  0;
+            font-weight: 700;
+            line-height: 1.1;
+          }
+
+          .ap_body__col__title__developer {
+            font-size: 1.2rem;
+            line-height: 1.1;
+            opacity: .5;
+          }
+
+        .ap_body__col__table {
+          position: relative;
+          height: 11.5rem;
+          margin: 1.5rem;
+          border-radius: 3px;
+          background-color: rgba(130,130,130,.15);
+          overflow-x: hidden;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+          .ap_body__col__table__row {
+            display: inline-block;
+            vertical-align: top;
+            width: 100%;
+            padding: .5rem;
+            border-top: solid 1px rgba(130,130,130,.15);
+          }
+
+          .ap_body__col__table__row:first-child {
+            border: none;
+          }
+
+            .ap_body__col__table__row__col {
+              display: inline-block;
+              vertical-align: top;
+              width: 100%;
+              padding-right: .5rem;
+              font-size: 1.2rem;
+              font-weight: 300;
+            }
+
+            .ap_body__col__table__row__col:first-child {
+              font-weight: 700;
+            }
+
+        .ap_body__col__gallery {
+          overflow-x: auto;
+          overflow-y: hidden;
+          white-space: nowrap;
+          -webkit-overflow-scrolling: touch;
+        }
+
+          .ap_body__col__gallery > img {
+            display: inline-block;
+            vertical-align: top;
+            width: 50%;
+            height: auto;
+            margin-right: .5rem;
+          }
+
+          .ap_body__col__gallery > img:first-child {
+            margin-left: 1.5rem;
+          }
+
+          .ap_body__col__gallery > img:last-child {
+            margin-right: 1.5rem;
+          }
+
+        .ap_body__col__data {
+          width: 100%;
+          padding: 0 1.5rem;
+        }
+
+      .ap_body__col__btn {
+        position: absolute;
+        right:  0;
+        bottom: 0;
+        left:   0;
+        /*background-color: rgba(243,243,243,.65);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);*/
+      }
+
+        .ap_body__col__btn__ {
+          width: calc(100% - 3rem);
+          height: 3rem;
+          margin: 1.5rem;
+          border-radius: 3px;
+          font-size: 1.4rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          background-color: #07f;
+          color: #f3f3f3;
+        }
+
+  .ap_footer {
+    height: 10%;
+    background-color: rgba(130,130,130,.15);
+  }
+
+    .ap_footer__btn {
+      width:  100%;
+      height: 100%;
+      padding: 0;
+      font-size: 2rem;
+      font-weight: 500;
+      text-align: center;
+      text-transform: uppercase;
+      opacity: .5;
+    }
+
+@media all and (min-width: 480px) {
+  .ap_body__col__table {
+    height: 10rem;
+  }
+
+  .ap_body__col__table__row__col {
+    width: auto;
+    max-width: 50%;
+  }
+
+  .ap_body__col__table__row__col:first-child {
+    text-align: right;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .ap_body__col__title {
+    width: calc(100% - 9.5rem);
+  }
+
+  .ap_body__col__table:before {
+    content: '';
+    position: absolute;
+    top:     0;
+    right:  50%;
+    bottom:  0;
+    width: 1px;
+    background-color: rgba(130,130,130,.15);
+  }
+
+  .ap_body__col__table__row {
+    width: 50%;
+  }
+
+  .ap_body__col__table__row:nth-child(2) {
+    border-top: none;
+  }
+
+  .ap_body__col__gallery > img {
+    width: 33%;
+  }
+}
+
+@media all and (min-width: 1024px) {
+  .ap_header__, .ap_body {
+    width: 75%
+  }
+
+  .ap_body__col__gallery {
+    position: absolute;
+    top:     0;
+    right: 100%;
+    bottom:  0;
+    width: 33%;
+    padding: 1.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: normal;
+  }
+
+  .ap_body__col:nth-child(2) > .ap_body__col__ > .ap_body__col__gallery {
+    right: auto;
+    left: 100%;
+  }
+
+  .ap_body__col__gallery > img {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: .5rem;
+  }
+
+  .ap_body__col__gallery > img:first-child, .ap_body__col__gallery > img:last-child {
+    margin-right: 0;
+    margin-left:  0;
+  }
+}
