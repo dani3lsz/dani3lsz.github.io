@@ -1,0 +1,377 @@
+@charset "UTF-8";
+
+/*
+ * Basic icon set for AppAdvice content.
+ * Generated through fontastic.com
+ * aai- prefix is important on all icon classes.
+ *
+ */
+
+
+
+
+
+@font-face {
+  font-family: "appadviceicons";
+  src:url("http://appadvice.com/fonts-appadvice/appadviceicons.eot");
+  src:url("http://appadvice.com/fonts-appadvice/appadviceicons.eot?#iefix") format("embedded-opentype"),
+      url("http://appadvice.com/fonts-appadvice/appadviceicons.woff") format("woff"),
+      url("http://appadvice.com/fonts-appadvice/appadviceicons.ttf") format("truetype"),
+      url("http://appadvice.com/fonts-appadvice/appadviceicons.svg#appadviceicons") format("svg");
+  font-weight: normal;
+  font-style:  normal;
+}
+
+[data-aai]:before {
+  font-family: "appadviceicons" !important;
+  content: attr(data-aai);
+  font-style:   normal !important;
+  font-weight:  normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  line-height: 1;
+  -webkit-font-smoothing:  antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="aai-"]:before, [class*=" aai-"]:before {
+  font-family: "appadviceicons" !important;
+  font-style:   normal !important;
+  font-weight:  normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  line-height: 1;
+  -webkit-font-smoothing:  antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media speech {
+  [data-aai]:before, [class^="aai-"]:before, [class*=" aai-"]:before {
+    speak: none;
+  }
+}
+
+.aai-appadvice:before {
+  content: "\e000";
+}
+.aai-watchaware:before {
+  content: "\e001";
+}
+.aai-app-play:before {
+  content: "\e002";
+}
+.aai-tv-o:before {
+  content: "\e005";
+}
+.aai-tv:before {
+  content: "\e006";
+}
+.aai-bin-o:before {
+  content: "\e007";
+}
+.aai-bin:before {
+  content: "\e008";
+}
+.aai-heart-o:before {
+  content: "\e009";
+}
+.aai-heart:before {
+  content: "\e00a";
+}
+.aai-plus-circ-o:before {
+  content: "\e00b";
+}
+.aai-plus-circ:before {
+  content: "\e00c";
+}
+.aai-minus-circ-o:before {
+  content: "\e00d";
+}
+.aai-minus-circ:before {
+  content: "\e00e";
+}
+.aai-play-o:before {
+  content: "\e00f";
+}
+.aai-play:before {
+  content: "\e010";
+}
+.aai-pause-o:before {
+  content: "\e011";
+}
+.aai-pause:before {
+  content: "\e012";
+}
+.aai-stop-o:before {
+  content: "\e013";
+}
+.aai-stop:before {
+  content: "\e014";
+}
+.aai-record-o:before {
+  content: "\e015";
+}
+.aai-record:before {
+  content: "\e016";
+}
+.aai-backward-o:before {
+  content: "\e017";
+}
+.aai-backward:before {
+  content: "\e018";
+}
+.aai-forward-o:before {
+  content: "\e019";
+}
+.aai-forward:before {
+  content: "\e01a";
+}
+.aai-previous-o:before {
+  content: "\e01b";
+}
+.aai-previous:before {
+  content: "\e01c";
+}
+.aai-next-o:before {
+  content: "\e01d";
+}
+.aai-next:before {
+  content: "\e01e";
+}
+.aai-arrow-down-o:before {
+  content: "\e01f";
+}
+.aai-arrow-down:before {
+  content: "\e020";
+}
+.aai-arrow-up-o:before {
+  content: "\e021";
+}
+.aai-arrow-up:before {
+  content: "\e022";
+}
+.aai-arrow-left-o:before {
+  content: "\e023";
+}
+.aai-arrow-left:before {
+  content: "\e024";
+}
+.aai-arrow-right-o:before {
+  content: "\e025";
+}
+.aai-arrow-right:before {
+  content: "\e026";
+}
+.aai-search:before {
+  content: "\e027";
+}
+.aai-share:before {
+  content: "\e028";
+}
+.aai-android:before {
+  content: "\e029";
+}
+.aai-apple:before {
+  content: "\e02a";
+}
+.aai-facebook:before {
+  content: "\e02b";
+}
+.aai-github:before {
+  content: "\e02c";
+}
+.aai-globe:before {
+  content: "\e02d";
+}
+.aai-google-plus:before {
+  content: "\e02e";
+}
+.aai-pinterest:before {
+  content: "\e02f";
+}
+.aai-rss:before {
+  content: "\e030";
+}
+.aai-stackoverflow:before {
+  content: "\e031";
+}
+.aai-twitter:before {
+  content: "\e032";
+}
+.aai-youtube:before {
+  content: "\e033";
+}
+.aai-star-o:before {
+  content: "\e035";
+}
+.aai-star:before {
+  content: "\e036";
+}
+.aai-star-half-o:before {
+  content: "\e037";
+}
+.aai-link-o:before {
+  content: "\e038";
+}
+.aai-link:before {
+  content: "\e039";
+}
+.aai-ipad-o:before {
+  content: "\e03a";
+}
+.aai-ipad:before {
+  content: "\e03b";
+}
+.aai-iphone-o:before {
+  content: "\e03c";
+}
+.aai-iphone:before {
+  content: "\e03d";
+}
+.aai-joystick-o:before {
+  content: "\e03e";
+}
+.aai-joystick:before {
+  content: "\e03f";
+}
+.aai-dollar-bag-o:before {
+  content: "\e040";
+}
+.aai-dollar-bag:before {
+  content: "\e041";
+}
+.aai-shopping-bag-o:before {
+  content: "\e042";
+}
+.aai-shopping-bag:before {
+  content: "\e043";
+}
+.aai-thumbs-up-o:before {
+  content: "\e003";
+}
+.aai-thumbs-up:before {
+  content: "\e004";
+}
+.aai-thumbs-down-o:before {
+  content: "\e044";
+}
+.aai-thumbs-down:before {
+  content: "\e045";
+}
+.aai-arrow-dl-o:before {
+  content: "\e046";
+}
+.aai-arrow-dl:before {
+  content: "\e047";
+}
+.aai-arrow-dr-o:before {
+  content: "\e048";
+}
+.aai-arrow-dr:before {
+  content: "\e049";
+}
+.aai-book-o:before {
+  content: "\e04a";
+}
+.aai-book:before {
+  content: "\e04b";
+}
+.aai-movie-play-o:before {
+  content: "\e04c";
+}
+.aai-movie-play:before {
+  content: "\e04d";
+}
+.aai-check-circle-o:before {
+  content: "\e04e";
+}
+.aai-check-circle:before {
+  content: "\e04f";
+}
+.aai-pacman-o:before {
+  content: "\e050";
+}
+.aai-pacman:before {
+  content: "\e051";
+}
+.aai-tag-o:before {
+  content: "\e052";
+}
+.aai-tag:before {
+  content: "\e053";
+}
+.aai-note-paper-o:before {
+  content: "\e054";
+}
+.aai-note-paper:before {
+  content: "\e055";
+}
+.aai-direction-sign-o:before {
+  content: "\e056";
+}
+.aai-direction-sign:before {
+  content: "\e057";
+}
+.aai-thumbnails-o:before {
+  content: "\e058";
+}
+.aai-thumbnails:before {
+  content: "\e059";
+}
+.aai-information-o:before {
+  content: "\e05a";
+}
+.aai-information:before {
+  content: "\e05b";
+}
+.aai-moon-cloud-o:before {
+  content: "\e05c";
+}
+.aai-moon-cloud:before {
+  content: "\e05d";
+}
+.aai-list-o:before {
+  content: "\e05e";
+}
+.aai-list:before {
+  content: "\e05f";
+}
+.aai-nowgaming:before {
+  content: "\e060";
+}
+.aai-chevron-down-o:before {
+  content: "\e034";
+}
+.aai-chevron-down:before {
+  content: "\e061";
+}
+.aai-chevron-up-o:before {
+  content: "\e062";
+}
+.aai-chevron-up:before {
+  content: "\e063";
+}
+.aai-chevron-left-o:before {
+  content: "\e064";
+}
+.aai-chevron-left:before {
+  content: "\e065";
+}
+.aai-chevron-right-o:before {
+  content: "\e066";
+}
+.aai-chevron-right:before {
+  content: "\e067";
+}
+.aai-delete-o:before {
+  content: "\e068";
+}
+.aai-delete:before {
+  content: "\e069";
+}
+.aai-arrow-download-o:before {
+  content: "\e06a";
+}
+.aai-arrow-download:before {
+  content: "\e06b";
+}

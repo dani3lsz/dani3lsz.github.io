@@ -1,0 +1,214 @@
+/*
+ * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION:
+ *
+ * http://cssguidelin.es/
+ *
+ * What differs from the guideline:
+ *
+ * - Indentations are 2px
+ * - Columns are 120px wide
+ * - don't use [] in html inside class="" for grouping
+ * - in html class="" don't use 2 space between classes, but put the related ones next to each other
+ * - low level commenting is not necessary but u can use, just try to explain the things u think is important
+ *
+ */
+
+/*
+ * RULES
+ *
+ *  1) GLOBAL.................................global rules for regular html elements
+ *
+ *  2) MAIN LAYOUT............................rules for the main wrapper elements
+ *
+ *  3) NOW GAMING.............................rules for nowGaming section
+ *
+ *  4) GAME LISTS.............................rules for gameLists section
+ *
+ *  5) GAMING SOON............................rules for gamingSoon section
+ *
+ *  6) GAME SWIPE.............................rules for gameSwipe section
+ *
+ *  7) GAME DETAILS...........................rules for the details section
+ *
+ */
+
+
+
+
+
+
+
+/*----------*\
+   #GLOBAL
+\*----------*/
+
+
+
+html, body {
+  height: 100%; /* needed for setting height of other elements */
+}
+
+body {
+  color: rgba(255,255,255,.75);
+}
+
+
+
+
+
+/*--------------*\
+   #MAIN LAYOUT
+\*--------------*/
+
+
+
+#aa {
+  position: fixed;
+  top:    0;
+  right:  0;
+  bottom: 0;
+  left:   0;
+  background-repeat:   no-repeat;
+  background-position: center center;
+  background-size:     cover;
+  overflow: auto;
+}
+
+
+
+nav {
+  position: absolute;
+  z-index: 1;
+  top:    0;
+  right:  0;
+  left:   0;
+  background-color: rgba(255,255,255,.75);
+  font-size: 0; /* prevent spaces between inline-blocks */
+  white-space: nowrap;
+  text-align: center;
+}
+
+nav + article {
+  padding-top: 7.2rem; /* =to 'nav > button' font-size x line-height */
+}
+
+  nav > button {
+    display: inline-block;
+    padding: 0 2rem;
+    font-size: 1.8rem;
+    line-height: 4;
+    color: rgba(0,0,0,.5);
+  }
+
+  nav > button:hover, nav > button:focus {
+    color: rgba(255,255,255,1);
+  }
+
+
+
+article {
+  min-height: 100%;
+  background-color: rgba(0,0,0,.5);
+}
+
+  article > header, article > footer {
+    padding: 3rem 0;
+  }
+
+  article > footer {
+    position: relative;
+    background-color: rgba(0,0,0,.2);
+  }
+
+  footer > section {
+    
+  }
+
+
+
+
+
+/*--------------*\
+   #NOW GAMING
+\*--------------*/
+
+
+
+.ng {
+
+}
+
+  .ng__col {
+    width: 100%;
+    max-width: 1240px;
+    padding: 0 5rem;
+  }
+
+  .ng__video {
+    width: 75%;
+    float: left;
+  }
+
+  .ng__toplist {
+    width: 25%;
+    float: left;
+    padding-left: 50px;
+  }
+
+    .ng__toplist__elem {
+      margin-top: 2rem;
+      background-color: #000;
+    }
+
+  .ng__game-list {
+    white-space: nowrap;
+    font-size: 0; /* prevent space between inline-blocks */
+  }
+
+    .ng__game-list__elem {
+      display: inline-block;
+      vertical-align: top;
+      width:  300px;
+      height: 300px;
+      margin-right: 2rem;
+      font-size: 1.4rem;
+      background-color: #000;
+    }
+
+  .ng__gaming-soon {
+    white-space: nowrap;
+    font-size: 0; /* prevent space between inline-blocks */
+  }
+
+    .ng__gaming-soon__elem {
+      display: inline-block;
+      vertical-align: top;
+      width:  200px;
+      height: 300px;
+      margin-right: 2rem;
+      font-size: 1.4rem;
+      background-color: #000;
+    }
+
+
+/*--------------*\
+   #GAME LISTS
+\*--------------*/
+
+
+
+/*---------------*\
+   #GAMING SOON
+\*---------------*/
+
+
+
+/*--------------*\
+   #GAME SWIPE
+\*--------------*/
+
+
+
+/*----------------*\
+   #GAME DETAILS
+\*----------------*/
