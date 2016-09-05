@@ -379,18 +379,18 @@
 
     .sd__body__stickers {
       position: absolute;
-      top: 100%;
-      right: 0;
-      left:  0;
+      right:  0;
+      bottom: 0;
+      left:   0;
       background-color: #fff;
       transition: .3s ease-in-out;
-      -webkit-transform: translate3d(0,0,0);
-              transform: translate3d(0,0,0);
+      -webkit-transform: translate3d(0,100%,0);
+              transform: translate3d(0,100%,0);
     }
 
     .open > .sd__body__stickers {
-      -webkit-transform: translate3d(0,-100%,0);
-              transform: translate3d(0,-100%,0);
+      -webkit-transform: translate3d(0,0,0);
+              transform: translate3d(0,0,0);
     }
 
       .sd__body__stickers__grid {
@@ -404,7 +404,32 @@
           right:  0;
           bottom: 0;
           left:   0;
+          overflow-x: hidden;
+          overflow-y: scroll;
+          -webkit-overflow-scrolling: touch;
         }
+
+        /* bug fix for not scrolling after reveal */
+        .open .sd__body__stickers__grid__ {
+          transition-delay: .3s;
+          padding-bottom: 12%;
+        }
+
+          .sd__body__stickers__grid__elem {
+            display: inline-block;
+            vertical-align: middle;
+            background-repeat:   no-repeat;
+            background-position: center center;
+            background-size:     contain;
+          }
+
+          .sd__body__stickers__grid__--2 > .sd__body__stickers__grid__elem {width: 50%}
+          .sd__body__stickers__grid__--3 > .sd__body__stickers__grid__elem {width: 33.33337%}
+          .sd__body__stickers__grid__--4 > .sd__body__stickers__grid__elem {width: 25%}
+
+            .sd__body__stickers__grid__elem > img {
+              max-width: 100%;
+            }
 
       .sd__body__stickers__bottom {
         position: absolute;
