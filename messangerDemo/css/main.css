@@ -42,10 +42,6 @@
   position: relative;
   height: 100%;
   background-color: #fff;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: contain;
-  background-image: url(../images/1.png);
   font-size: 0;
 }
 
@@ -165,11 +161,29 @@
           top:  50%;
           left: 50%;
           color: #fff;
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 500;
           text-transform: uppercase;
           -webkit-transform: translate3d(-50%,-50%,0);
                   transform: translate3d(-50%,-50%,0);
+        }
+
+        @media all and (min-width: 350px) {
+          .sd__head__app__avatar:after {
+            font-size: 16px;
+          }
+        }
+
+        @media all and (min-width: 380px) {
+          .sd__head__app__avatar:after {
+            font-size: 18px;
+          }
+        }
+
+        @media all and (min-width: 410px) {
+          .sd__head__app__avatar:after {
+            font-size: 20px;
+          }
         }
       
       .sd__head__app__name {
@@ -256,10 +270,7 @@
       bottom: 0;
       left:   0;
       height: 6.3%;
-      background-color: rgba(255,255,255,.65);
-      box-shadow: 0 1px rgba(130,130,130,.3);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      transition: .3s ease-in-out;
+      transition: transform .3s ease-in-out;
       -webkit-transform: translate3d(0,0,0);
               transform: translate3d(0,0,0);
     }
@@ -268,6 +279,22 @@
       -webkit-transform: translate3d(0,-616.6%,0);
               transform: translate3d(0,-616.6%,0);
     }
+
+      .sd__body__bottom:before {
+        content: '';
+        position: absolute;
+        right:  0;
+        bottom: 0;
+        left:   0;
+        height: 100%;
+        background-color: rgba(255,255,255,.65);
+        box-shadow: 0 1px rgba(130,130,130,.3);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+      }
+
+      .sd__body__bottom.big:before {
+        height: 336%;
+      }
 
       .sd__body__bottom__icons {
         position: absolute;
@@ -356,6 +383,34 @@
         border: solid 1px  #ccc;
         background-color: #fafafa;
       }
+
+      .big > .sd__body__bottom__input {
+        top: -229%;
+      }
+
+        .sd__body__bottom__input:after {
+          content: '';
+          position: absolute;
+          right:   0;
+          bottom: 25%;
+          left:    0;
+          height: 1px;
+          background-color: rgba(130,130,130,.2);
+          opacity: 0;
+          transition: transform .3s ease-in-out;
+          transform-origin: 100% 50%;
+          -webkit-transform: scaleX(1.65);
+                  transform: scaleX(1.65);
+        }
+
+        .big > .sd__body__bottom__input:after {
+          opacity: 1;
+        }
+
+        .open > .sd__body__bottom__input:after {
+          -webkit-transform: scale(1);
+                  transform: scale(1);
+        }
 
         .sd__body__bottom__input__helper {
           position: absolute;

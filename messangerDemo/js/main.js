@@ -31,7 +31,8 @@
     $bottomBtn = $(bottomBtn),
     $openBottom = $(openBottom),
     $input = $(input),
-    $grid = $(grid);
+    $grid = $(grid),
+    $elem;
 
 
   //
@@ -41,6 +42,7 @@
   var
     bodyOpen = false,
     bottomOpen = true,
+    bottomBig = false,
     keyboard = true,
     gridSize = 4;
 
@@ -78,9 +80,19 @@
 
   function getImages() {
     for (var key in imgObj) {
-      var $gridElem = $('<div class="sd__body__stickers__grid__elem"><img src="/dani3lsz/messangerDemo'+ imgObj[key].src +'"></div>')
+      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="/dani3lsz/messangerDemo'+ imgObj[key].src +'"></div>')
       $grid.append($gridElem);
     }
+
+    $elem = $('.js-sticker-elem');
+
+    $elem.on('click', function () {
+      bottomBig = true;
+      bottomOpen = false;
+
+      $bottom.addClass('big');
+      $bottom.removeClass('open')
+    })
   }
 
 
@@ -97,6 +109,12 @@
       bottomOpen = true;
 
       $bottom.addClass('open')
+    }
+
+    if (bottomBig) {
+      bottomBig = false;
+
+      $bottom.removeClass('big')
     }
   });
 
