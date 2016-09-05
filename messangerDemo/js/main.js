@@ -41,6 +41,7 @@
   var
     bodyOpen = false,
     bottomOpen = true,
+    keyboard = true,
     gridSize = 4;
 
   var imgObj = {
@@ -107,13 +108,25 @@
 
       $body.addClass('open')
     }
+
+    if(keyboard) {
+      keyboard = false;
+
+      $body.removeClass('keyboard')
+    } else {
+      keyboard = true;
+
+      $body.addClass('keyboard')
+    }
   });
 
   $input.on('click', function () {
     bottomOpen = false;
+    keyboard = true;
 
     $bottomBtn.removeClass('active');
     $bottom.removeClass('open');
+    $body.addClass('open keyboard');
   })
 
 })();
