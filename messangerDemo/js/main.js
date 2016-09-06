@@ -124,7 +124,7 @@
     $messageElem = $('.js-sticker-message');
 
     for (var i = $messageElem.length - 1; i >= 0; i--) {
-      messages.push({type: 1, text: $messageElem.eq(i).text(), height: $messageElem.eq(i).outerHeight()})
+      messages.push({type: 1, text: $messageElem.eq(i).text(), height: $messageElem.eq(i).outerHeight(), incoming: $messageElem.eq(i).hasClass('incoming')})
     }
 
     arrangeMessages()
@@ -134,7 +134,17 @@
     var i;
 
     for (i = messages.length - 1; i >= 0; i--) {
-      messages[i].coordY = i == messages.length - 1 ? baseCoord[coordStatus] : baseCoord[coordStatus] + messages[i+1].height + 1;
+      messages[i].coordY = i == messages.length - 1 ? baseCoord[coordStatus] : (messages[i+1].coordY + messages[i+1].height + 1);
+
+      if (i == messages.length - 1) {
+        $messageElem.eq(messages.length - 1 - i).addClass('last')
+      } else {
+        if (messages[i].incoming != messages[i+1].incoming) {
+          messages[i].coordY += 5;
+
+          $messageElem.eq(messages.length - 1 - i).addClass('last')
+        }
+      }
 
       $messageElem.eq(messages.length - 1 - i).css({
         'transform': 'translate3d(0,-'+ messages[i].coordY +'px,0)'
