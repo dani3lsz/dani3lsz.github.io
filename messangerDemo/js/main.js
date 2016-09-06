@@ -107,7 +107,7 @@
 
   function getImages() {
     for (var key in imgObj) {
-      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="/dani3lsz/messangerDemo'+ imgObj[key].src +'"></div>')
+      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="/messangerDemo'+ imgObj[key].src +'"></div>')
       $grid.append($gridElem);
     }
 
