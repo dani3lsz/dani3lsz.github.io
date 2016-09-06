@@ -110,7 +110,17 @@
       status1 = status0 + Math.round(demoWidth * 0.69),
       status2 = Math.round(demoHeight * 0.063 * 2.29) + status1;
 
-    baseCoord = [status0,status1,status2]
+    baseCoord = [status0,status1,status2];
+
+    updateNewMessageElem();
+
+    if ($messageElem && $messageElem.length) {
+      for (var i = 0; i < $messageElem.length - 1; i++) {
+        messages[$messageElem.length - 1 - i].height = $messageElem.eq(i).outerHeight()
+      }
+
+      arrangeMessages()
+    }
   }
 
   function getImages() {
