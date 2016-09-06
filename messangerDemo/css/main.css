@@ -204,7 +204,7 @@
     .sd__body__elem {
       position: absolute;
       z-index: 2;
-      bottom: 364px;
+      bottom: 0;
       right: 4.25%;
       max-width: 70%;
       padding: .4em 1em;
@@ -212,6 +212,8 @@
       font-size: 12px;
       color: #fff;
       background-color: #0f84fe;
+      transition: transform .3s ease-in-out;
+      transition-delay: .1s;
     }
 
     @media all and (min-width: 350px) {
@@ -234,7 +236,6 @@
 
     .sd__body__elem--left {
       right: auto;
-      bottom: 311px;
       left: 4.25%;
       color: #000;
       background-color: #e5e5ea;
@@ -265,7 +266,7 @@
 
     .sd__body__bottom {
       position: absolute;
-      z-index: 2;
+      z-index: 3;
       right:  0;
       bottom: 0;
       left:   0;
@@ -491,6 +492,7 @@
 
     .sd__body__stickers {
       position: absolute;
+      z-index: 2;
       right:  0;
       bottom: 0;
       left:   0;

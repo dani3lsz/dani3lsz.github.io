@@ -32,7 +32,8 @@
     $openBottom = $(openBottom),
     $input = $(input),
     $grid = $(grid),
-    $elem;
+    $elem,
+    $messageElem;
 
 
   //
@@ -40,11 +41,16 @@
   //
 
   var
+    demoWidth,
+    demoHeight,
     bodyOpen = false,
     bottomOpen = true,
     bottomBig = false,
     keyboard = true,
-    gridSize = 4;
+    gridSize = 4,
+    baseCoord,
+    coordStatus = 0,
+    messages = [];
 
   var imgObj = {
     1: {name: 'Bomb Icon', src: '/images/ClassicMac/Bomb Icon.png'},
@@ -78,6 +84,18 @@
   // functions
   //
 
+  function getInfo() {
+    demoWidth = $demo.width();
+    demoHeight = $demo.height();
+
+    var
+      status0 = Math.round(demoHeight * 0.063 * 1.5),
+      status1 = status0 + Math.round(demoWidth * 0.69),
+      status2 = Math.round(demoHeight * 0.063 * 2.29) + status1;
+
+    baseCoord = [status0,status1,status2]
+  }
+
   function getImages() {
     for (var key in imgObj) {
       var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="/dani3lsz/messangerDemo'+ imgObj[key].src +'"></div>')
@@ -91,9 +109,40 @@
       bottomOpen = false;
 
       $bottom.addClass('big');
-      $bottom.removeClass('open')
+      $bottom.removeClass('open');
+
+      coordStatus = 2;
+      arrangeMessages();
     })
   }
+
+  function addMessageObj(message) {
+
+  }
+
+  function getMessages() {
+    $messageElem = $('.js-sticker-message');
+
+    for (var i = $messageElem.length - 1; i >= 0; i--) {
+      messages.push({type: 1, text: $messageElem.eq(i).text(), height: $messageElem.eq(i).outerHeight()})
+    }
+
+    arrangeMessages()
+  }
+
+  function arrangeMessages() {
+    var i;
+
+    for (i = messages.length - 1; i >= 0; i--) {
+      messages[i].coordY = i == messages.length - 1 ? baseCoord[coordStatus] : baseCoord[coordStatus] + messages[i+1].height + 1;
+
+      $messageElem.eq(messages.length - 1 - i).css({
+        'transform': 'translate3d(0,-'+ messages[i].coordY +'px,0)'
+      })
+    }
+  }
+
+
 
 
   //
@@ -102,7 +151,9 @@
 
   $grid.addClass('sd__body__stickers__grid__--'+gridSize);
 
+  getInfo();
   getImages();
+  getMessages();
 
   $openBottom.on('click', function () {
     if(!bottomOpen) {
@@ -114,7 +165,10 @@
     if (bottomBig) {
       bottomBig = false;
 
-      $bottom.removeClass('big')
+      $bottom.removeClass('big');
+
+      coordStatus = 1;
+      arrangeMessages();
     }
   });
 
@@ -124,7 +178,10 @@
     if(!bodyOpen) {
       bodyOpen = true;
 
-      $body.addClass('open')
+      $body.addClass('open');
+
+      coordStatus = 1;
+      arrangeMessages();
     }
 
     if(keyboard) {
@@ -145,6 +202,11 @@
     $bottomBtn.removeClass('active');
     $bottom.removeClass('open');
     $body.addClass('open keyboard');
-  })
+
+    coordStatus = bottomBig ? 2 : 1;
+    arrangeMessages();
+  });
+
+  $global.resize(getInfo)
 
 })();
