@@ -11,8 +11,10 @@
     bottom = document.getElementById('js-sticker-bottom'),
     bottomBtn = document.getElementsByClassName('js-sticker-btn'),
     openBottom = document.getElementsByClassName('js-sticker-open-bottom'),
+    sendBtn = document.getElementsByClassName('js-sticker-send'),
     input = document.getElementsByClassName('js-sticker-input'),
-    grid = document.getElementsByClassName('js-sticker-grid');
+    grid = document.getElementsByClassName('js-sticker-grid'),
+    newMessageElem = document.getElementById('js-sticker-new-message');
 
   if (!demo) {
     return
@@ -30,11 +32,12 @@
     $bottom = $(bottom),
     $bottomBtn = $(bottomBtn),
     $openBottom = $(openBottom),
+    $sendBtn = $(sendBtn),
     $input = $(input),
     $grid = $(grid),
     $elem,
     $messageElem,
-    $newMessageElem;
+    $newMessageElem = $(newMessageElem);
 
 
   //
@@ -51,7 +54,12 @@
     gridSize = 4,
     baseCoord,
     coordStatus = 0,
-    messages = [];
+    messages = [],
+    conversationRunning = true,
+    receivingMsg = false,
+    inputAnimate,
+    activeConversation,
+    activeLetter = 0;
 
   var imgObj = {
     1: {name: 'Bomb Icon', src: '/images/ClassicMac/Bomb Icon.png'},
@@ -81,11 +89,11 @@
   };
 
   var conversation = [
-    {text: 'Hey', incoming: true},
-    {text: 'Hey, what\'s up?', incoming: false},
-    {text: 'Just wanted to ask if you have some nice stickers', incoming: true},
-    {text: 'I only have the basics', incoming: true},
-    {text: 'Sure, just downloaded a few', incoming: false}
+    {text: 'Hey', incoming: true, sent: false},
+    {text: 'Hey, what\'s up?', incoming: false, sent: false},
+    {text: 'Just wanted to ask if you have some nice stickers', incoming: true, sent: false},
+    {text: 'I only have the basics', incoming: true, sent: false},
+    {text: 'Sure, just downloaded a few', incoming: false, sent: false}
   ];
 
 
@@ -107,7 +115,7 @@
 
   function getImages() {
     for (var key in imgObj) {
-      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="/messangerDemo'+ imgObj[key].src +'"></div>')
+      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="/dani3lsz/messangerDemo'+ imgObj[key].src +'"></div>')
       $grid.append($gridElem);
     }
 
@@ -167,50 +175,112 @@
     arrangeMessages();
   }
 
+  function animateInput() {
+    clearTimeout(inputAnimate);
+
+    var currentString = conversation[activeConversation].text.substring(0,activeLetter + 1);
+
+    $newMessageElem.text(currentString);
+
+    if (activeLetter > conversation[activeConversation].text.length - 1) {
+      activeLetter = 0;
+      sendMessage();
+      conversation[activeConversation].sent = true;
+      runConversation()
+    } else if (conversationRunning) {
+      activeLetter++;
+      var speed = Math.floor(Math.random() * (150 + 1)) + 50;
+      inputAnimate = setTimeout(animateInput,speed)
+    } else {
+      activeLetter = 0
+    }
+
+    writingMessage()
+  }
+
   function runConversation() {
-    var i = 0;
-    var msgTimeOut = setTimeout(sendMessage,conversation[i].text.length * 100);
+    if (!conversationRunning) return;
 
-    function sendMessage() {
-      clearTimeout(msgTimeOut);
-
-      createNewMessage(conversation[i].text, conversation[i].incoming);
-
-      i++;
-
-      if (i < conversation.length) msgTimeOut = setTimeout(sendMessage,conversation[i].text.length * 100);
+    for (var i = 0; i < conversation.length; i++) {
+      if (!conversation[i].sent) {
+        if (conversation[i].incoming) {
+          activeConversation = i;
+          setTimeout(receiveMsg,500)
+        } else {
+          activeConversation = i;
+          $input.trigger('click');
+          inputAnimate = setTimeout(animateInput,500)
+        }
+        break
+      } else if (i == conversation.length - 1) {
+        conversationRunning = false;
+      }
     }
   }
 
-  function createNewMessageElem() {
-    $body.prepend($('<div class="sd__body__elem input js-sticker-new-message" contenteditable="true"></div>'));
+  function deleteLastMsg() {
+    $messageElem.eq(0).remove();
+    $messageElem = $('.js-sticker-message');
+    messages.splice(-1,1);
 
-    $newMessageElem = $('.js-sticker-new-message');
-
-    $newMessageElem.on('keydown',function (e) {
-      if (e.keyCode == 13) {
-        e.preventDefault();
-
-        createNewMessage($newMessageElem.text());
-        $newMessageElem.empty();
-      }
-    });
-
-    $newMessageElem.on('keyup',updateNewMessageElem);
-
-    updateNewMessageElem()
+    arrangeMessages()
   }
 
-  function updateNewMessageElem() {
-    var width = $newMessageElem.outerWidth();
+  function updateLastMsg() {
+    $messageElem.eq(0).removeClass('writing');
+    $messageElem.eq(0).empty();
+    $messageElem.eq(0).text(conversation[activeConversation].text);
 
+    messages[messages.length - 1].height = $messageElem.eq(0).outerHeight();
+
+    arrangeMessages();
+  }
+
+  function receiveMsg() {
+    receivingMsg = true;
+
+    createNewMessage('____',true);
+
+    $messageElem.eq(0).append('<div class="sd__body__elem__loader"></div>');
+    $messageElem.eq(0).addClass('writing');
+
+    setTimeout(function () {
+      if (!receivingMsg) return;
+      receivingMsg = false;
+
+      conversation[activeConversation].sent = true;
+      updateLastMsg();
+      runConversation()
+    },conversation[activeConversation].text.length * 100)
+  }
+
+  function sendMessage() {
+    if ($newMessageElem.text() == '') return;
+
+    createNewMessage($newMessageElem.text());
+    $newMessageElem.empty();
+
+    if (!conversationRunning) {
+      conversationRunning = true;
+      runConversation();
+    }
+  }
+
+  function writingMessage() {
     if ($newMessageElem.text() == '') {
       $newMessageElem.empty();
-      $input.removeClass('active')
+      $input.removeClass('active');
+
+      if (!conversationRunning) {
+        conversationRunning = true;
+        runConversation();
+      }
     } else {
       $input.addClass('active')
     }
+  }
 
+  function updateNewMessageElem() {
     $newMessageElem.css({
       'transform': 'translate3d(0,-'+ baseCoord[coordStatus == 2 ? 1 : coordStatus] +'px,0)'
     });
@@ -235,12 +305,26 @@
   // calls
   //
 
-  $grid.addClass('sd__body__stickers__grid__--'+gridSize);
+  $newMessageElem.on('keydown',function (e) {
+    if (e.keyCode == 13) {
+      e.preventDefault();
+      sendMessage()
+    }
+  });
 
-  getInfo();
-  getImages();
-  createNewMessageElem();
-  runConversation();
+  $newMessageElem.on('keyup',function (e) {
+    if (e.keyCode != 13) {
+      conversationRunning = false;
+
+      if (receivingMsg) {
+        receivingMsg = false;
+
+        deleteLastMsg()
+      }
+    }
+
+    writingMessage()
+  });
 
   $openBottom.on('click', function () {
     if(!bottomOpen) {
@@ -301,6 +385,17 @@
     $newMessageElem.focus()
   });
 
-  $global.resize(getInfo)
+  $sendBtn.on('click',function () {
+    sendMessage();
+    writingMessage();
+  });
 
+  $grid.addClass('sd__body__stickers__grid__--'+gridSize);
+
+  getInfo();
+  getImages();
+  updateNewMessageElem();
+  runConversation();
+
+  $global.resize(getInfo)
 })();

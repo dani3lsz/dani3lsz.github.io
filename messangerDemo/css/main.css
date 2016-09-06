@@ -241,6 +241,10 @@
       background-color: #e5e5ea;
     }
 
+    .sd__body__elem.writing {
+      color: transparent;
+    }
+
     .sd__body__elem.input {
       z-index: 4;
       right: auto;
@@ -273,28 +277,75 @@
         opacity: .5;
       }
 
-       .sd__body__elem.last:after {
-         content: '';
-         position: absolute;
-         right:  0;
-         bottom: 0;
-         width:  1.13em;
-         height: 1.13em;
-         background-repeat: no-repeat;
-         background-position: 85.7% 0;
-         background-size: 2952% 144%;
-         background-image: url(../images/icons.png);
-         -webkit-transform: translate3d(33%,0,0);
-                 transform: translate3d(33%,0,0);
-       }
+      .sd__body__elem.last:after {
+        content: '';
+        position: absolute;
+        right:  0;
+        bottom: 0;
+        width:  1.13em;
+        height: 1.13em;
+        background-repeat: no-repeat;
+        background-position: 85.7% 0;
+        background-size: 2952% 144%;
+        background-image: url(../images/icons.png);
+        -webkit-transform: translate3d(33%,0,0);
+        transform: translate3d(33%,0,0);
+      }
 
-       .sd__body__elem.incoming.last:after {
-         right:  auto;
-         left:   0;
-         background-position: 81.7% 0;
-         -webkit-transform: translate3d(-33%,0,0);
-                 transform: translate3d(-33%,0,0);
-       }
+      .sd__body__elem.incoming.last:after {
+        right:  auto;
+        left:   0;
+        background-position: 81.7% 0;
+        -webkit-transform: translate3d(-33%,0,0);
+                transform: translate3d(-33%,0,0);
+      }
+
+      .sd__body__elem__loader {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: .7em;
+        width:  .6em;
+        height: .6em;
+        margin-top: -.3em;
+        border-radius: 50%;
+        animation: sd_bg_fade .6s infinite alternate linear;
+      }
+
+      .writing > .sd__body__elem__loader {
+        display: block;
+      }
+
+        .sd__body__elem__loader:before, .sd__body__elem__loader:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          width:  100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+
+        .sd__body__elem__loader:before {
+          left: 150%;
+          animation: sd_bg_fade .6s infinite .15s alternate linear;
+        }
+
+        .sd__body__elem__loader:after {
+          left: 300%;
+          animation: sd_bg_fade .6s infinite .3s alternate linear;
+        }
+
+        @-webkit-keyframes sd_bg_fade {
+          0%   {background-color: rgba(130,130,130,.75)}
+          50%  {background-color: rgba(130,130,130,.25)}
+          100% {background-color: rgba(130,130,130,.25)}
+        }
+
+        @keyframes sd_bg_fade {
+          0%   {background-color: rgba(130,130,130,.75)}
+          50%  {background-color: rgba(130,130,130,.25)}
+          100% {background-color: rgba(130,130,130,.25)}
+        }
 
     .sd__body__bottom {
       position: absolute;
