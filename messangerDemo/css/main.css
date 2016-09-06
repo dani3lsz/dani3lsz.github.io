@@ -241,6 +241,38 @@
       background-color: #e5e5ea;
     }
 
+    .sd__body__elem.input {
+      z-index: 4;
+      right: auto;
+      left:  19%;
+      padding-left:  0;
+      padding-right: 0;
+      border-radius: 0;
+      outline: none;
+      color: #000;
+      background-color: transparent;
+      transition-delay: 0s;
+      transition: .3s ease-in-out;
+      pointer-events: none;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .sd__body__elem.input.open {
+      left: 50%;
+      max-width: 38%;
+    }
+
+      .sd__body__elem.input:empty:before {
+        content: 'iMessage';
+        opacity: .5;
+      }
+
+      .sd__body__elem.input.big:empty:before {
+        content: 'Add comment or Send';
+        opacity: .5;
+      }
+
        .sd__body__elem.last:after {
          content: '';
          position: absolute;

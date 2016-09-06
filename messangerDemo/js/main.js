@@ -33,7 +33,8 @@
     $input = $(input),
     $grid = $(grid),
     $elem,
-    $messageElem;
+    $messageElem,
+    $newMessageElem;
 
 
   //
@@ -79,6 +80,14 @@
     24: {name: 'Watch Icon', src: '/images/ClassicMac/WatchIcon.png'}
   };
 
+  var conversation = [
+    {text: 'Hey', incoming: true},
+    {text: 'Hey, what\'s up?', incoming: false},
+    {text: 'Just wanted to ask if you have some nice stickers', incoming: true},
+    {text: 'I only have the basics', incoming: true},
+    {text: 'Sure, just downloaded a few', incoming: false}
+  ];
+
 
   //
   // functions
@@ -89,7 +98,7 @@
     demoHeight = $demo.height();
 
     var
-      status0 = Math.round(demoHeight * 0.063 * 1.5),
+      status0 = Math.round(demoWidth * 0.01),
       status1 = status0 + Math.round(demoWidth * 0.69),
       status2 = Math.round(demoHeight * 0.063 * 2.29) + status1;
 
@@ -113,21 +122,8 @@
 
       coordStatus = 2;
       arrangeMessages();
+      updateNewMessageElem();
     })
-  }
-
-  function addMessageObj(message) {
-
-  }
-
-  function getMessages() {
-    $messageElem = $('.js-sticker-message');
-
-    for (var i = $messageElem.length - 1; i >= 0; i--) {
-      messages.push({type: 1, text: $messageElem.eq(i).text(), height: $messageElem.eq(i).outerHeight(), incoming: $messageElem.eq(i).hasClass('incoming')})
-    }
-
-    arrangeMessages()
   }
 
   function arrangeMessages() {
@@ -143,12 +139,92 @@
           messages[i].coordY += 5;
 
           $messageElem.eq(messages.length - 1 - i).addClass('last')
+        } else if ($messageElem.eq(messages.length - 1 - i).hasClass('last')) {
+          $messageElem.eq(messages.length - 1 - i).removeClass('last')
         }
       }
 
       $messageElem.eq(messages.length - 1 - i).css({
-        'transform': 'translate3d(0,-'+ messages[i].coordY +'px,0)'
+        'transform': 'translate3d(0,-'+ (messages[i].coordY + messages[0].height * 1.5) +'px,0)'
       })
+    }
+  }
+
+  function createNewMessage(text,incoming) {
+    var $newMsg = $('<div class="sd__body__elem js-sticker-message">'+ text +'</div>');
+    if (incoming) $newMsg.addClass('incoming');
+
+    $body.prepend($newMsg);
+
+    $messageElem = $('.js-sticker-message');
+    messages.push({
+      type: 1,
+      text: $messageElem.eq(0).text(),
+      height: $messageElem.eq(0).outerHeight(),
+      incoming: $messageElem.eq(0).hasClass('incoming')
+    });
+
+    arrangeMessages();
+  }
+
+  function runConversation() {
+    var i = 0;
+    var msgTimeOut = setTimeout(sendMessage,conversation[i].text.length * 100);
+
+    function sendMessage() {
+      clearTimeout(msgTimeOut);
+
+      createNewMessage(conversation[i].text, conversation[i].incoming);
+
+      i++;
+
+      if (i < conversation.length) msgTimeOut = setTimeout(sendMessage,conversation[i].text.length * 100);
+    }
+  }
+
+  function createNewMessageElem() {
+    $body.prepend($('<div class="sd__body__elem input js-sticker-new-message" contenteditable="true"></div>'));
+
+    $newMessageElem = $('.js-sticker-new-message');
+
+    $newMessageElem.on('keydown',function (e) {
+      if (e.keyCode == 13) {
+        e.preventDefault();
+
+        createNewMessage($newMessageElem.text());
+        $newMessageElem.empty();
+      }
+    });
+
+    $newMessageElem.on('keyup',updateNewMessageElem);
+
+    updateNewMessageElem()
+  }
+
+  function updateNewMessageElem() {
+    var width = $newMessageElem.outerWidth();
+
+    if ($newMessageElem.text() == '') {
+      $newMessageElem.empty();
+      $input.removeClass('active')
+    } else {
+      $input.addClass('active')
+    }
+
+    $newMessageElem.css({
+      'transform': 'translate3d(0,-'+ baseCoord[coordStatus == 2 ? 1 : coordStatus] +'px,0)'
+    });
+
+    if (bottomOpen) {
+      $newMessageElem.addClass('open')
+    } else {
+      $newMessageElem.removeClass('open')
+    }
+
+    if (bottomBig) {
+      $newMessageElem.addClass('big')
+    } else {
+      $newMessageElem.removeClass('big')
     }
   }
 
@@ -163,7 +239,8 @@
 
   getInfo();
   getImages();
-  getMessages();
+  createNewMessageElem();
+  runConversation();
 
   $openBottom.on('click', function () {
     if(!bottomOpen) {
@@ -180,6 +257,8 @@
       coordStatus = 1;
       arrangeMessages();
     }
+
+    updateNewMessageElem()
   });
 
   $bottomBtn.on('click', function () {
@@ -203,6 +282,8 @@
 
       $body.addClass('keyboard')
     }
+
+    updateNewMessageElem()
   });
 
   $input.on('click', function () {
@@ -215,6 +296,9 @@
 
     coordStatus = bottomBig ? 2 : 1;
     arrangeMessages();
+    updateNewMessageElem();
+
+    $newMessageElem.focus()
   });
 
   $global.resize(getInfo)
