@@ -157,7 +157,8 @@
     {type: 'sticker', sticker: numRand(0,2 * gridSize - 1), incoming: false, sent: false},
     {type: 'text', text: 'Btw', incoming: true, sent: false},
     {type: 'image', image: 'https://wallpapers.wallhaven.cc/wallpapers/thumb/small/th-416958.jpg', incoming: true, sent: false},
-    {type: 'text', text: 'Niiiiiice', incoming: false, sent: false}
+    {type: 'text', text: 'Niiiiiice', incoming: false, sent: false},
+    {type: 'sticker', sticker: 8, incoming: false, sent: false}
   ];
 
 
