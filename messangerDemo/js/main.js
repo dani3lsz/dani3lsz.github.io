@@ -491,6 +491,7 @@
     $stickerMessageElem.empty();
 
     writingMessage();
+    arrangeMessages();
   });
 
   $newMessageElem.on('keydown',function (e) {

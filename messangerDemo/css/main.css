@@ -82,7 +82,7 @@
           width:  9.3%;
           height: 100%;
           background-repeat: no-repeat;
-          background-size: 1475% 125%;
+          background-size: 1475% 250%;
           background-image: url(../images/icons.png);
         }
 
@@ -90,7 +90,7 @@
           width:  3.6%;
           height: 100%;
           background-repeat: no-repeat;
-          background-size: 3861% 125%;
+          background-size: 3861% 250%;
           background-position: 7.7% 0;
           background-image: url(../images/icons.png);
         }
@@ -108,7 +108,7 @@
           width:  14.8%;
           height: 100%;
           background-repeat: no-repeat;
-          background-size: 933% 125%;
+          background-size: 933% 250%;
           background-position: 12.5% 0;
           background-image: url(../images/icons.png);
         }
@@ -124,7 +124,7 @@
         width:   3.5%;
         height: 37.9%;
         background-repeat: no-repeat;
-        background-size: 3877% 100%;
+        background-size: 3877% 200%;
         background-position: 23.4% 0;
         background-image: url(../images/icons.png);
       }
@@ -136,7 +136,7 @@
         width:   6.1%;
         height: 37.9%;
         background-repeat: no-repeat;
-        background-size: 2191% 100%;
+        background-size: 2191% 200%;
         background-position: 27.5% 0;
         background-image: url(../images/icons.png);
       }
@@ -294,6 +294,10 @@
         padding-bottom: 6.3%;
         border-radius: 50%;
         background-color: #fff;
+        background-repeat: no-repeat;
+        background-size: 2642% 274%;
+        background-position: 0 80%;
+        background-image: url(../images/icons.png);
         box-shadow: 0 0 2px rgba(0,0,0,.1);
       }
 
@@ -347,10 +351,10 @@
         height: 1.13em;
         background-repeat: no-repeat;
         background-position: 85.7% 0;
-        background-size: 2952% 144%;
+        background-size: 2952% 288%;
         background-image: url(../images/icons.png);
         -webkit-transform: translate3d(33%,0,0);
-        transform: translate3d(33%,0,0);
+                transform: translate3d(33%,0,0);
       }
 
       .sd__body__elem.incoming.last:after {
@@ -359,6 +363,12 @@
         background-position: 81.7% 0;
         -webkit-transform: translate3d(-33%,0,0);
                 transform: translate3d(-33%,0,0);
+      }
+
+      .sd__body__elem.incoming.writing:after {
+        background-position: 81.7% 75%;
+        -webkit-transform: translate3d(-40%,20%,0);
+                transform: translate3d(-40%,20%,0);
       }
 
       .sd__body__elem.image.last:after {
@@ -477,7 +487,7 @@
           width:  18.1%;
           height: 100%;
           background-repeat: no-repeat;
-          background-size: 1434% 100%;
+          background-size: 1434% 200%;
           background-image: url(../images/icons.png);
           opacity: 0;
           transition: opacity .3s ease-in-out, transform .3s ease-in-out;
@@ -606,7 +616,7 @@
         right: 5.6%;
         width:  7.2%;
         background-repeat: no-repeat;
-        background-size: 1859% 100%;
+        background-size: 1859% 200%;
         background-image: url(../images/icons.png);
         transition: opacity .3s ease-in-out;
         -webkit-transform: translate3d(0,-50%,0);
@@ -711,7 +721,7 @@
           width: 6.65%;
           background-repeat: no-repeat;
           background-position: 91.1% 0;
-          background-size: 2008% 125%;
+          background-size: 2008% 250%;
           background-image: url(../images/icons.png);
           -webkit-transform: translate3d(0,-50%,0);
                   transform: translate3d(0,-50%,0);
@@ -730,7 +740,7 @@
           width: 3.2%;
           background-repeat: no-repeat;
           background-position: 94.8% 0;
-          background-size: 4183% 125%;
+          background-size: 4183% 250%;
           background-image: url(../images/icons.png);
           -webkit-transform: translate3d(-100%,-50%,0);
                   transform: translate3d(-100%,-50%,0);
@@ -760,7 +770,7 @@
           width: 6.65%;
           background-repeat: no-repeat;
           background-position: 100% 0;
-          background-size: 2008% 125%;
+          background-size: 2008% 250%;
           background-image: url(../images/icons.png);
           -webkit-transform: translate3d(0,-50%,0);
                   transform: translate3d(0,-50%,0);
