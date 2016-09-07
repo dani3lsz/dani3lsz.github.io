@@ -1,3 +1,57 @@
+/*---------------*\
+   #LOAD IMAGES
+\*---------------*/
+
+
+(function(){
+  var global = this;
+
+  // global method to be able to call from anywhere
+  global.loadImages = function(images,success,error) {
+    if (images.length) {
+      for (var i = 0; i < images.length; i++) {
+        checkImage(images[i])
+      }
+    }
+
+    function checkImage(image) {
+      var url;
+
+      if (typeof image == 'string') {
+        url = image
+      } else if (image.tagName == 'IMG') {
+        url = image.src;
+      } else {
+        var bg = $(image).css("background-image");
+        url = bg.replace(/.*\s?url\([\'\"]?/, '').replace(/[\'\"]?\).*/, '');
+      }
+
+      if (url.indexOf('http://') === -1 && url.indexOf('https://') === -1) {
+        return
+      }
+
+      var img = new Image();
+      img.onload = function() {
+        success(image);
+      };
+      img.onerror = function() {
+        error(image);
+      };
+      img.src = url;
+    }
+  };
+})();
+
+
+
+
+
+/*------------------*\
+   #MESSANGER DEMO
+\*------------------*/
+
+
+
 (function(){
 
   //
@@ -100,7 +154,10 @@
     {type: 'text', text: 'Just wanted to ask if you have some nice stickers', incoming: true, sent: false},
     {type: 'text', text: 'I only have the basics', incoming: true, sent: false},
     {type: 'text', text: 'Sure, just downloaded a few', incoming: false, sent: false},
-    {type: 'sticker', sticker: numRand(0,2 * gridSize - 1), incoming: false, sent: false}
+    {type: 'sticker', sticker: numRand(0,2 * gridSize - 1), incoming: false, sent: false},
+    {type: 'text', text: 'Btw', incoming: true, sent: false},
+    {type: 'image', image: 'https://wallpapers.wallhaven.cc/wallpapers/thumb/small/th-416958.jpg', incoming: true, sent: false},
+    {type: 'text', text: 'Niiiiiice', incoming: false, sent: false}
   ];
 
 
@@ -187,20 +244,21 @@
     }
   }
 
-  function createNewMessage(text,incoming,stickerSrc) {
+  function createNewMessage(type,content,incoming) {
     incoming = typeof incoming == 'undefined' ? false : incoming;
 
-    var sticker = stickerSrc ? '<img src="'+ stickerSrc +'">' : '';
-    var $newMsg = $('<div class="sd__body__elem js-sticker-message">'+ (text + sticker) +'</div>');
+    var img = type != 'text' ? '<img src="'+ content +'">' : '';
+    var $newMsg = $('<div class="sd__body__elem js-sticker-message">'+ (type == 'text' ? content : img) +'</div>');
     if (incoming) $newMsg.addClass('incoming');
-    if (stickerSrc) $newMsg.addClass('sticker sticker--'+gridSize);
+    if (type == 'image') $newMsg.addClass('image');
+    if (type == 'sticker') $newMsg.addClass('image sticker--'+gridSize);
 
     $body.prepend($newMsg);
 
     $messageElem = $('.js-sticker-message');
     messages.push({
-      type: stickerSrc ? 2 : 1,
-      text: text,
+      type: type,
+      text: type == 'text' ? content : '',
       height: $messageElem.eq(0).outerHeight(),
       incoming: incoming
     });
@@ -270,7 +328,15 @@
   function updateLastMsg() {
     $messageElem.eq(0).removeClass('writing');
     $messageElem.eq(0).empty();
-    $messageElem.eq(0).text(conversation[activeConversation].text);
+
+    if (conversation[activeConversation].type == 'text') {
+      $messageElem.eq(0).text(conversation[activeConversation].text);
+    } else if (conversation[activeConversation].type == 'image') {
+      $messageElem.eq(0).addClass('image');
+      $messageElem.eq(0).append($('<img src="'+ conversation[activeConversation].image +'">'))
+    } else if (conversation[activeConversation].type == 'sticker') {
+
+    }
 
     messages[messages.length - 1].height = $messageElem.eq(0).outerHeight();
 
@@ -280,25 +346,34 @@
   function receiveMsg() {
     receivingMsg = true;
 
-    createNewMessage('',true);
+    createNewMessage('text','',true);
 
     $messageElem.eq(0).append('<div class="sd__body__elem__loader"></div>');
     $messageElem.eq(0).addClass('writing');
 
-    setTimeout(function () {
+    if (conversation[activeConversation].type == 'image') {
+      loadImages([conversation[activeConversation].image],receiveSuccess,receiveError)
+    } else {
+      setTimeout(receiveSuccess,conversation[activeConversation].type == 'text' ? conversation[activeConversation].text.length * 100 : 500)
+    }
+
+    function receiveSuccess() {receiveEnd()}
+    function receiveError() {receiveEnd(true)}
+
+    function receiveEnd(error) {
       if (!receivingMsg) return;
       receivingMsg = false;
 
       conversation[activeConversation].sent = true;
-      updateLastMsg();
+      error ? deleteLastMsg() : updateLastMsg();
       runConversation()
-    },conversation[activeConversation].text.length * 100)
+    }
   }
 
   function sendMessage() {
     if ($newMessageElem.text() == '') return;
 
-    createNewMessage($newMessageElem.text());
+    createNewMessage('text',$newMessageElem.text());
     $newMessageElem.empty();
 
     if (!conversationRunning) {
@@ -335,7 +410,7 @@
     $bottom.removeClass('big');
     coordStatus = 1;
 
-    createNewMessage('',incoming,stickerSrcBase + imgObj[previewSticker].src);
+    createNewMessage('sticker',stickerSrcBase + imgObj[previewSticker].src,incoming);
 
     previewSticker = -1;
     $stickerMessageElem.removeClass('open contain');

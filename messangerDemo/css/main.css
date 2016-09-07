@@ -250,10 +250,10 @@
       min-width: 3.8em;
     }
 
-    .sd__body__elem.sticker {
-      padding-left:  0;
-      padding-right: 0;
+    .sd__body__elem.image {
+      padding: 0;
       background-color: transparent;
+      overflow: hidden;
     }
 
     .sd__body__elem.sticker--4 {
@@ -361,7 +361,7 @@
                 transform: translate3d(-33%,0,0);
       }
 
-      .sd__body__elem.sticker.last:after {
+      .sd__body__elem.image.last:after {
         display: none;
       }
 
