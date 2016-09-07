@@ -260,6 +260,47 @@
       max-width: 30%;
     }
 
+    .sd__body__elem.preview {
+      z-index: 4;
+      right: 4.25%;
+      bottom: 44.5%;
+      left: 16%;
+      height: 15%;
+      max-width: none;
+      padding: 0;
+      border-radius: 18px 18px 0 0;
+      outline: none;
+      text-align: center;
+      color: #000;
+      background-color: transparent;
+      opacity: 0;
+      transition-delay: 0s;
+      transition: 0s;
+      pointer-events: none;
+    }
+
+    .sd__body__elem.preview.open {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity .3s ease-in-out;
+    }
+
+      .sd__body__elem.preview.open:before {
+        content: '';
+        position: absolute;
+        top:   10%;
+        right: 38%;
+        width: 6.3%;
+        padding-bottom: 6.3%;
+        border-radius: 50%;
+        background-color: #fff;
+        box-shadow: 0 0 2px rgba(0,0,0,.1);
+      }
+
+      .sd__body__elem.preview > img {
+        max-height: 100%;
+      }
+
     .sd__body__elem.input {
       z-index: 4;
       right: auto;
@@ -290,6 +331,11 @@
       .sd__body__elem.input.big:empty:before {
         content: 'Add comment or Send';
         opacity: .5;
+      }
+
+      .contain + .sd__body__elem.input.open:empty:before {
+        content: 'Sticker Message';
+        opacity: 1;
       }
 
       .sd__body__elem.last:after {

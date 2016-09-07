@@ -15,7 +15,8 @@
     sendBtn = document.getElementsByClassName('js-sticker-send'),
     input = document.getElementsByClassName('js-sticker-input'),
     grid = document.getElementsByClassName('js-sticker-grid'),
-    newMessageElem = document.getElementById('js-sticker-new-message');
+    newMessageElem = document.getElementById('js-sticker-new-message'),
+    stickerMessageElem = document.getElementById('js-sticker-sticker-message');
 
   if (!demo) {
     return
@@ -39,7 +40,8 @@
     $grid = $(grid),
     $stickerElem,
     $messageElem,
-    $newMessageElem = $(newMessageElem);
+    $newMessageElem = $(newMessageElem),
+    $stickerMessageElem = $(stickerMessageElem);
 
 
   //
@@ -53,6 +55,7 @@
     bodyOpen = false,
     bottomOpen = true,
     bottomBig = false,
+    previewSticker = -1,
     keyboard = true,
     gridSize = 4,
     baseCoord,
@@ -65,30 +68,30 @@
     activeLetter = 0;
 
   var imgObj = {
-    1: {name: 'Bomb Icon', src: '/images/ClassicMac/Bomb Icon.png'},
-    2: {name: 'Cancel Button Icon', src: '/images/ClassicMac/CancelButtonIcon.png'},
-    3: {name: 'Coffee Cup Icon', src: '/images/ClassicMac/CoffeeCupIcon.png'},
-    4: {name: 'Curson Arrow Icon', src: '/images/ClassicMac/CursonArrowIcon.png'},
-    5: {name: 'Dogcow Icon', src: '/images/ClassicMac/DogcowIcon.png'},
-    6: {name: 'Eraser Icon', src: '/images/ClassicMac/EraserIcon.png'},
-    7: {name: 'Finger Icon', src: '/images/ClassicMac/FingerIcon.png'},
-    8: {name: 'Hand Icon', src: '/images/ClassicMac/HandIcon.png'},
-    9: {name: 'Happy Mac Icon', src: '/images/ClassicMac/HappyMacIcon.png'},
-    10: {name: 'hello Icon', src: '/images/ClassicMac/hello.Icon.png'},
-    11: {name: 'Hour Glass Icon', src: '/images/ClassicMac/HourGlassIcon.png'},
-    12: {name: 'Knife and Fork Icon', src: '/images/ClassicMac/KnifeandForkIcon.png'},
-    13: {name: 'Magnifying Glass Icon', src: '/images/ClassicMac/MagnifyingGlassIcon.png'},
-    14: {name: 'Music Note Icon', src: '/images/ClassicMac/MusicNoteIcon.png'},
-    15: {name: 'OK Button Icon', src: '/images/ClassicMac/OKButtonIcon.png'},
-    16: {name: 'Paint Brush Icon', src: '/images/ClassicMac/PaintBrushIcon.png'},
-    17: {name: 'Paint Bucket Icon', src: '/images/ClassicMac/PaintBucketIcon.png'},
-    18: {name: 'Pencil Icon', src: '/images/ClassicMac/PencilIcon.png'},
-    19: {name: 'Sad Mac Icon', src: '/images/ClassicMac/SadMacIcon.png'},
-    20: {name: 'Sound Icon', src: '/images/ClassicMac/SoundIcon.png'},
-    21: {name: 'Spray Paint Icon', src: '/images/ClassicMac/SprayPaintIcon.png'},
-    22: {name: 'Trash Can Icon', src: '/images/ClassicMac/TrashCanIcon.png'},
-    23: {name: 'Warning Icon', src: '/images/ClassicMac/WarningIcon.png'},
-    24: {name: 'Watch Icon', src: '/images/ClassicMac/WatchIcon.png'}
+    0: {name: 'Bomb Icon', src: '/images/ClassicMac/Bomb Icon.png'},
+    1: {name: 'Cancel Button Icon', src: '/images/ClassicMac/CancelButtonIcon.png'},
+    2: {name: 'Coffee Cup Icon', src: '/images/ClassicMac/CoffeeCupIcon.png'},
+    3: {name: 'Curson Arrow Icon', src: '/images/ClassicMac/CursonArrowIcon.png'},
+    4: {name: 'Dogcow Icon', src: '/images/ClassicMac/DogcowIcon.png'},
+    5: {name: 'Eraser Icon', src: '/images/ClassicMac/EraserIcon.png'},
+    6: {name: 'Finger Icon', src: '/images/ClassicMac/FingerIcon.png'},
+    7: {name: 'Hand Icon', src: '/images/ClassicMac/HandIcon.png'},
+    8: {name: 'Happy Mac Icon', src: '/images/ClassicMac/HappyMacIcon.png'},
+    9: {name: 'hello Icon', src: '/images/ClassicMac/hello.Icon.png'},
+    10: {name: 'Hour Glass Icon', src: '/images/ClassicMac/HourGlassIcon.png'},
+    11: {name: 'Knife and Fork Icon', src: '/images/ClassicMac/KnifeandForkIcon.png'},
+    12: {name: 'Magnifying Glass Icon', src: '/images/ClassicMac/MagnifyingGlassIcon.png'},
+    13: {name: 'Music Note Icon', src: '/images/ClassicMac/MusicNoteIcon.png'},
+    14: {name: 'OK Button Icon', src: '/images/ClassicMac/OKButtonIcon.png'},
+    15: {name: 'Paint Brush Icon', src: '/images/ClassicMac/PaintBrushIcon.png'},
+    16: {name: 'Paint Bucket Icon', src: '/images/ClassicMac/PaintBucketIcon.png'},
+    17: {name: 'Pencil Icon', src: '/images/ClassicMac/PencilIcon.png'},
+    18: {name: 'Sad Mac Icon', src: '/images/ClassicMac/SadMacIcon.png'},
+    19: {name: 'Sound Icon', src: '/images/ClassicMac/SoundIcon.png'},
+    20: {name: 'Spray Paint Icon', src: '/images/ClassicMac/SprayPaintIcon.png'},
+    21: {name: 'Trash Can Icon', src: '/images/ClassicMac/TrashCanIcon.png'},
+    22: {name: 'Warning Icon', src: '/images/ClassicMac/WarningIcon.png'},
+    23: {name: 'Watch Icon', src: '/images/ClassicMac/WatchIcon.png'}
   };
 
   var conversation = [
@@ -97,7 +100,7 @@
     {type: 'text', text: 'Just wanted to ask if you have some nice stickers', incoming: true, sent: false},
     {type: 'text', text: 'I only have the basics', incoming: true, sent: false},
     {type: 'text', text: 'Sure, just downloaded a few', incoming: false, sent: false},
-    {type: 'sticker', sticker: stickerSrcBase + imgObj[numRand(1,2 * gridSize)].src, incoming: false, sent: false}
+    {type: 'sticker', sticker: numRand(0,2 * gridSize - 1), incoming: false, sent: false}
   ];
 
 
@@ -140,15 +143,23 @@
     $stickerElem = $('.js-sticker-elem');
 
     $stickerElem.on('click', function () {
+      var i = $stickerElem.index($(this));
+
       bottomBig = true;
       bottomOpen = false;
 
       $bottom.addClass('big');
       $bottom.removeClass('open');
 
+      previewSticker = i;
+      $stickerMessageElem.addClass('open contain');
+      $stickerMessageElem.empty();
+      $stickerMessageElem.append($('<img src="'+ (stickerSrcBase + imgObj[i].src) +'">'));
+
       coordStatus = 2;
       arrangeMessages();
       updateNewMessageElem();
+      writingMessage();
     })
   }
 
@@ -307,24 +318,28 @@
 
       setTimeout(function () {
         if (!conversationRunning) return;
-        $stickerElem.eq(0).trigger('click');
+        $stickerElem.eq(conversation[activeConversation].sticker).trigger('click');
 
         setTimeout(function () {
           if (!conversationRunning) return;
-          sendSticker(conversation[activeConversation].sticker,conversation[activeConversation].incoming);
+          sendSticker();
         },800);
       },800);
     },800);
   }
 
-  function sendSticker(sticker,incoming) {
-    if (!sticker) return;
+  function sendSticker(incoming) {
+    if (previewSticker < 0) return;
 
     bottomBig = false;
     $bottom.removeClass('big');
     coordStatus = 1;
 
-    createNewMessage('',incoming,sticker);
+    createNewMessage('',incoming,stickerSrcBase + imgObj[previewSticker].src);
+
+    previewSticker = -1;
+    $stickerMessageElem.removeClass('open contain');
+    $stickerMessageElem.empty();
 
     if (!conversationRunning) {
       conversationRunning = true;
@@ -332,11 +347,12 @@
       conversation[activeConversation].sent = true;
     }
 
-    runConversation()
+    runConversation();
+    writingMessage();
   }
 
   function writingMessage() {
-    if ($newMessageElem.text() == '') {
+    if ($newMessageElem.text() == '' && previewSticker < 0) {
       $newMessageElem.empty();
       $input.removeClass('active');
 
@@ -389,10 +405,22 @@
   // calls
   //
 
+  $stickerMessageElem.on('click', function () {
+    bottomBig = false;
+    $bottom.removeClass('big');
+    coordStatus = 1;
+
+    previewSticker = -1;
+    $stickerMessageElem.removeClass('open contain');
+    $stickerMessageElem.empty();
+
+    writingMessage();
+  });
+
   $newMessageElem.on('keydown',function (e) {
     if (e.keyCode == 13) {
       e.preventDefault();
-      sendMessage()
+      $sendBtn.trigger('click');
     }
   });
 
@@ -426,6 +454,10 @@
       arrangeMessages();
     }
 
+    if (previewSticker >= 0) {
+      $stickerMessageElem.removeClass('open');
+    }
+
     updateNewMessageElem()
   });
 
@@ -455,7 +487,18 @@
   });
 
   $input.on('click', function () {
+    if (previewSticker >= 0 && bottomOpen) {
+      $stickerElem.eq(previewSticker).trigger('click');
+
+      if (keyboard) {
+        $newMessageElem.focus()
+      }
+
+      return
+    }
+
     bottomOpen = false;
+
     keyboard = true;
 
     $bottomBtn.removeClass('active');
@@ -470,6 +513,9 @@
   });
 
   $sendBtn.on('click',function () {
+     if (previewSticker >= 0) {
+       sendSticker()
+     }
     sendMessage();
     writingMessage();
   });
