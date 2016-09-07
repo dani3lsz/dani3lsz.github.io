@@ -7,6 +7,7 @@
   var
     global = this,
     demo = document.getElementById('js-sticker-demo'),
+    time = document.getElementById('js-sticker-time'),
     body = document.getElementById('js-sticker-body'),
     bottom = document.getElementById('js-sticker-bottom'),
     bottomBtn = document.getElementsByClassName('js-sticker-btn'),
@@ -28,6 +29,7 @@
   var
     $global = $(global),
     $demo = $(demo),
+    $time= $(time),
     $body = $(body),
     $bottom = $(bottom),
     $bottomBtn = $(bottomBtn),
@@ -45,7 +47,7 @@
   //
 
   var
-    stickerSrcBase = '/dani3lsz/messangerDemo',
+    stickerSrcBase = window.location.hostname == 'localhost' ? '/dani3lsz/messangerDemo' : '/messangerDemo',
     demoWidth,
     demoHeight,
     bodyOpen = false,
@@ -299,7 +301,9 @@
 
     setTimeout(function () {
       if (!conversationRunning) return;
-      $bottomBtn.eq(0).trigger('click');
+      if (keyboard) {
+        $bottomBtn.eq(0).trigger('click');
+      }
 
       setTimeout(function () {
         if (!conversationRunning) return;
@@ -315,6 +319,10 @@
 
   function sendSticker(sticker,incoming) {
     if (!sticker) return;
+
+    bottomBig = false;
+    $bottom.removeClass('big');
+    coordStatus = 1;
 
     createNewMessage('',incoming,sticker);
 
@@ -357,6 +365,21 @@
     } else {
       $newMessageElem.removeClass('big')
     }
+  }
+
+  // Insert actual time
+  function updateClock() {
+    var currentTime = new Date();
+    var currentHours = currentTime.getHours();
+    var currentMinutes = currentTime.getMinutes();
+
+    // Pad the minutes and seconds with leading zeros, if required
+    currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+
+    // Compose the string for display
+    var currentTimeString = currentHours + ":" + currentMinutes;
+
+    $time.html(currentTimeString);
   }
 
 
@@ -457,6 +480,7 @@
   getImages();
   updateNewMessageElem();
   runConversation();
+  setInterval(updateClock, 1000); // update clock
 
   $global.resize(getInfo)
 })();
