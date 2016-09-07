@@ -207,6 +207,7 @@
       bottom: 0;
       right: 4.25%;
       max-width: 70%;
+      min-height: 2.2em;
       padding: .4em 1em;
       border-radius: 1.2em;
       font-size: 12px;
@@ -215,6 +216,10 @@
       transition: transform .3s ease-in-out;
       transition-delay: .1s;
     }
+
+      .sd__body__elem > img {
+        max-width: 100%;
+      }
 
     @media all and (min-width: 350px) {
       .sd__body__elem {
@@ -242,7 +247,17 @@
     }
 
     .sd__body__elem.writing {
-      color: transparent;
+      min-width: 3.8em;
+    }
+
+    .sd__body__elem.sticker {
+      padding-left:  0;
+      padding-right: 0;
+      background-color: transparent;
+    }
+
+    .sd__body__elem.sticker--4 {
+      max-width: 30%;
     }
 
     .sd__body__elem.input {
@@ -298,6 +313,10 @@
         background-position: 81.7% 0;
         -webkit-transform: translate3d(-33%,0,0);
                 transform: translate3d(-33%,0,0);
+      }
+
+      .sd__body__elem.sticker.last:after {
+        display: none;
       }
 
       .sd__body__elem__loader {

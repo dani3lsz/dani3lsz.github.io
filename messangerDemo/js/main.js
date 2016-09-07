@@ -35,7 +35,7 @@
     $sendBtn = $(sendBtn),
     $input = $(input),
     $grid = $(grid),
-    $elem,
+    $stickerElem,
     $messageElem,
     $newMessageElem = $(newMessageElem);
 
@@ -45,6 +45,7 @@
   //
 
   var
+    stickerSrcBase = '/dani3lsz/messangerDemo',
     demoWidth,
     demoHeight,
     bodyOpen = false,
@@ -89,17 +90,22 @@
   };
 
   var conversation = [
-    {text: 'Hey', incoming: true, sent: false},
-    {text: 'Hey, what\'s up?', incoming: false, sent: false},
-    {text: 'Just wanted to ask if you have some nice stickers', incoming: true, sent: false},
-    {text: 'I only have the basics', incoming: true, sent: false},
-    {text: 'Sure, just downloaded a few', incoming: false, sent: false}
+    {type: 'text', text: 'Hey', incoming: true, sent: false},
+    {type: 'text', text: 'Hey, what\'s up?', incoming: false, sent: false},
+    {type: 'text', text: 'Just wanted to ask if you have some nice stickers', incoming: true, sent: false},
+    {type: 'text', text: 'I only have the basics', incoming: true, sent: false},
+    {type: 'text', text: 'Sure, just downloaded a few', incoming: false, sent: false},
+    {type: 'sticker', sticker: stickerSrcBase + imgObj[numRand(1,2 * gridSize)].src, incoming: false, sent: false}
   ];
 
 
   //
   // functions
   //
+
+  function numRand(min,max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  }
 
   function getInfo() {
     demoWidth = $demo.width();
@@ -125,13 +131,13 @@
 
   function getImages() {
     for (var key in imgObj) {
-      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="/messangerDemo'+ imgObj[key].src +'"></div>')
+      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="'+ (stickerSrcBase + imgObj[key].src) +'"></div>')
       $grid.append($gridElem);
     }
 
-    $elem = $('.js-sticker-elem');
+    $stickerElem = $('.js-sticker-elem');
 
-    $elem.on('click', function () {
+    $stickerElem.on('click', function () {
       bottomBig = true;
       bottomOpen = false;
 
@@ -153,7 +159,7 @@
       if (i == messages.length - 1) {
         $messageElem.eq(messages.length - 1 - i).addClass('last')
       } else {
-        if (messages[i].incoming != messages[i+1].incoming) {
+        if (messages[i].incoming != messages[i+1].incoming || messages[i].type != messages[i+1].type) {
           messages[i].coordY += 5;
 
           $messageElem.eq(messages.length - 1 - i).addClass('last')
@@ -168,18 +174,22 @@
     }
   }
 
-  function createNewMessage(text,incoming) {
-    var $newMsg = $('<div class="sd__body__elem js-sticker-message">'+ text +'</div>');
+  function createNewMessage(text,incoming,stickerSrc) {
+    incoming = typeof incoming == 'undefined' ? false : incoming;
+
+    var sticker = stickerSrc ? '<img src="'+ stickerSrc +'">' : '';
+    var $newMsg = $('<div class="sd__body__elem js-sticker-message">'+ (text + sticker) +'</div>');
     if (incoming) $newMsg.addClass('incoming');
+    if (stickerSrc) $newMsg.addClass('sticker sticker--'+gridSize);
 
     $body.prepend($newMsg);
 
     $messageElem = $('.js-sticker-message');
     messages.push({
-      type: 1,
-      text: $messageElem.eq(0).text(),
+      type: stickerSrc ? 2 : 1,
+      text: text,
       height: $messageElem.eq(0).outerHeight(),
-      incoming: $messageElem.eq(0).hasClass('incoming')
+      incoming: incoming
     });
 
     arrangeMessages();
@@ -199,7 +209,7 @@
       runConversation()
     } else if (conversationRunning) {
       activeLetter++;
-      var speed = Math.floor(Math.random() * (150 + 1)) + 50;
+      var speed = numRand(50,200);
       inputAnimate = setTimeout(animateInput,speed)
     } else {
       activeLetter = 0
@@ -218,13 +228,21 @@
           setTimeout(receiveMsg,500)
         } else {
           activeConversation = i;
-          $input.trigger('click');
-          inputAnimate = setTimeout(animateInput,500)
+          setTimeout(createMessage,500)
         }
         break
       } else if (i == conversation.length - 1) {
         conversationRunning = false;
       }
+    }
+  }
+
+  function createMessage() {
+    if (conversation[activeConversation].type == 'text') {
+      $input.trigger('click');
+      inputAnimate = setTimeout(animateInput,500)
+    } else if (conversation[activeConversation].type == 'sticker') {
+      startStickerSend();
     }
   }
 
@@ -249,7 +267,7 @@
   function receiveMsg() {
     receivingMsg = true;
 
-    createNewMessage('____',true);
+    createNewMessage('',true);
 
     $messageElem.eq(0).append('<div class="sd__body__elem__loader"></div>');
     $messageElem.eq(0).addClass('writing');
@@ -274,6 +292,39 @@
       conversationRunning = true;
       runConversation();
     }
+  }
+
+  function startStickerSend() {
+    $openBottom.trigger('click');
+
+    setTimeout(function () {
+      if (!conversationRunning) return;
+      $bottomBtn.eq(0).trigger('click');
+
+      setTimeout(function () {
+        if (!conversationRunning) return;
+        $stickerElem.eq(0).trigger('click');
+
+        setTimeout(function () {
+          if (!conversationRunning) return;
+          sendSticker(conversation[activeConversation].sticker,conversation[activeConversation].incoming);
+        },800);
+      },800);
+    },800);
+  }
+
+  function sendSticker(sticker,incoming) {
+    if (!sticker) return;
+
+    createNewMessage('',incoming,sticker);
+
+    if (!conversationRunning) {
+      conversationRunning = true;
+    } else {
+      conversation[activeConversation].sent = true;
+    }
+
+    runConversation()
   }
 
   function writingMessage() {
