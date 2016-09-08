@@ -60,17 +60,7 @@
 
   var
     global = this,
-    demo = document.getElementById('js-sticker-demo'),
-    time = document.getElementById('js-sticker-time'),
-    body = document.getElementById('js-sticker-body'),
-    bottom = document.getElementById('js-sticker-bottom'),
-    bottomBtn = document.getElementsByClassName('js-sticker-btn'),
-    openBottom = document.getElementsByClassName('js-sticker-open-bottom'),
-    sendBtn = document.getElementsByClassName('js-sticker-send'),
-    input = document.getElementsByClassName('js-sticker-input'),
-    grid = document.getElementsByClassName('js-sticker-grid'),
-    newMessageElem = document.getElementById('js-sticker-new-message'),
-    stickerMessageElem = document.getElementById('js-sticker-sticker-message');
+    demo = document.getElementById('js-sticker-demo');
 
   if (!demo) {
     return
@@ -84,18 +74,18 @@
   var
     $global = $(global),
     $demo = $(demo),
-    $time= $(time),
-    $body = $(body),
-    $bottom = $(bottom),
-    $bottomBtn = $(bottomBtn),
-    $openBottom = $(openBottom),
-    $sendBtn = $(sendBtn),
-    $input = $(input),
-    $grid = $(grid),
+    $time= $('#js-sticker-time'),
+    $body = $('#js-sticker-body'),
+    $bottom = $('#js-sticker-bottom'),
+    $bottomBtn = $('.js-sticker-btn'),
+    $openBottom = $('.js-sticker-open-bottom'),
+    $sendBtn = $('.js-sticker-send'),
+    $input = $('.js-sticker-input'),
+    $grid = $('.js-sticker-grid'),
+    $newMessageElem = $('#js-sticker-new-message'),
+    $stickerMessageElem = $('#js-sticker-sticker-message'),
     $stickerElem,
-    $messageElem,
-    $newMessageElem = $(newMessageElem),
-    $stickerMessageElem = $(stickerMessageElem);
+    $messageElem;
 
 
   //
@@ -327,14 +317,12 @@
   }
 
   function updateLastMsg() {
-    $messageElem.eq(0).removeClass('writing');
-    $messageElem.eq(0).empty();
+    $messageElem.eq(0).removeClass('writing').empty();
 
     if (conversation[activeConversation].type == 'text') {
       $messageElem.eq(0).text(conversation[activeConversation].text);
     } else if (conversation[activeConversation].type == 'image') {
-      $messageElem.eq(0).addClass('image');
-      $messageElem.eq(0).append($('<img src="'+ conversation[activeConversation].image +'">'))
+      $messageElem.eq(0).addClass('image').append($('<img src="'+ conversation[activeConversation].image +'">'))
     } else if (conversation[activeConversation].type == 'sticker') {
 
     }
@@ -349,8 +337,7 @@
 
     createNewMessage('text','',true);
 
-    $messageElem.eq(0).append('<div class="sd__body__elem__loader"></div>');
-    $messageElem.eq(0).addClass('writing');
+    $messageElem.eq(0).append('<div class="sd__body__elem__loader"></div>').addClass('writing');
 
     if (conversation[activeConversation].type == 'image') {
       loadImages([conversation[activeConversation].image],receiveSuccess,receiveError)
@@ -414,8 +401,7 @@
     createNewMessage('sticker',stickerSrcBase + imgObj[previewSticker].src,incoming);
 
     previewSticker = -1;
-    $stickerMessageElem.removeClass('open contain');
-    $stickerMessageElem.empty();
+    $stickerMessageElem.removeClass('open contain').empty();
 
     if (!conversationRunning) {
       conversationRunning = true;
@@ -487,8 +473,7 @@
     coordStatus = 1;
 
     previewSticker = -1;
-    $stickerMessageElem.removeClass('open contain');
-    $stickerMessageElem.empty();
+    $stickerMessageElem.removeClass('open contain').empty();
 
     writingMessage();
     arrangeMessages();
