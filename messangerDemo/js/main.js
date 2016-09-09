@@ -101,6 +101,8 @@
     bottomBig = false,
     previewSticker = -1,
     keyboard = true,
+    dragging = false,
+    pageX, pageY, dragX, dragY, stickerX, stickerY,
     gridSize = 4,
     baseCoord,
     coordStatus = 0,
@@ -108,6 +110,7 @@
     conversationRunning = true,
     receivingMsg = false,
     inputAnimate,
+    stickerElemTimeout = 0,
     activeConversation,
     activeLetter = 0;
 
@@ -188,32 +191,92 @@
       $grid.append($gridElem);
     }
 
+    var i;
+
     $stickerElem = $('.js-sticker-elem');
 
-    $stickerElem.on('click', function () {
-      var i = $stickerElem.index($(this));
+    $stickerElem.on('mousedown', function (e) {
+      pageX = e.pageX;
+      pageY = e.pageY;
 
-      bottomBig = true;
-      bottomOpen = false;
+      i = $stickerElem.index($(this));
 
-      $bottom.addClass('big');
-      $bottom.removeClass('open');
+      stickerElemTimeout = setTimeout(function () {
+        stickerElemHoldStart(i)
+      },300)
+    }).on('mouseup', function () {
+      clearTimeout(stickerElemTimeout);
+      stickerElemClick(i);
+    });
+  }
 
-      previewSticker = i;
-      $stickerMessageElem.addClass('open contain');
-      $stickerMessageElem.empty();
-      $stickerMessageElem.append($('<img src="'+ (stickerSrcBase + imgObj[i].src) +'">'));
+  function dragSticker(e) {
+    stickerX = -1 * (pageX - e.originalEvent.pageX) + dragX;
+    stickerY = -1 * (pageY - e.originalEvent.pageY) + dragY;
 
-      coordStatus = 2;
-      arrangeMessages();
-      updateNewMessageElem();
-      writingMessage();
-    })
+    $messageElem.eq(0).css({
+      'transform': 'translate3d('+ stickerX +'px,'+ stickerY +'px,0)'
+    });
+  }
+
+  function stickerElemHoldStart(i) {
+    var
+      $currentElem = $stickerElem.eq(i),
+      $elemParent = $currentElem.parent();
+
+    var
+      elemHeight = $currentElem.height(),
+      elemOffsetLeft = $currentElem.offset().left,
+      elemOffsetTop = $currentElem.offset().top,
+      parentHeight = $elemParent.outerHeight(),
+      parentOffsetLeft = $elemParent.offset().left,
+      parentOffsetTop = $elemParent.offset().top,
+      parentScrollHeight = $elemParent[0].scrollHeight;
+
+    stickerElemTimeout = 0;
+    dragging = true;
+
+    dragX = elemOffsetLeft - parentOffsetLeft;
+    dragY = -1 * (parentScrollHeight - (elemOffsetTop - parentOffsetTop) - elemHeight - (parentScrollHeight - parentHeight));
+
+    createNewMessage('peel',stickerSrcBase + imgObj[i].src);
+    $currentElem.addClass('peeled');
+
+    $messageElem.eq(0).css({
+      'transform': 'translate3d('+ dragX +'px,'+ dragY +'px,0)'
+    });
+
+    $messageElem.eq(0).on('drag',dragSticker).on('dragend',function () {
+      stickerElemHoldEnd(i)
+    });
+  }
+
+  function stickerElemHoldEnd(i) {
+    $stickerElem.eq(i).removeClass('peeled');
+
+    messages[messages.length - 1].stickerX = stickerX;
+    messages[messages.length - 1].stickerY = stickerY;
+  }
+
+  function stickerElemClick(i) {
+    bottomBig = true;
+    bottomOpen = false;
+
+    $bottom.addClass('big');
+    $bottom.removeClass('open');
+
+    previewSticker = i;
+    $stickerMessageElem.addClass('open contain');
+    $stickerMessageElem.empty();
+    $stickerMessageElem.append($('<img src="'+ (stickerSrcBase + imgObj[i].src) +'">'));
+
+    coordStatus = 2;
+    arrangeMessages();
+    updateNewMessageElem();
+    writingMessage();
   }
 
   function arrangeMessages() {
-    var i;
-
     for (i = messages.length - 1; i >= 0; i--) {
       messages[i].coordY = i == messages.length - 1 ? baseCoord[coordStatus] : (messages[i+1].coordY + messages[i+1].height + 1);
 
@@ -243,6 +306,7 @@
     if (incoming) $newMsg.addClass('incoming');
     if (type == 'image') $newMsg.addClass('image');
     if (type == 'sticker') $newMsg.addClass('image sticker--'+gridSize);
+    if (type == 'peel') $newMsg.addClass('image peel').css({'width': demoWidth / gridSize + 'px'}).attr('draggable',true);
 
     $body.prepend($newMsg);
 
@@ -254,7 +318,7 @@
       incoming: incoming
     });
 
-    arrangeMessages();
+    if (!dragging) arrangeMessages();
   }
 
   function animateInput() {
@@ -381,7 +445,7 @@
 
       setTimeout(function () {
         if (!conversationRunning) return;
-        $stickerElem.eq(conversation[activeConversation].sticker).trigger('click');
+        $stickerElem.eq(conversation[activeConversation].sticker).trigger('mousedown').trigger('mouseup');
 
         setTimeout(function () {
           if (!conversationRunning) return;

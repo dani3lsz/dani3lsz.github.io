@@ -256,6 +256,14 @@
       overflow: hidden;
     }
 
+    .sd__body__elem.peel {
+      z-index: 4;
+      right: auto;
+      left:  auto;
+      transition: 0s;
+      transition-delay: 0s;
+    }
+
     .sd__body__elem.sticker--4 {
       max-width: 30%;
     }
@@ -693,6 +701,12 @@
             background-repeat:   no-repeat;
             background-position: center center;
             background-size:     contain;
+            transition: opacity .3s ease-in-out;
+          }
+
+          .sd__body__stickers__grid__elem.peeled {
+            opacity: .2;
+            -webkit-filter: saturate(0);
           }
 
           .sd__body__stickers__grid__--2 > .sd__body__stickers__grid__elem {width: 50%}
