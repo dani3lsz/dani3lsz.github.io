@@ -252,7 +252,10 @@
   }
 
   function stickerElemHoldEnd(i) {
+    dragging = false;
+
     $stickerElem.eq(i).removeClass('peeled');
+    $messageElem.eq(0).removeClass('peel').addClass('peeled');
 
     messages[messages.length - 1].stickerX = stickerX;
     messages[messages.length - 1].stickerY = stickerY;
@@ -277,7 +280,7 @@
   }
 
   function arrangeMessages() {
-    for (i = messages.length - 1; i >= 0; i--) {
+    for (var i = messages.length - 1; i >= 0; i--) {
       messages[i].coordY = i == messages.length - 1 ? baseCoord[coordStatus] : (messages[i+1].coordY + messages[i+1].height + 1);
 
       if (i == messages.length - 1) {

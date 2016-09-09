@@ -264,6 +264,11 @@
       transition-delay: 0s;
     }
 
+    .sd__body__elem.peeled {
+      right: auto;
+      left:  auto;
+    }
+
     .sd__body__elem.sticker--4 {
       max-width: 30%;
     }
