@@ -258,7 +258,7 @@
     $messageElem.eq(0).removeClass('peel').addClass('peeled');
 
     messages[messages.length - 1].stickerX = stickerX;
-    messages[messages.length - 1].stickerY = stickerY;
+    messages[messages.length - 1].stickerY = stickerY + baseCoord[coordStatus];
   }
 
   function stickerElemClick(i) {
@@ -280,23 +280,36 @@
   }
 
   function arrangeMessages() {
-    for (var i = messages.length - 1; i >= 0; i--) {
-      messages[i].coordY = i == messages.length - 1 ? baseCoord[coordStatus] : (messages[i+1].coordY + messages[i+1].height + 1);
+    var i, previous, mX, mY;
 
-      if (i == messages.length - 1) {
-        $messageElem.eq(messages.length - 1 - i).addClass('last')
+
+    for (i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].type == 'peel') {
+        mX = messages[i].stickerX;
+        mY = i == messages.length - 1 ? messages[i].stickerY - baseCoord[coordStatus] : messages[i].stickerY - (messages[i+1].coordY + messages[i+1].height + 1);
       } else {
-        if (messages[i].incoming != messages[i+1].incoming || messages[i].type != messages[i+1].type) {
-          messages[i].coordY += 5;
+        if (previous) {
+          mY = messages[i].coordY = messages[previous].coordY + messages[previous].height + 1;
 
+          if (messages[i].incoming != messages[previous].incoming || messages[i].type != messages[previous].type) {
+            mY = messages[i].coordY += 5;
+
+            $messageElem.eq(messages.length - 1 - i).addClass('last')
+          } else {
+            $messageElem.eq(messages.length - 1 - i).removeClass('last')
+          }
+        } else {
+          mY = messages[i].coordY = baseCoord[coordStatus];
           $messageElem.eq(messages.length - 1 - i).addClass('last')
-        } else if ($messageElem.eq(messages.length - 1 - i).hasClass('last')) {
-          $messageElem.eq(messages.length - 1 - i).removeClass('last')
         }
+
+        mY = -mY - demoHeight * .075;
+        mX = 0;
+        previous = i;
       }
 
       $messageElem.eq(messages.length - 1 - i).css({
-        'transform': 'translate3d(0,-'+ (messages[i].coordY + messages[0].height * 1.5) +'px,0)'
+        'transform': 'translate3d('+ mX +'px,'+ mY +'px,0)'
       })
     }
   }

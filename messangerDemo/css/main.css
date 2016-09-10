@@ -265,6 +265,7 @@
     }
 
     .sd__body__elem.peeled {
+      z-index: 3;
       right: auto;
       left:  auto;
     }
@@ -274,7 +275,7 @@
     }
 
     .sd__body__elem.preview {
-      z-index: 4;
+      z-index: 5;
       right: 4.25%;
       bottom: 44.5%;
       left: 16%;
@@ -319,7 +320,7 @@
       }
 
     .sd__body__elem.input {
-      z-index: 4;
+      z-index: 5;
       right: auto;
       left:  19%;
       padding-left:  0;
@@ -437,7 +438,7 @@
 
     .sd__body__bottom {
       position: absolute;
-      z-index: 3;
+      z-index: 4;
       right:  0;
       bottom: 0;
       left:   0;
@@ -663,7 +664,7 @@
 
     .sd__body__stickers {
       position: absolute;
-      z-index: 2;
+      z-index: 3;
       right:  0;
       bottom: 0;
       left:   0;
