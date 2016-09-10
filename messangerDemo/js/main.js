@@ -187,7 +187,7 @@
 
   function getImages() {
     for (var key in imgObj) {
-      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="'+ (stickerSrcBase + imgObj[key].src) +'"></div>')
+      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="'+ (stickerSrcBase + imgObj[key].src) +'" draggable="false"></div>')
       $grid.append($gridElem);
     }
 
@@ -317,7 +317,7 @@
   function createNewMessage(type,content,incoming) {
     incoming = typeof incoming == 'undefined' ? false : incoming;
 
-    var img = type != 'text' ? '<img src="'+ content +'">' : '';
+    var img = type != 'text' ? '<img src="'+ content +'" draggable="false">' : '';
     var $newMsg = $('<div class="sd__body__elem js-sticker-message">'+ (type == 'text' ? content : img) +'</div>');
     if (incoming) $newMsg.addClass('incoming');
     if (type == 'image') $newMsg.addClass('image');
