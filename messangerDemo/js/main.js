@@ -179,6 +179,8 @@
     {type: 'peel', sticker: numRand(0,2 * gridSize - 1), incoming: false, sent: false, target: {i: 7, x: 'right', y: 'bottom'}}
   ];
 
+  var answers = ['You OK?','What are you talking abaout man?','I don\'t understand','Yeah','LOL'];
+
 
   //
   // functions
@@ -456,6 +458,12 @@
     }
   }
 
+  function addRandomAnswer() {
+    if (numRand(0,1)) return;
+
+    conversation.push({type: 'text', text: answers[numRand(0,answers.length - 1)], incoming: true, sent: false})
+  }
+
   function shiftConversationTarget() {
     for (var i = activeConversation; i < conversation.length; i++) {
       if (conversation[i].type == 'peel' && conversation[i].target.i > activeConversation) {
@@ -544,6 +552,8 @@
 
       if (activeConversation < conversation.length - 1) {
         shiftConversationTarget()
+      } else {
+        addRandomAnswer()
       }
     } else {
       conversation[activeConversation].sent = true;
