@@ -116,32 +116,54 @@
     activeConversation,
     activeLetter = 0;
 
-  var imgObj = {
-    0: {name: 'Bomb Icon', src: '/images/ClassicMac/Bomb Icon.png'},
-    1: {name: 'Cancel Button Icon', src: '/images/ClassicMac/CancelButtonIcon.png'},
-    2: {name: 'Coffee Cup Icon', src: '/images/ClassicMac/CoffeeCupIcon.png'},
-    3: {name: 'Curson Arrow Icon', src: '/images/ClassicMac/CursonArrowIcon.png'},
-    4: {name: 'Dogcow Icon', src: '/images/ClassicMac/DogcowIcon.png'},
-    5: {name: 'Eraser Icon', src: '/images/ClassicMac/EraserIcon.png'},
-    6: {name: 'Finger Icon', src: '/images/ClassicMac/FingerIcon.png'},
-    7: {name: 'Hand Icon', src: '/images/ClassicMac/HandIcon.png'},
-    8: {name: 'Happy Mac Icon', src: '/images/ClassicMac/HappyMacIcon.png'},
-    9: {name: 'hello Icon', src: '/images/ClassicMac/hello.Icon.png'},
-    10: {name: 'Hour Glass Icon', src: '/images/ClassicMac/HourGlassIcon.png'},
-    11: {name: 'Knife and Fork Icon', src: '/images/ClassicMac/KnifeandForkIcon.png'},
-    12: {name: 'Magnifying Glass Icon', src: '/images/ClassicMac/MagnifyingGlassIcon.png'},
-    13: {name: 'Music Note Icon', src: '/images/ClassicMac/MusicNoteIcon.png'},
-    14: {name: 'OK Button Icon', src: '/images/ClassicMac/OKButtonIcon.png'},
-    15: {name: 'Paint Brush Icon', src: '/images/ClassicMac/PaintBrushIcon.png'},
-    16: {name: 'Paint Bucket Icon', src: '/images/ClassicMac/PaintBucketIcon.png'},
-    17: {name: 'Pencil Icon', src: '/images/ClassicMac/PencilIcon.png'},
-    18: {name: 'Sad Mac Icon', src: '/images/ClassicMac/SadMacIcon.png'},
-    19: {name: 'Sound Icon', src: '/images/ClassicMac/SoundIcon.png'},
-    20: {name: 'Spray Paint Icon', src: '/images/ClassicMac/SprayPaintIcon.png'},
-    21: {name: 'Trash Can Icon', src: '/images/ClassicMac/TrashCanIcon.png'},
-    22: {name: 'Warning Icon', src: '/images/ClassicMac/WarningIcon.png'},
-    23: {name: 'Watch Icon', src: '/images/ClassicMac/WatchIcon.png'}
-  };
+  var imgObj = [
+    {name: 'Bomb Icon', src: '/images/ClassicMac/Bomb Icon.png'},
+    {name: 'Cancel Button Icon', src: '/images/ClassicMac/CancelButtonIcon.png'},
+    {name: 'Coffee Cup Icon', src: '/images/ClassicMac/CoffeeCupIcon.png'},
+    {name: 'Curson Arrow Icon', src: '/images/ClassicMac/CursonArrowIcon.png'},
+    {name: 'Dogcow Icon', src: '/images/ClassicMac/DogcowIcon.png'},
+    {name: 'Eraser Icon', src: '/images/ClassicMac/EraserIcon.png'},
+    {name: 'Finger Icon', src: '/images/ClassicMac/FingerIcon.png'},
+    {name: 'Hand Icon', src: '/images/ClassicMac/HandIcon.png'},
+    {name: 'Happy Mac Icon', src: '/images/ClassicMac/HappyMacIcon.png'},
+    {name: 'hello Icon', src: '/images/ClassicMac/hello.Icon.png'},
+    {name: 'Hour Glass Icon', src: '/images/ClassicMac/HourGlassIcon.png'},
+    {name: 'Knife and Fork Icon', src: '/images/ClassicMac/KnifeandForkIcon.png'},
+    {name: 'Magnifying Glass Icon', src: '/images/ClassicMac/MagnifyingGlassIcon.png'},
+    {name: 'Music Note Icon', src: '/images/ClassicMac/MusicNoteIcon.png'},
+    {name: 'OK Button Icon', src: '/images/ClassicMac/OKButtonIcon.png'},
+    {name: 'Paint Brush Icon', src: '/images/ClassicMac/PaintBrushIcon.png'},
+    {name: 'Paint Bucket Icon', src: '/images/ClassicMac/PaintBucketIcon.png'},
+    {name: 'Pencil Icon', src: '/images/ClassicMac/PencilIcon.png'},
+    {name: 'Sad Mac Icon', src: '/images/ClassicMac/SadMacIcon.png'},
+    {name: 'Sound Icon', src: '/images/ClassicMac/SoundIcon.png'},
+    {name: 'Spray Paint Icon', src: '/images/ClassicMac/SprayPaintIcon.png'},
+    {name: 'Trash Can Icon', src: '/images/ClassicMac/TrashCanIcon.png'},
+    {name: 'Warning Icon', src: '/images/ClassicMac/WarningIcon.png'},
+    {name: 'Watch Icon', src: '/images/ClassicMac/WatchIcon.png'}
+  ];
+
+  var imgObj2 = [
+    {name: '', src: '/images/hand/HA01_RGBA.png'},
+    {name: '', src: '/images/hand/HA02_RGBA.png'},
+    {name: '', src: '/images/hand/HA03_RGBA.png'},
+    {name: '', src: '/images/hand/HA04_RGBA.png'},
+    {name: '', src: '/images/hand/HA05_RGBA.png'},
+    {name: '', src: '/images/hand/HA06_RGBA.png'},
+    {name: '', src: '/images/hand/HA07_RGBA.png'},
+    {name: '', src: '/images/hand/HA08_RGBA.png'},
+    {name: '', src: '/images/hand/HA09_RGBA.png'},
+    {name: '', src: '/images/hand/HA10_RGBA.png'},
+    {name: '', src: '/images/hand/HA11_RGBA.png'},
+    {name: '', src: '/images/hand/HA12_RGBA.png'},
+    {name: '', src: '/images/hand/HA13_RGBA.png'},
+    {name: '', src: '/images/hand/HA14_RGBA.png'},
+    {name: '', src: '/images/hand/HA15_RGBA.png'},
+    {name: '', src: '/images/hand/HA16_RGBA.png'},
+    {name: '', src: '/images/hand/HA17_RGBA.png'},
+    {name: '', src: '/images/hand/HA18_RGBA.png'},
+    {name: '', src: '/images/hand/HA19_RGBA.png'}
+  ];
 
   var conversation = [
     {type: 'text', text: 'Hey', incoming: true, sent: false},
@@ -189,8 +211,8 @@
   }
 
   function getImages() {
-    for (var key in imgObj) {
-      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="'+ (stickerSrcBase + imgObj[key].src) +'" draggable="false"></div>')
+    for (var j = 0; j < (imgObj.length && gridSize * 4); j++) {
+      var $gridElem = $('<div class="sd__body__stickers__grid__elem js-sticker-elem"><img src="'+ (stickerSrcBase + imgObj[j].src) +'" draggable="false"></div>');
       $grid.append($gridElem);
     }
 

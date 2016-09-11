@@ -847,3 +847,7 @@
       .keyboard > .sd__body__stickers > .sd__body__stickers__keyboard {
         display: block;
       }
+
+      .keyboard > .sd__body__stickers > .sd__body__stickers__grid > .sd__body__stickers__grid__ {
+        display: none;
+      }
