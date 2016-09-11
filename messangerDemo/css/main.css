@@ -213,7 +213,7 @@
       font-size: 12px;
       color: #fff;
       background-color: #0f84fe;
-      transition: transform .3s ease-in-out;
+      transition: transform .3s ease-in-out, filter .3s ease-in-out;
       transition-delay: .1s;
     }
 
@@ -257,7 +257,7 @@
     }
 
     .sd__body__elem.peel {
-      z-index: 4;
+      z-index: 5;
       right: auto;
       left:  auto;
       transition: 0s;
@@ -268,6 +268,16 @@
       z-index: 3;
       right: auto;
       left:  auto;
+    }
+
+    .sd__body__elem.drop-target {
+      -webkit-filter: brightness(.9);
+              filter: brightness(.9);
+    }
+
+    .sd__body__elem.image.drop-target {
+      -webkit-filter: brightness(1);
+              filter: brightness(1);
     }
 
     .sd__body__elem.sticker--4 {
@@ -713,6 +723,7 @@
           .sd__body__stickers__grid__elem.peeled {
             opacity: .2;
             -webkit-filter: saturate(0);
+                    filter: saturate(0);
           }
 
           .sd__body__stickers__grid__--2 > .sd__body__stickers__grid__elem {width: 50%}

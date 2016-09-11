@@ -102,6 +102,8 @@
     previewSticker = -1,
     keyboard = true,
     dragging = false,
+    canDropSticker = false,
+    dragOverIndex = -1,
     pageX, pageY, dragX, dragY, stickerX, stickerY,
     gridSize = 4,
     baseCoord,
@@ -214,9 +216,40 @@
     stickerX = -1 * (pageX - e.originalEvent.pageX) + dragX;
     stickerY = -1 * (pageY - e.originalEvent.pageY) + dragY;
 
+    if (stickerX < 0) {
+      stickerX = 0
+    } else if (stickerX > demoWidth - messages[messages.length - 1].width) {
+      stickerX = demoWidth - messages[messages.length - 1].width
+    }
+
+    var l, r, t, b,
+      stickerTop = -stickerY + messages[messages.length - 1].height,
+      stickerRight = stickerX + messages[messages.length - 1].width;
+
     $messageElem.eq(0).css({
       'transform': 'translate3d('+ stickerX +'px,'+ stickerY +'px,0)'
     });
+
+    for (var i = 0; i < messages.length - 1; i++) {
+      l = Math.round(messages[i].incoming ? demoWidth * 0.0425 : demoWidth * 0.9575 - messages[i].width);
+      r = l + messages[i].width;
+      b = messages[i].coordY + demoHeight * .075;
+      t = b + messages[i].height;
+
+      canDropSticker = stickerX < r && stickerRight > l && stickerTop > b && -stickerY < t;
+
+      if (canDropSticker) {
+        dragOverIndex = i;
+        break
+      }
+    }
+
+    if (canDropSticker) {
+      $messageElem.eq(messages.length - 1 - dragOverIndex).addClass('drop-target')
+    } else if (dragOverIndex > -1) {
+      $messageElem.eq(messages.length - 1 - dragOverIndex).removeClass('drop-target');
+      dragOverIndex = -1;
+    }
   }
 
   function stickerElemHoldStart(i) {
@@ -254,11 +287,19 @@
   function stickerElemHoldEnd(i) {
     dragging = false;
 
-    $stickerElem.eq(i).removeClass('peeled');
-    $messageElem.eq(0).removeClass('peel').addClass('peeled');
+    if (canDropSticker) {
+      $messageElem.eq(0).removeClass('peel').addClass('peeled');
 
-    messages[messages.length - 1].stickerX = stickerX;
-    messages[messages.length - 1].stickerY = stickerY + baseCoord[coordStatus];
+      messages[messages.length - 1].stickerX = stickerX;
+      messages[messages.length - 1].stickerY = stickerY + baseCoord[coordStatus];
+    } else {
+      $messageElem.removeClass('drop-target');
+      dragOverIndex = -1;
+
+      deleteLastMsg();
+    }
+
+    $stickerElem.eq(i).removeClass('peeled');
   }
 
   function stickerElemClick(i) {
@@ -330,6 +371,7 @@
     messages.push({
       type: type,
       text: type == 'text' ? content : '',
+      width: $messageElem.eq(0).outerWidth(),
       height: $messageElem.eq(0).outerHeight(),
       incoming: incoming
     });
@@ -407,6 +449,9 @@
 
     }
 
+    messages[messages.length - 1].type = conversation[activeConversation].type;
+    messages[messages.length - 1].text = conversation[activeConversation].type == 'text' ? conversation[activeConversation].text : '';
+    messages[messages.length - 1].width = $messageElem.eq(0).outerWidth();
     messages[messages.length - 1].height = $messageElem.eq(0).outerHeight();
 
     arrangeMessages();
