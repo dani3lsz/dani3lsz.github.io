@@ -302,10 +302,6 @@
               filter: brightness(1);
     }
 
-    .sd__body__elem.sticker--4 {
-      max-width: 30%;
-    }
-
     .sd__body__elem.preview {
       z-index: 5;
       right: 4.25%;

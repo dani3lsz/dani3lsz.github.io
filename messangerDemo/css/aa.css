@@ -21,6 +21,8 @@
  *
  *  2) HTML5 BOILERPLATE
  *
+ *  3) GLOBAL
+ *
  */
 
 
@@ -566,6 +568,9 @@ body {
   line-height: 1.5;
   background-color: #f3f3f3;
   color: #222;
+  /* Prevent user selection */
+  -webkit-user-select: none;
+          user-select: none;
 }
 
 input[type="search"] {
@@ -605,6 +610,10 @@ a {
 
 a:active, a:focus, a:hover {
   outline: 0;
+}
+
+a:active {
+  opacity: .65;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -655,6 +664,14 @@ blockquote {
   border-left: solid 5px rgba(130,130,130,.3);
   padding: .5em 0 .5em 1em;
   margin: 0 0 1em 1em;
+}
+
+
+
+input, p, ul, ol, blockquote, .aa_text_selectable, [contenteditable] {
+  /* enable text selection */
+  -webkit-user-select: text;
+          user-select: text;
 }
 
 

@@ -178,9 +178,10 @@
 
     updateNewMessageElem();
 
-    if ($messageElem && $messageElem.length) {
-      for (var i = 0; i < $messageElem.length - 1; i++) {
-        messages[$messageElem.length - 1 - i].height = $messageElem.eq(i).outerHeight()
+    if (messages) {
+      for (var i = messages.length - 1; i >= 0; i--) {
+        messages[i].width = $messageElem.eq(i).outerWidth();
+        messages[i].height = $messageElem.eq(i).outerHeight();
       }
 
       arrangeMessages()
@@ -226,11 +227,11 @@
       stickerTop = -stickerY + messages[messages.length - 1].height,
       stickerRight = stickerX + messages[messages.length - 1].width;
 
-    $messageElem.eq(0).css({
+    $messageElem.last().css({
       'transform': 'translate3d('+ stickerX +'px,'+ stickerY +'px,0)'
     });
 
-    for (var i = 0; i < messages.length - 1; i++) {
+    for (var i = messages.length - 1; i >= 0; i--) {
       l = Math.round(messages[i].incoming ? demoWidth * 0.0425 : demoWidth * 0.9575 - messages[i].width);
       r = l + messages[i].width;
       b = messages[i].coordY + demoHeight * .075;
@@ -244,10 +245,11 @@
       }
     }
 
+    $messageElem.removeClass('drop-target');
+
     if (canDropSticker) {
-      $messageElem.eq(messages.length - 1 - dragOverIndex).addClass('drop-target')
+      $messageElem.eq(dragOverIndex).addClass('drop-target')
     } else if (dragOverIndex > -1) {
-      $messageElem.eq(messages.length - 1 - dragOverIndex).removeClass('drop-target');
       dragOverIndex = -1;
     }
   }
@@ -275,11 +277,11 @@
     createNewMessage('peel',stickerSrcBase + imgObj[i].src);
     $currentElem.addClass('peeled');
 
-    $messageElem.eq(0).css({
+    $messageElem.last().css({
       'transform': 'translate3d('+ dragX +'px,'+ dragY +'px,0)'
     });
 
-    $messageElem.eq(0).on('drag',dragSticker).on('mouseup dragend',function () {
+    $messageElem.last().on('drag',dragSticker).on('mouseup dragend',function () {
       stickerElemHoldEnd(i)
     });
   }
@@ -288,7 +290,7 @@
     dragging = false;
 
     if (canDropSticker) {
-      $messageElem.eq(0).removeClass('peel').addClass('peeled');
+      $messageElem.last().removeClass('peel').addClass('peeled');
 
       messages[messages.length - 1].stickerX = stickerX;
       messages[messages.length - 1].stickerY = stickerY + baseCoord[coordStatus];
@@ -335,13 +337,13 @@
           if (messages[i].incoming != messages[previous].incoming || messages[i].type != messages[previous].type) {
             mY = messages[i].coordY += 5;
 
-            $messageElem.eq(messages.length - 1 - i).addClass('last')
+            $messageElem.eq(i).addClass('last')
           } else {
-            $messageElem.eq(messages.length - 1 - i).removeClass('last')
+            $messageElem.eq(i).removeClass('last')
           }
         } else {
           mY = messages[i].coordY = baseCoord[coordStatus];
-          $messageElem.eq(messages.length - 1 - i).addClass('last')
+          $messageElem.eq(i).addClass('last')
         }
 
         mY = -mY - demoHeight * .075;
@@ -349,7 +351,7 @@
         previous = i;
       }
 
-      $messageElem.eq(messages.length - 1 - i).css({
+      $messageElem.eq(i).css({
         'transform': 'translate3d('+ mX +'px,'+ mY +'px,0)'
       })
     }
@@ -359,20 +361,20 @@
     incoming = typeof incoming == 'undefined' ? false : incoming;
 
     var img = type != 'text' ? '<img src="'+ content +'" draggable="false">' : '';
-    var $newMsg = $('<div class="sd__body__elem js-sticker-message">'+ (type == 'text' ? content : img) +'</div>');
+    var $newMsg = $('<div class="sd__body__elem aa_text_selectable js-sticker-message">'+ (type == 'text' ? content : img) +'</div>');
     if (incoming) $newMsg.addClass('incoming');
     if (type == 'image') $newMsg.addClass('image');
-    if (type == 'sticker') $newMsg.addClass('image sticker--'+gridSize);
+    if (type == 'sticker') $newMsg.addClass('image').css({'width': demoWidth / gridSize + 'px'});
     if (type == 'peel') $newMsg.addClass('image peel').css({'width': demoWidth / gridSize + 'px'}).attr('draggable',true);
 
-    $body.prepend($newMsg);
+    $body.append($newMsg);
 
     $messageElem = $('.js-sticker-message');
     messages.push({
       type: type,
       text: type == 'text' ? content : '',
-      width: $messageElem.eq(0).outerWidth(),
-      height: $messageElem.eq(0).outerHeight(),
+      width: $messageElem.last().outerWidth(),
+      height: $messageElem.last().outerHeight(),
       incoming: incoming
     });
 
@@ -431,7 +433,7 @@
   }
 
   function deleteLastMsg() {
-    $messageElem.eq(0).remove();
+    $messageElem.last().remove();
     $messageElem = $('.js-sticker-message');
     messages.splice(-1,1);
 
@@ -439,20 +441,20 @@
   }
 
   function updateLastMsg() {
-    $messageElem.eq(0).removeClass('writing').empty();
+    $messageElem.last().removeClass('writing').empty();
 
     if (conversation[activeConversation].type == 'text') {
-      $messageElem.eq(0).text(conversation[activeConversation].text);
+      $messageElem.last().text(conversation[activeConversation].text);
     } else if (conversation[activeConversation].type == 'image') {
-      $messageElem.eq(0).addClass('image').append($('<img src="'+ conversation[activeConversation].image +'">'))
+      $messageElem.last().addClass('image').append($('<img src="'+ conversation[activeConversation].image +'">'))
     } else if (conversation[activeConversation].type == 'sticker') {
 
     }
 
     messages[messages.length - 1].type = conversation[activeConversation].type;
     messages[messages.length - 1].text = conversation[activeConversation].type == 'text' ? conversation[activeConversation].text : '';
-    messages[messages.length - 1].width = $messageElem.eq(0).outerWidth();
-    messages[messages.length - 1].height = $messageElem.eq(0).outerHeight();
+    messages[messages.length - 1].width = $messageElem.last().outerWidth();
+    messages[messages.length - 1].height = $messageElem.last().outerHeight();
 
     arrangeMessages();
   }
@@ -462,7 +464,7 @@
 
     createNewMessage('text','',true);
 
-    $messageElem.eq(0).append('<div class="sd__body__elem__loader"></div>').addClass('writing');
+    $messageElem.last().append('<div class="sd__body__elem__loader"></div>').addClass('writing');
 
     if (conversation[activeConversation].type == 'image') {
       loadImages([conversation[activeConversation].image],receiveSuccess,receiveError)
