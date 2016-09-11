@@ -204,6 +204,10 @@
       for (var i = messages.length - 1; i >= 0; i--) {
         messages[i].width = $messageElem.eq(i).outerWidth();
         messages[i].height = $messageElem.eq(i).outerHeight();
+
+        if (messages[i].type == 'sticker' || messages[i].type == 'peel') {
+          $messageElem.eq(i).css({'width': demoWidth / gridSize + 'px'})
+        }
       }
 
       arrangeMessages()
