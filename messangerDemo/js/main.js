@@ -316,7 +316,9 @@
     });
 
     $messageElem.last().on('drag',dragSticker).on('mouseup dragend',function () {
-      stickerElemHoldEnd(i)
+      stickerElemHoldEnd(i);
+
+      $(this).off('mouseup dragend')
     });
   }
 
@@ -395,7 +397,7 @@
     incoming = typeof incoming == 'undefined' ? false : incoming;
 
     var img = type != 'text' ? '<img src="'+ content +'" draggable="false">' : '';
-    var $newMsg = $('<div class="sd__body__elem aa_text_selectable js-sticker-message">'+ (type == 'text' ? content : img) +'</div>');
+    var $newMsg = $('<div class="sd__body__elem js-sticker-message">'+ (type == 'text' ? content : img) +'</div>');
     if (incoming) $newMsg.addClass('incoming');
     if (type == 'image') $newMsg.addClass('image');
     if (type == 'sticker') $newMsg.addClass('image').css({'width': demoWidth / gridSize + 'px'});
@@ -441,16 +443,23 @@
 
     for (var i = 0; i < conversation.length; i++) {
       if (!conversation[i].sent) {
+        activeConversation = i;
         if (conversation[i].incoming) {
-          activeConversation = i;
           setTimeout(receiveMsg,500)
         } else {
-          activeConversation = i;
           setTimeout(createMessage,500)
         }
         break
       } else if (i == conversation.length - 1) {
         conversationRunning = false;
+      }
+    }
+  }
+
+  function shiftConversationTarget() {
+    for (var i = activeConversation; i < conversation.length; i++) {
+      if (conversation[i].type == 'peel' && conversation[i].target.i > activeConversation) {
+        conversation[i].target.i++
       }
     }
   }
@@ -532,6 +541,10 @@
 
     if (!conversationRunning) {
       conversationRunning = true;
+
+      if (activeConversation < conversation.length - 1) {
+        shiftConversationTarget()
+      }
     } else {
       conversation[activeConversation].sent = true;
     }
@@ -687,8 +700,6 @@
 
     $time.html(currentTimeString);
   }
-
-
 
 
   //
