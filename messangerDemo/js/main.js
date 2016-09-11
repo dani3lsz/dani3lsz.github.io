@@ -279,7 +279,7 @@
       'transform': 'translate3d('+ dragX +'px,'+ dragY +'px,0)'
     });
 
-    $messageElem.eq(0).on('drag',dragSticker).on('dragend',function () {
+    $messageElem.eq(0).on('drag',dragSticker).on('mouseup dragend',function () {
       stickerElemHoldEnd(i)
     });
   }
@@ -293,12 +293,12 @@
       messages[messages.length - 1].stickerX = stickerX;
       messages[messages.length - 1].stickerY = stickerY + baseCoord[coordStatus];
     } else {
-      $messageElem.removeClass('drop-target');
       dragOverIndex = -1;
 
       deleteLastMsg();
     }
 
+    $messageElem.removeClass('drop-target');
     $stickerElem.eq(i).removeClass('peeled');
   }
 
@@ -327,7 +327,7 @@
     for (i = messages.length - 1; i >= 0; i--) {
       if (messages[i].type == 'peel') {
         mX = messages[i].stickerX;
-        mY = i == messages.length - 1 ? messages[i].stickerY - baseCoord[coordStatus] : messages[i].stickerY - (messages[i+1].coordY + messages[i+1].height + 1);
+        mY = !previous ? messages[i].stickerY - baseCoord[coordStatus] : messages[i].stickerY - (messages[previous].coordY + messages[previous].height + 1);
       } else {
         if (previous) {
           mY = messages[i].coordY = messages[previous].coordY + messages[previous].height + 1;

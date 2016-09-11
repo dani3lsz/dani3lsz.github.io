@@ -262,12 +262,34 @@
       left:  auto;
       transition: 0s;
       transition-delay: 0s;
+      overflow: visible;
     }
 
     .sd__body__elem.peeled {
       z-index: 3;
       right: auto;
       left:  auto;
+      overflow: visible;
+    }
+
+      .sd__body__elem.peel > img {
+        animation: peelUp linear .4s forwards;
+      }
+
+      .sd__body__elem.peeled > img {
+        animation: peelDown linear .4s forwards;
+      }
+
+    @keyframes peelUp {
+      0%   {transform: perspective(200px) rotateX(  0deg) scale(1)}
+      50%  {transform: perspective(200px) rotateX(-24deg) scale(1.15)}
+      100% {transform: perspective(200px) rotateX(  0deg) scale(1.2)}
+    }
+
+    @keyframes peelDown {
+      0%   {transform: perspective(200px) rotateX(  0deg) scale(1.2)}
+      50%  {transform: perspective(200px) rotateX(-24deg) scale(1.15)}
+      100% {transform: perspective(200px) rotateX(  0deg) scale(1)}
     }
 
     .sd__body__elem.drop-target {
