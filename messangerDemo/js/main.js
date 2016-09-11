@@ -175,7 +175,7 @@
     {type: 'text', text: 'Btw', incoming: true, sent: false},
     {type: 'image', image: 'https://wallpapers.wallhaven.cc/wallpapers/thumb/small/th-416958.jpg', incoming: true, sent: false},
     {type: 'text', text: 'Niiiiiice', incoming: false, sent: false},
-    {type: 'sticker', sticker: 8, incoming: false, sent: false}
+    {type: 'peel', sticker: numRand(0,2 * gridSize - 1), incoming: false, sent: false, target: {i: 7, x: 'right', y: 'bottom'}}
   ];
 
 
@@ -239,9 +239,16 @@
     });
   }
 
-  function dragSticker(e) {
-    stickerX = -1 * (pageX - e.originalEvent.pageX) + dragX;
-    stickerY = -1 * (pageY - e.originalEvent.pageY) + dragY;
+  function dragSticker(x,y) {
+    if (typeof x == 'number') {
+      $messageElem.last().addClass('move')
+    }
+
+    y = typeof y == 'number' ? y : pageY - x.originalEvent.pageY;
+    x = typeof x == 'number' ? x : pageX - x.originalEvent.pageX;
+
+    stickerX = -x + dragX;
+    stickerY = -y + dragY;
 
     if (stickerX < 0) {
       stickerX = 0
@@ -455,6 +462,8 @@
       inputAnimate = setTimeout(animateInput,500)
     } else if (conversation[activeConversation].type == 'sticker') {
       startStickerSend();
+    } else if (conversation[activeConversation].type == 'peel') {
+      animatePeel();
     }
   }
 
@@ -521,6 +530,65 @@
       conversationRunning = true;
       runConversation();
     }
+  }
+
+  function animatePeel() {
+    $openBottom.trigger('click');
+
+    setTimeout(function () {
+      if (!conversationRunning) return;
+      if (keyboard) {
+        $bottomBtn.eq(0).trigger('click');
+      }
+
+      setTimeout(function () {
+        if (!conversationRunning) return;
+        $stickerElem.eq(conversation[activeConversation].sticker).trigger('mousedown');
+
+        setTimeout(function () {
+          if (!conversationRunning) return;
+
+          var l, r, b, t, sL, sB;
+
+          var i = conversation[activeConversation].target.i;
+
+          l = Math.round(messages[i].incoming ? demoWidth * 0.0425 : demoWidth * 0.9575 - messages[i].width);
+          r = l + messages[i].width;
+          b = messages[i].coordY + demoHeight * .075;
+          t = b + messages[i].height;
+
+          if (conversation[activeConversation].target.x == 'left') {
+            sL = l
+          } else if (conversation[activeConversation].target.x == 'center') {
+            sL = (r - messages[messages.length - 1].width - l) / 2 + l
+          } else if (conversation[activeConversation].target.x == 'right') {
+            sL = r - messages[messages.length - 1].width
+          }
+
+          if (conversation[activeConversation].target.y == 'top') {
+            sB = t - messages[messages.length - 1].height
+          } else if (conversation[activeConversation].target.y == 'center') {
+            sB = (t - messages[messages.length - 1].width - b) / 2 + b
+          } else if (conversation[activeConversation].target.y == 'bottom') {
+            sB = b
+          }
+
+          dragSticker(dragX-sL,sB+dragY);
+
+          setTimeout(function () {
+            $messageElem.last().trigger('mouseup');
+
+            if (!conversationRunning) {
+              conversationRunning = true;
+            } else {
+              conversation[activeConversation].sent = true;
+            }
+
+            runConversation();
+          },1100)
+        },800);
+      },800);
+    },800);
   }
 
   function startStickerSend() {

@@ -265,6 +265,10 @@
       overflow: visible;
     }
 
+    .sd__body__elem.peel.move {
+      transition: .8s ease-in-out;
+    }
+
     .sd__body__elem.peeled {
       z-index: 3;
       right: auto;
