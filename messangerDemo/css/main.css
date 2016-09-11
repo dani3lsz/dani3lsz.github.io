@@ -32,6 +32,46 @@
 
 
 
+.click-indicate {
+  position: absolute;
+  z-index: 100;
+  width:  10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+  .click-indicate:before, .click-indicate:after {
+    content: '';
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    border-radius: 50%;
+  }
+
+  .click-indicate:before {
+    background-color: #00f;
+    animation: clickIndicate .6s cubic-bezier(.1,.7,.3,.8) forwards;
+  }
+
+  .click-indicate:after {
+    background-color: #00f;
+    animation: clickIndicate2 .6s cubic-bezier(.1,.7,.3,.8) forwards;
+  }
+
+@keyframes clickIndicate {
+  0%   {opacity: 1; transform: scale(1);}
+  100% {opacity: 0; transform: scale(3);}
+}
+
+@keyframes clickIndicate2 {
+  0%   {opacity: 1; transform: scale(0);}
+  100% {opacity: 0; transform: scale(5);}
+}
+
+
+
 .wrap {
   max-width: 436px;
 }

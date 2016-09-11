@@ -73,9 +73,10 @@
 
   var
     $global = $(global),
+    $body = $('body'),
     $demo = $(demo),
     $time= $('#js-sticker-time'),
-    $body = $('#js-sticker-body'),
+    $demoBody = $('#js-sticker-body'),
     $bottom = $('#js-sticker-bottom'),
     $bottomBtn = $('.js-sticker-btn'),
     $openBottom = $('.js-sticker-open-bottom'),
@@ -400,7 +401,7 @@
     if (type == 'sticker') $newMsg.addClass('image').css({'width': demoWidth / gridSize + 'px'});
     if (type == 'peel') $newMsg.addClass('image peel').css({'width': demoWidth / gridSize + 'px'}).attr('draggable',true);
 
-    $body.append($newMsg);
+    $demoBody.append($newMsg);
 
     $messageElem = $('.js-sticker-message');
     messages.push({
@@ -423,9 +424,7 @@
 
     if (activeLetter > conversation[activeConversation].text.length - 1) {
       activeLetter = 0;
-      sendMessage();
-      conversation[activeConversation].sent = true;
-      runConversation()
+      $sendBtn.trigger('click');
     } else if (conversationRunning) {
       activeLetter++;
       var speed = numRand(50,200);
@@ -514,9 +513,14 @@
       if (!receivingMsg) return;
       receivingMsg = false;
 
-      conversation[activeConversation].sent = true;
+      if (!conversationRunning) {
+        conversationRunning = true;
+      } else {
+        conversation[activeConversation].sent = true;
+      }
+
       error ? deleteLastMsg() : updateLastMsg();
-      runConversation()
+      runConversation();
     }
   }
 
@@ -528,8 +532,11 @@
 
     if (!conversationRunning) {
       conversationRunning = true;
-      runConversation();
+    } else {
+      conversation[activeConversation].sent = true;
     }
+
+    runConversation();
   }
 
   function animatePeel() {
@@ -606,7 +613,7 @@
 
         setTimeout(function () {
           if (!conversationRunning) return;
-          sendSticker();
+          $sendBtn.trigger('click');
         },800);
       },800);
     },800);
@@ -688,6 +695,25 @@
   // calls
   //
 
+  $demo.on('click mousedown', function (e) {
+    if (!conversationRunning) return;
+
+    var
+      $target = $(e.target),
+      $indicate = $('<div id="js-indicate-click" class="click-indicate"></div>');
+
+    $body.append($indicate);
+
+    $indicate.css({
+      'top': $target.offset().top + $target.outerHeight() / 2 - 5,
+      'left': $target.offset().left + $target.outerWidth() / 2 - 5
+    });
+
+    setTimeout(function () {
+      $indicate.remove()
+    },700)
+  });
+
   $stickerMessageElem.on('click', function () {
     bottomBig = false;
     $bottom.removeClass('big');
@@ -750,7 +776,7 @@
     if(!bodyOpen) {
       bodyOpen = true;
 
-      $body.addClass('open');
+      $demoBody.addClass('open');
 
       coordStatus = 1;
       arrangeMessages();
@@ -759,11 +785,11 @@
     if(keyboard) {
       keyboard = false;
 
-      $body.removeClass('keyboard')
+      $demoBody.removeClass('keyboard')
     } else {
       keyboard = true;
 
-      $body.addClass('keyboard')
+      $demoBody.addClass('keyboard')
     }
 
     updateNewMessageElem()
@@ -786,7 +812,7 @@
 
     $bottomBtn.removeClass('active');
     $bottom.removeClass('open');
-    $body.addClass('open keyboard');
+    $demoBody.addClass('open keyboard');
 
     coordStatus = bottomBig ? 2 : 1;
     arrangeMessages();
