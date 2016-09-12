@@ -410,8 +410,8 @@
       z-index: 6;
       right: auto;
       left:  19%;
-      padding-left:  0;
-      padding-right: 0;
+      padding-left:  1px;
+      padding-right: 1px;
       border-radius: 0;
       outline: none;
       color: #000;
@@ -795,6 +795,7 @@
             background-position: center center;
             background-size:     contain;
             transition: opacity .3s ease-in-out;
+            -webkit-touch-callout: none;
           }
 
           .sd__body__stickers__grid__elem.peeled {

@@ -104,6 +104,8 @@
     scrolled = 0,
     scrollTimeout = 0,
     scrolling = false,
+    touchMove = false,
+    wasMoved = false,
     bodyOpen = false,
     bottomOpen = true,
     bottomBig = false,
@@ -236,7 +238,7 @@
     $stickerElem = $('.js-sticker-elem');
 
     $stickerElem.on('mousedown touchstart', function (e) {
-      if (e.type == 'touchstart') e.preventDefault();
+      if (e.type == 'touchstart') $stickerElem.off('mousedown');
 
       pageX = e.originalEvent ? e.originalEvent.pageX : 0;
       pageY = e.originalEvent ? e.originalEvent.pageY : 0;
@@ -246,17 +248,33 @@
       stickerElemTimeout = setTimeout(function () {
         clearTimeout(stickerElemTimeout);
         stickerElemTimeout = 0;
-        stickerElemHoldStart(i)
-      },300)
-    }).on('touchmove', dragSticker).on('mouseup touchend', function (e) {
+        if (!touchMove) stickerElemHoldStart(i)
+      },200)
+    }).on('touchmove', function (e) {
+      touchMove = true;
+
+      if (stickerElemTimeout) {
+        wasMoved = true;
+        clearTimeout(stickerElemTimeout);
+        stickerElemTimeout = 0;
+      } else if (!wasMoved) {
+        e.preventDefault();
+        dragSticker(e)
+      }
+    }).on('mouseup touchend', function (e) {
+      if (e.type == 'touchstart') $stickerElem.off('mouseup');
+
       if (stickerElemTimeout) {
         clearTimeout(stickerElemTimeout);
         stickerElemTimeout = 0;
 
         stickerElemClick(i);
-      } else {
+      } else if (touchMove && !wasMoved) {
         $messageElem.last().trigger('mouseup')
       }
+
+      touchMove = false;
+      wasMoved = false;
     });
   }
 
