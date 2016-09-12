@@ -230,8 +230,8 @@
     $stickerElem.on('mousedown touchstart', function (e) {
       if (e.type == 'touchstart') e.preventDefault();
 
-      pageX = e.type == 'touchstart' ? e.originalEvent.pageX : e.pageX;
-      pageY = e.type == 'touchstart' ? e.originalEvent.pageY : e.pageY;
+      pageX = e.originalEvent ? e.originalEvent.pageX : 0;
+      pageY = e.originalEvent ? e.originalEvent.pageY : 0;
 
       i = $stickerElem.index($(this));
 
@@ -721,14 +721,7 @@
     $time.html(currentTimeString);
   }
 
-
-  //
-  // calls
-  //
-
-  $demo.on('click mousedown', function (e) {
-    if (!conversationRunning) return;
-
+  function indicateClick(e) {
     var
       $target = $(e.target),
       $indicate = $('<div id="js-indicate-click" class="click-indicate"></div>');
@@ -743,6 +736,15 @@
     setTimeout(function () {
       $indicate.remove()
     },700)
+  }
+
+
+  //
+  // calls
+  //
+
+  $demo.on('click mousedown', function (e) {
+    if (conversationRunning) indicateClick(e);
   });
 
   $stickerMessageElem.on('click', function () {
