@@ -228,17 +228,27 @@
     $stickerElem = $('.js-sticker-elem');
 
     $stickerElem.on('mousedown touchstart', function (e) {
-      pageX = e.pageX;
-      pageY = e.pageY;
+      if (e.type == 'touchstart') e.preventDefault();
+
+      pageX = e.type == 'touchstart' ? e.originalEvent.pageX : e.pageX;
+      pageY = e.type == 'touchstart' ? e.originalEvent.pageY : e.pageY;
 
       i = $stickerElem.index($(this));
 
       stickerElemTimeout = setTimeout(function () {
+        clearTimeout(stickerElemTimeout);
+        stickerElemTimeout = 0;
         stickerElemHoldStart(i)
       },300)
-    }).on('mouseup touchend', function () {
-      clearTimeout(stickerElemTimeout);
-      stickerElemClick(i);
+    }).on('touchmove', dragSticker).on('mouseup touchend', function (e) {
+      if (stickerElemTimeout) {
+        clearTimeout(stickerElemTimeout);
+        stickerElemTimeout = 0;
+
+        stickerElemClick(i);
+      } else {
+        $messageElem.last().trigger('mouseup')
+      }
     });
   }
 
