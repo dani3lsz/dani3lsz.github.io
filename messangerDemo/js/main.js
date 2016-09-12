@@ -227,7 +227,7 @@
 
     $stickerElem = $('.js-sticker-elem');
 
-    $stickerElem.on('mousedown', function (e) {
+    $stickerElem.on('mousedown touchstart', function (e) {
       pageX = e.pageX;
       pageY = e.pageY;
 
@@ -236,7 +236,7 @@
       stickerElemTimeout = setTimeout(function () {
         stickerElemHoldStart(i)
       },300)
-    }).on('mouseup', function () {
+    }).on('mouseup touchend', function () {
       clearTimeout(stickerElemTimeout);
       stickerElemClick(i);
     });
