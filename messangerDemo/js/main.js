@@ -85,6 +85,8 @@
     $grid = $('.js-sticker-grid'),
     $newMessageElem = $('#js-sticker-new-message'),
     $stickerMessageElem = $('#js-sticker-sticker-message'),
+    $scroll = $('#js-sticker-scroll'),
+    $scrollChild = $scroll.children(),
     $stickerElem,
     $messageElem;
 
@@ -97,6 +99,11 @@
     stickerSrcBase = window.location.hostname == 'localhost' ? '/dani3lsz/messangerDemo' : '/messangerDemo',
     demoWidth,
     demoHeight,
+    scrollheight,
+    scrollScrollHeight,
+    scrolled = 0,
+    scrollTimeout = 0,
+    scrolling = false,
     bodyOpen = false,
     bottomOpen = true,
     bottomBig = false,
@@ -193,6 +200,7 @@
   function getInfo() {
     demoWidth = $demo.width();
     demoHeight = $demo.height();
+    scrollheight = $scroll.height();
 
     var
       status0 = Math.round(demoWidth * 0.01),
@@ -341,7 +349,7 @@
       $messageElem.last().removeClass('peel').addClass('peeled');
 
       messages[messages.length - 1].stickerX = stickerX;
-      messages[messages.length - 1].stickerY = stickerY + baseCoord[coordStatus];
+      messages[messages.length - 1].stickerY = stickerY + baseCoord[coordStatus] - scrolled;
     } else {
       dragOverIndex = -1;
 
@@ -373,7 +381,6 @@
   function arrangeMessages() {
     var i, previous, mX, mY;
 
-
     for (i = messages.length - 1; i >= 0; i--) {
       if (messages[i].type == 'peel') {
         mX = messages[i].stickerX;
@@ -394,13 +401,25 @@
           $messageElem.eq(i).addClass('last')
         }
 
-        mY = -mY - demoHeight * .075;
+        mY = -mY - demoHeight * .063;
         mX = 0;
         previous = i;
       }
 
+      if (!scrolling) {
+        scrollScrollHeight = messages[0].coordY + messages[0].height - baseCoord[coordStatus];
+
+        $scrollChild.css({
+          'height': scrollScrollHeight
+        });
+
+        $scroll.scrollTop(scrollScrollHeight - scrollheight);
+      }
+
       $messageElem.eq(i).css({
-        'transform': 'translate3d('+ mX +'px,'+ mY +'px,0)'
+        'transition-delay': (scrolling ? 0 : .1) + 's',
+        'transition-duration': (scrolling ? 0 : .3) + 's',
+        'transform': 'translate3d('+ mX +'px,'+ (mY + scrolled) +'px,0)'
       })
     }
   }
@@ -745,6 +764,22 @@
 
   $demo.on('click mousedown', function (e) {
     if (conversationRunning) indicateClick(e);
+  });
+
+  $scroll.on('scroll',function () {
+    if (conversationRunning) return;
+
+    clearTimeout(scrollTimeout);
+
+    scrolling = true;
+
+    scrolled = scrollScrollHeight - scrollheight - $scroll.scrollTop();
+
+    arrangeMessages();
+
+    scrollTimeout = setTimeout(function () {
+      scrolling = false
+    },100)
   });
 
   $stickerMessageElem.on('click', function () {

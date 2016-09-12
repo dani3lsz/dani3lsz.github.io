@@ -241,6 +241,21 @@
     left:   0;
   }
 
+    .sd__body__scroll {
+      position: absolute;
+      z-index: 4;
+      top:    15%;
+      right:  0;
+      bottom: 45%;
+      left:   0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+      .sd__body__scroll__ {
+      }
+
     .sd__body__elem {
       position: absolute;
       z-index: 2;
@@ -297,7 +312,7 @@
     }
 
     .sd__body__elem.peel {
-      z-index: 5;
+      z-index: 6;
       right: auto;
       left:  auto;
       transition: 0s;
@@ -347,7 +362,7 @@
     }
 
     .sd__body__elem.preview {
-      z-index: 5;
+      z-index: 6;
       right: 4.25%;
       bottom: 44.5%;
       left: 16%;
@@ -392,7 +407,7 @@
       }
 
     .sd__body__elem.input {
-      z-index: 5;
+      z-index: 6;
       right: auto;
       left:  19%;
       padding-left:  0;
@@ -510,7 +525,7 @@
 
     .sd__body__bottom {
       position: absolute;
-      z-index: 4;
+      z-index: 5;
       right:  0;
       bottom: 0;
       left:   0;
@@ -736,7 +751,7 @@
 
     .sd__body__stickers {
       position: absolute;
-      z-index: 3;
+      z-index: 4;
       right:  0;
       bottom: 0;
       left:   0;
@@ -763,7 +778,7 @@
           bottom: 0;
           left:   0;
           overflow-x: hidden;
-          overflow-y: scroll;
+          overflow-y: auto;
           -webkit-overflow-scrolling: touch;
         }
 
