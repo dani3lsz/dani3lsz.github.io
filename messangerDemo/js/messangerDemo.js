@@ -1061,7 +1061,7 @@
     self.runConversation(); // start automated conversation
     setInterval(function () {self.updateClock()}, 1000); // update clock in demo
 
-    $global.resize(self.getInfo); // get info on window size change
+    $global.resize(function () {self.getInfo()}); // get info on window size change
   };
 
   // trick borrowed from jQuery so we don't have to use the 'new' keyword
