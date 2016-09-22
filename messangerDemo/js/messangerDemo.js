@@ -251,6 +251,9 @@
         self.deleteLastMsg(); // delete the created message with the sticker
       }
 
+      self.stickerX = null; // reset value for chrome bug fix
+      self.stickerY = null; // reset value for chrome bug fix
+
       self.$messageElem.removeClass('drop-target'); // remove potential added drop-target classes from the messages
       self.$stickerElem.eq(i).removeClass('peeled'); // remove class that made the sticker fade out
     },
@@ -281,10 +284,12 @@
     // drag a sticker
     dragSticker: function (x,y) {
       var self = this;
+      var move = false; // value for passing coordinates
 
       self.log('dragSticker');
 
       if (typeof x == 'number') { // if number than, we set it for the automation
+        move = true;
         self.$messageElem.last().addClass('move'); // message will have the final pos to animate to, so we need a class
       }
 
@@ -292,8 +297,18 @@
       y = typeof y == 'number' ? y : self.pageY - x.originalEvent.pageY; // use the pos we passed or use the event coordinates
       x = typeof x == 'number' ? x : self.pageX - x.originalEvent.pageX; // use the pos we passed or use the event coordinates
 
-      self.stickerX = -x + self.dragX; // dragX was set on holdStart, but we need the total (dragX is not positive)
-      self.stickerY = -y + self.dragY; // dragY was set on holdStart, but we need the total (dragY is not positive)
+      var
+        newX = -x + self.dragX, // dragX was set on holdStart, but we need the total (dragX is not positive)
+        newY = -y + self.dragY; // dragY was set on holdStart, but we need the total (dragY is not positive)
+
+      // fix for Chrome bug, where a last drag event is called with bad coordinates on dragend
+      if (typeof self.stickerX == 'undefined' || self.stickerX === null) {
+        self.stickerX = newX;
+        self.stickerY = newY;
+      } else {
+        self.stickerX = Math.abs(self.stickerX - newX) > 20 && !move ? self.stickerX : newX;
+        self.stickerY = Math.abs(self.stickerY - newY) > 20 && !move ? self.stickerY : newY;
+      }
 
       if (self.stickerX < 0) { // if it less than 0, it's out of the screen on the left side
         self.stickerX = 0; // so make it remain in
