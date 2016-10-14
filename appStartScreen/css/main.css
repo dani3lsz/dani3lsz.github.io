@@ -53,10 +53,10 @@ body {
 .aap_start {
   font-family: 'Roboto Condensed', sans-serif;
   position: absolute;
-  top:   60px;
-  right:   0;
-  bottom: 60px;
-  left:    0;
+  top:    0;
+  right:  0;
+  bottom: 0;
+  left:   0;
   color: #fff;
   background: linear-gradient(to top, #07f 0%, #0af 100%);
 }
