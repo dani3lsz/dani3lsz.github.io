@@ -215,8 +215,6 @@
   // Calls
   //
 
-  getInfo();
-
   //Init touch swipe
   $stage.swipe({
     swipeStatus: swipeStatus,
@@ -238,6 +236,7 @@
     }
   });
 
+  $global.load(getInfo);
   $global.resize(getInfo)
 
 })();
