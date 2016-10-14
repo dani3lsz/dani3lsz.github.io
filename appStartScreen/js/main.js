@@ -185,14 +185,6 @@
         if (distance > minDistance) {
           direction == 'left' ? elemGo(false) : elemGo(true);
           raiseActive()
-        } else if (distance == 0 && (event.offsetY || event.layerY) > stageHeight * .25 && (event.offsetY || event.layerY) < stageHeight * .6) {
-          if ((event.offsetX || event.layerX) < 50) {
-            elemGo(false);
-            raiseActive()
-          } else if ((event.offsetX || event.layerX) > stageWidth - 50) {
-            elemGo(true);
-            raiseActive()
-          }
         } else {
           moveElem(activeElem,elemInfo[activeElem].x,elemInfo[activeElem].y,1,300);
         }
@@ -224,9 +216,6 @@
   });
 
   $elem.on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    
     if (dragging) return;
 
     var $this = $(this);
