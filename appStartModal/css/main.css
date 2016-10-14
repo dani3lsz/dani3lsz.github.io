@@ -1,0 +1,189 @@
+/*
+ * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION:
+ *
+ * http://cssguidelin.es/
+ *
+ * What differs from the guideline:
+ *
+ * - Indentations are 2px
+ * - Columns are 120px wide
+ * - Don't use [] in html inside class="" for grouping
+ * - In html class="" don't use 2 space between classes, but put the related ones next to each other
+ * - Low level commenting is not necessary but u can use, just try to explain the things u think is important
+ *
+ */
+
+/*
+ * RULES
+ *
+ *  1) GLOBAL
+ *
+ *  2) LAYOUT
+ *
+ */
+
+
+
+
+
+/*---------*\
+   #GLOBAL
+\*---------*/
+
+
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
+
+
+
+
+/*----------*\
+   #LAYOUT
+\*----------*/
+
+
+
+.aap_am {
+  position: absolute;
+  top:    0;
+  right:  0;
+  bottom: 0;
+  left:   0;
+  text-align: center;
+  color: #fff;
+  background-color: #000;
+  transition: .3s ease-in-out;
+  transition-delay: .1s;
+  -webkit-transform: translate3d(0,-100%,0);
+          transform: translate3d(0,-100%,0);
+}
+
+.aap_am.in {
+  -webkit-transform: translate3d(0,0,0);
+          transform: translate3d(0,0,0);
+}
+
+  .aap_am__title {
+    position: absolute;
+    z-index: 1;
+    top:    0;
+    right:  0;
+    left:   0;
+    padding: 20px 10px;
+    font-size: 1.6rem;
+    font-weight: 300;
+  }
+
+  .aap_am__btn {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    padding: 3px 10px;
+    border-radius: 17px;
+    box-shadow: 0 0 0 1px;
+    font-size: 1.8rem;
+    font-weight: 300;
+    -webkit-transform: translate3d(-50%,0,0);
+            transform: translate3d(-50%,0,0);
+  }
+
+    .aap_am__btn > i {
+      position: relative;
+      top: 3px;
+      margin-left: 5px;
+    }
+
+  .aap_am__skip {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    padding: 3px 10px;
+    font-size: 1.2rem;
+    font-weight: 300;
+    -webkit-transform: translate3d(-50%,0,0);
+            transform: translate3d(-50%,0,0);
+  }
+
+  .aap_am__w {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    background: linear-gradient(to top, #07f 0%, #0af 100%);
+    transition: .3s ease-in-out;
+    -webkit-transform: translate3d(100%,0,0);
+            transform: translate3d(100%,0,0);
+  }
+
+  .aap_am__w.in {
+    -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+  }
+
+  .aap_am__w.out {
+    opacity: 0;
+    transition: .6s ease-in-out;
+  }
+
+    .aap_am__w:before {
+      position: absolute;
+      top:  50%;
+      left: 50%;
+      font-size: 8rem;
+      -webkit-transform: translate3d(-50%,-50%,0);
+              transform: translate3d(-50%,-50%,0);
+    }
+
+    .aap_am__w__title {
+      margin-top: 20px;
+      padding: 20px 10px;
+      font-size: 3rem;
+      font-weight: 700;
+    }
+
+    .aap_am__w__opts {
+      position: absolute;
+      top:  50%;
+      right: 0;
+      left:  0;
+      padding: 0 20px;
+      font-size: 0;
+      -webkit-transform: translate3d(0,-50%,0);
+              transform: translate3d(0,-50%,0);
+    }
+
+      .aap_am__w__opts__elem {
+        margin: 5px;
+        padding: 3px 10px;
+        border-radius: 3px;
+        box-shadow: 1px 2px 3px rgba(0,0,0,.25);
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        color: #07f;
+        background-color: #fff;
+        transition: .3s ease-in-out;
+      }
+
+      .aap_am__w__opts__elem.aai-check-circle-o {
+        box-shadow: 0 0 0 1px #fff;
+        color: #fff;
+        background-color: transparent;
+      }
+
+        .aap_am__w__opts__elem:before {
+          margin-right: 7px;
+          font-size: 1.4rem;
+          color: #04df88;
+        }
+
+        .aap_am__w__opts__elem.aai-check-circle-o:before {
+          color: #fff;
+        }
