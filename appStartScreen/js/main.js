@@ -223,7 +223,10 @@
     allowPageScroll: "none"
   });
 
-  $elem.on('click', function () {
+  $elem.on('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
     if (dragging) return;
 
     var $this = $(this);
