@@ -67,12 +67,12 @@
       if (i == activeElem) {
         elemInfo[i].state = 2;
         $elem.eq(i).removeClass('yes no prepare').addClass('active').removeAttr('style')
-      } else if (i > activeElem && elemInfo[i].state <= 2) {
+      } else if (i != activeElem && elemInfo[i].state <= 2) {
         if (n < 2) {
           elemInfo[i].state = 1;
           $elem.eq(i).removeClass('active').addClass('prepare').removeAttr('style')
         } else {
-          $elem.eq(i).removeClass('prepare')
+          $elem.eq(i).removeClass('active prepare')
         }
 
         n++
@@ -86,7 +86,7 @@
     if (activeElem + 1 >= $elem.length ) {
       endOfSelection();
     } else {
-      for (var i = activeElem + 1; i < $elem.length; i++) {
+      for (var i = 0; i < $elem.length; i++) {
         if (elemInfo[i].state < 2) {
           activeElem = i;
           break
