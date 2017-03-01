@@ -1,0 +1,119 @@
+/*
+ * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION:
+ *
+ * http://cssguidelin.es/
+ *
+ * What differs from the guideline:
+ *
+ * - Indentations are 2px
+ * - Columns are 120px wide
+ * - Don't use [] in html inside class="" for grouping
+ * - In html class="" don't use 2 space between classes, but put the related ones next to each other
+ * - Low level commenting is not necessary but u can use, just try to explain the things u think is important
+ *
+ */
+
+/*
+ * RULES
+ *
+ *  1) GLOBAL
+ *
+ *  2) LAYOUT
+ *
+ */
+
+
+
+
+
+/*---------*\
+   #GLOBAL
+\*---------*/
+
+
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
+
+
+
+
+/*----------*\
+   #LAYOUT
+\*----------*/
+
+
+
+.wrap {
+  margin: 50px 0;
+  background-color: rgba(130,130,130,.2);
+}
+
+
+
+.vm {
+  position: relative;
+  width:  375px;
+  height: 234px;
+  margin: -10px calc((100% - 375px) / 2) -20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  background-image: url(../images/p6.png);
+}
+
+  .vm_s {
+    position: absolute;
+    top: 20.2%;
+    left: 23%;
+    width: 53.8%;
+    transform: perspective(100px) rotateY(0deg) rotateZ(57.7deg) rotateX(-0deg) skewY(-28deg) skewX(.5deg) scaleY(1.1);
+  }
+
+    .vm_s_ {
+      position: relative;
+      padding-bottom: 56.25%;
+    }
+
+    .vm_s-p > .vm_s_ {
+      padding-bottom: 177.778%;
+    }
+
+      .vm_s_f {
+        position: absolute;
+        top:    0;
+        right:  0;
+        bottom: 0;
+        left:   0;
+      }
+
+        .vm_s_f > video, .vm_s_f > img {
+          width:  100%;
+          height: 100%;
+        }
+
+@media (min-width: 375px) {
+  .vm {
+    margin: -20px auto -40px;
+  }
+}
+
+@media (min-width: 500px) {
+  .vm {
+    width:  500px;
+    height: 312px;
+  }
+}
+
+@media (min-width: 750px) {
+  .vm {
+    width:  750px;
+    height: 468px;
+  }
+}
