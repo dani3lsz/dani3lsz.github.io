@@ -60,29 +60,88 @@ body {
 .vm {
   position: relative;
   width:  375px;
-  height: 234px;
   margin: -10px calc((100% - 375px) / 2) -20px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: contain;
+}
+
+.vm-p6 {
+  height: 234px;
   background-image: url(../images/p6.png);
+}
+
+.vm-p6-grey {
+  background-image: url(../images/p6_grey.png);
+}
+
+.vm-p6-gold {
+  background-image: url(../images/p6_gold.png);
+}
+
+.vm-pa {
+  height: 197px;
+  background-image: url(../images/pa.png);
+}
+
+.vm-pa-grey {
+  background-image: url(../images/pa_grey.png);
+}
+
+.vm-pa-gold {
+  background-image: url(../images/pa_gold.png);
 }
 
   .vm_s {
     position: absolute;
-    top: 20.2%;
+  }
+
+  .vm-p6 > .vm_s {
+    top:  20.2%;
     left: 23%;
     width: 53.8%;
-    transform: perspective(100px) rotateY(0deg) rotateZ(57.7deg) rotateX(-0deg) skewY(-28deg) skewX(.5deg) scaleY(1.1);
+    transform: perspective(100px) rotateZ(57.7deg) skewY(-28deg) skewX(.5deg) scaleY(1.1);
+  }
+
+  .vm-p6 > .vm_s-p {
+    top:   2.1%;
+    left: 35%;
+    width: 29.7%;
+    transform: perspective(100px) rotateZ(-59.8deg) skewY(27deg) skewX(.5deg) scaleY(1.15);
+  }
+
+  .vm-pa > .vm_s {
+    top:  13%;
+    left: 29.5%;
+    width: 40%;
+    transform: perspective(140px) rotateZ(65deg) rotateY(-8deg) rotateX(4deg) skewY(-37.6deg) skewX(1.1deg) scaleY(1.4);
+  }
+
+  .vm-pa > .vm_s-p {
+    top:  -4%;
+    left: 31.5%;
+    width: 35.8%;
+    transform: perspective(140px) rotateZ(-56deg) rotateY(7.5deg) rotateX(5deg) skewY(30.5deg) skewX(6.5deg) scaleY(1);
   }
 
     .vm_s_ {
       position: relative;
+    }
+
+    .vm-p6 > .vm_s > .vm_s_ {
       padding-bottom: 56.25%;
     }
 
-    .vm_s-p > .vm_s_ {
+    .vm-p6 > .vm_s-p > .vm_s_ {
       padding-bottom: 177.778%;
+    }
+
+    .vm-pa > .vm_s > .vm_s_ {
+      padding-bottom: 75%;
+    }
+
+    .vm-pa > .vm_s-p > .vm_s_ {
+      padding-bottom: 133.337%;
     }
 
       .vm_s_f {
@@ -107,13 +166,43 @@ body {
 @media (min-width: 500px) {
   .vm {
     width:  500px;
+  }
+
+  .vm-p6 {
     height: 312px;
+  }
+
+  .vm-pa {
+    height: 262px;
+  }
+
+  .vm-pa > .vm_s {
+    transform: perspective(190px) rotateZ(65deg) rotateY(-8deg) rotateX(4deg) skewY(-37.6deg) skewX(1.1deg) scaleY(1.4);
+  }
+
+  .vm-pa > .vm_s-p {
+    transform: perspective(190px) rotateZ(-56deg) rotateY(7.5deg) rotateX(5deg) skewY(30.5deg) skewX(6.5deg) scaleY(1);
   }
 }
 
 @media (min-width: 750px) {
   .vm {
     width:  750px;
+  }
+
+  .vm-p6 {
     height: 468px;
+  }
+
+  .vm-pa {
+    height: 393px;
+  }
+
+  .vm-pa > .vm_s {
+    transform: perspective(280px) rotateZ(65deg) rotateY(-8deg) rotateX(4deg) skewY(-37.6deg) skewX(1.1deg) scaleY(1.4);
+  }
+
+  .vm-pa > .vm_s-p {
+    transform: perspective(280px) rotateZ(-56deg) rotateY(7.5deg) rotateX(5deg) skewY(30.5deg) skewX(6.5deg) scaleY(1);
   }
 }
