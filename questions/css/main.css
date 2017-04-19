@@ -49,5 +49,87 @@ body {
 \*----------*/
 
 
+.aa_head {
+}
+
+  .aa_head_ {
+    position: relative;
+    overflow: hidden;
+  }
+
+    .aa_head_main {
+      color: #fff;
+      background: radial-gradient(farthest-corner at 50% 25%, rgba(213,208,221,0), rgba(176,177,218,.5) 65%, rgba(170,185,208,.95) 90%), linear-gradient(to bottom, #FFDBDB, #8F1111);
+    }
+
+      .aa_head_main:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 270px;
+      }
+
+      .aa_head_main_ttl {
+        display: inline-block;
+        vertical-align: middle;
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 4.2rem;
+        font-weight: 100;
+        line-height: 1.1;
+      }
+
+        .aa_head_main_ttl_sub {
+          display: inline-block;
+          vertical-align: top;
+          position: relative;
+          padding: 5px;
+          font-size: 2rem;
+          line-height: 2.2rem;
+        }
+
+          .aa_head_main_ttl_sub:before, .aa_head_main_ttl_sub:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            width: 40px;
+            border-bottom: solid 1px;
+          }
+
+          .aa_head_main_ttl_sub:after {
+            right: auto;
+            left: 100%;
+          }
+
+    .aa_head_mask {
+      position: absolute;
+      right:  0;
+      bottom: 0;
+      left:   0;
+      height: 38px;
+      box-shadow: inset 0 -1px #fff; /* hide rendering bug */
+    }
+
+      .aa_head_mask > svg {
+        width:  100%;
+        height: 100%;
+      }
+
+@supports (position: sticky) or (position: -webkit-sticky) {
+  .aa_head{
+    height: 600px;
+    margin-top: -330px;
+  }
+
+  .aa_head_ {
+    position:         sticky;
+    position: -webkit-sticky;
+    top: 0;
+  }
+}
 
 
+
+.aa_cont {
+  height: 1500px;
+}
