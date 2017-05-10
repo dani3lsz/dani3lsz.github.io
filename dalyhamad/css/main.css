@@ -385,6 +385,7 @@
 @media (min-width: 768px) {
   .aa_features_elem {
     width: 33.33337%;
+    max-width: 390px;
     padding: 25px 20px 30px;
     box-shadow: none;
   }
