@@ -1,0 +1,423 @@
+/*
+ * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION CAREFULLY:
+ *
+ * https://cssguidelin.es/
+ *
+ * What differs from the guideline:
+ *
+ * - Indentations are 2px
+ * - Columns are 120px wide
+ * - don't use [] in html inside class="" for grouping
+ * - in html class="" don't use 2 space between classes, but put the related ones next to each other
+ * - low level commenting is not necessary but u can use, just try to explain the things u think is important
+ *
+ */
+
+
+
+
+
+/*
+ * LAYOUT RULES
+ *
+ *  0) TOP LEVEL
+ *
+ *  1) HEADER
+ *
+ *  2) CONTENT
+ *
+ *  3) FOOTER
+ *
+ *  5) WRAPPERS
+ *
+ *  8) COMMENTS
+ *
+ *  9) MISCELLANEOUS
+ *
+ */
+
+
+
+
+/*------------*\
+   #TOP LEVEL
+\*------------*/
+
+
+
+.main-wrapper {
+  min-height: -webkit-calc(100% - 91px);
+  min-height:         calc(100% - 91px);
+  padding-top: 60px;
+}
+
+.hide-nav > .main-wrapper {
+  padding-top: 0;
+}
+
+.app-nav > .main-wrapper {
+  padding-top: 64px;
+}
+
+
+
+.notification {
+  font-size: 1.6rem;
+  padding: .5rem 0;
+  text-align: center;
+  background-color: rgba(255, 220, 150, 0.5);
+}
+
+.browsehappy {
+  display: none;
+}
+
+.no-csstransitions .browsehappy {
+  display: block;
+}
+
+.no-js .browsehappy {
+  display: none;
+}
+
+
+
+
+
+/*----------*\
+   #HEADER
+\*----------*/
+
+
+
+.aa_head {
+  position: relative;
+  z-index: 3;
+  margin-top: -60px; /* needed to cover the secondary nav in the bg if scrolled negative */
+  padding-top: 60px; /* needed to cover the secondary nav in the bg if scrolled negative */
+  background-color: #fbfbfb;
+}
+
+.aa_head--blank {
+  background-color: transparent;
+}
+
+.dark .aa_head {
+  background-color: #222;
+}
+
+.dark .aa_head--blank {
+  background-color: transparent;
+}
+
+.hide-nav .aa_head {
+  margin-top:  0;
+  padding-top: 0;
+}
+
+.app-nav .aa_head {
+  padding-top: 0;
+}
+
+
+
+
+
+/*-----------*\
+   #CONTENT
+\*-----------*/
+
+
+
+.aa {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+
+
+/*----------*\
+   #FOOTER
+\*----------*/
+
+
+
+.footer {
+  margin-top: 10px;
+  padding: 10px 10px 50px;
+  font-size: 14px; /* it shouldn't change thus the px */
+  text-align: center;
+}
+
+
+
+
+
+/*------------*\
+   #WRAPPERS
+\*------------*/
+
+
+
+.container-resp {
+  margin: 0 auto;
+  max-width: 1024px;
+}
+
+@media only screen and (min-width: 1224px) {
+  .container-resp {
+    margin: 0 100px;
+    max-width: none;
+  }
+}
+
+@media only screen and (min-width: 1740px) {
+  .container-resp {
+    margin: 0 auto;
+    max-width: 1540px;
+  }
+}
+
+
+
+.aa_wrap {
+  max-width: 1024px;
+  margin: 0 auto;
+  box-shadow: 0 -1px 0 rgba(130,130,130,.3), 0 1px 0 rgba(130,130,130,.3);
+}
+
+
+
+.aa_row {
+  border-bottom: solid 1px rgba(130,130,130,.3);
+  background: linear-gradient(to top, rgba(130,130,130,.1) 0%, rgba(130,130,130,0) 50%);
+}
+
+
+
+
+
+/*------------*\
+   #COMMENTS
+\*------------*/
+
+
+
+.aa_comment {
+  padding: 0 10px;
+  min-height: 50px;
+  box-shadow: 0 0 0 1px rgba(130,130,130,.2);
+}
+
+  button.aa_comment__btn, a.aa_comment__btn {
+    display: inline-block;
+    width: 100%;
+    font-size: 1.6rem;
+    font-weight: 300;
+    line-height: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #00f;
+  }
+
+    .aa_comment__btn__count {
+      padding: 2px 7px;
+      border-radius: 12px;
+      color: #fff;
+      background-color:#00f;
+    }
+
+    .aa_comment__btn__count:empty {
+      display: none;
+    }
+
+
+
+
+
+/*----------------*\
+   #MISCELLANEOUS
+\*----------------*/
+
+
+
+.aa_ap {
+  position: relative;
+}
+
+  .aa_ap_w {
+    position: relative;
+  }
+
+    .aa_ap_w > img, .aa_ap_w > video {
+      position: absolute;
+      top:  0;
+      left: 0;
+      width:  100%;
+      height: 100%;
+    }
+
+  .aa_ap_i {
+    position: absolute;
+    top:  5px;
+    left: 5px;
+    font-size: 1.4rem;
+    color: #fff;
+    text-shadow: 1px 1px rgba(0,0,0,.3);
+    pointer-events: none;
+  }
+
+    .aa_ap_i:before {
+      position: absolute;
+      top:  3px;
+      left: 0;
+      padding-left: 4px;
+      opacity: 0;
+    }
+
+    .load > .aa_ap_i:before {
+      opacity: 1;
+      animation: aa_spin .5s infinite reverse linear;
+    }
+
+    .playing > .aa_ap_i:before {
+      display: none;
+    }
+
+    .error > .aa_ap_i:before {
+      opacity: 1;
+      animation: none;
+    }
+
+    .aa_ap_i:after {
+      margin-left: 23px;
+    }
+
+    .load > .aa_ap_i:after {
+      content: 'loading...';
+    }
+
+    .playing > .aa_ap_i:after {
+      display: none;
+    }
+
+    .error > .aa_ap_i:after {
+      content: 'ERROR LOADING MEDIA';
+    }
+
+  .aa_ap_o {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    cursor: pointer;
+  }
+
+
+
+.aa_app__icon {
+  position: relative;
+  padding-bottom: 100%;
+  border-radius: 22%;
+}
+
+.aa_app__icon--oval {
+  padding-bottom: 68.75%;
+  border-radius: 34.375%/50%;
+}
+
+.aa_app__icon--watch {
+  padding-bottom: 100%;
+  border-radius: 50%;
+}
+
+.aa_app__icon--tv {
+  padding-bottom: 56.25%;
+  border-radius: 1.8%/3.2%;
+}
+
+  .aa_app__icon:before {
+    content: '';
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(130,130,130,.2);
+  }
+
+
+
+.divider-line--horizontal {
+  height: 1px;
+  background-color: rgba(125,125,125,.2);
+}
+
+.divider-line--horizontal--small {
+  width: 100px;
+  margin-left:  auto;
+  margin-right: auto;
+}
+
+
+
+a.underline {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+}
+
+  a.underline:before {
+    content: "";
+    position: absolute;
+    left:   0;
+    bottom: 1px;
+    height: 1px;
+    width:  50%;
+    background-color: #ff0535;
+    -webkit-transition: inherit;
+            transition: inherit;
+    -webkit-transform: translate3d(-102%,0,0);
+            transform: translate3d(-102%,0,0);
+  }
+
+  a.underline:hover, a.underline:focus {
+    color: #ff0535;
+  }
+
+  a.underline:hover:before, a.underline:focus:before {
+    -webkit-transform: translate3d(50%,0,0);
+            transform: translate3d(50%,0,0);
+  }
+
+
+
+.aa_feedback {
+  position: fixed;
+  z-index: 1;
+  top:  13px;
+  right: 0;
+  display: block;
+  padding: 5px 10px;
+  border-radius: 3px 0 0 3px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px;
+  background-color: #ff0535;
+  color: #fff;
+  transition: background-color .3s;
+}
+
+.aa_feedback:hover {
+  background-color: #00f;
+}
+
+  .aa_feedback > i {
+    position: relative;
+    top: 2px;
+  }
