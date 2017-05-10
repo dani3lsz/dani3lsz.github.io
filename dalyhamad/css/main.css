@@ -97,13 +97,18 @@
   }
 
   .aa_head_logo {
-    margin: 20px auto 40px;
-    max-width: 800px;
+    margin: 0 auto;
+    max-width: 200px;
   }
 
     .aa_head_logo_img {
+      display: none;
       width: 100%;
       height: auto;
+    }
+
+    .aa_head_logo_img-s {
+      display: block;
     }
 
   .aa_head_nav {
@@ -205,6 +210,19 @@
         }
 
 @media (min-width: 768px) {
+  .aa_head_logo {
+    margin: 20px auto 40px;
+    max-width: 800px;
+  }
+
+  .aa_head_logo_img {
+    display: block;
+  }
+
+  .aa_head_logo_img-s {
+    display: none;
+  }
+
   .aa_head_nav {
     padding-bottom: 30px;
   }
@@ -251,7 +269,53 @@
   z-index: 1;
 }
 
+  .aa_card {
+    margin: 20px 0;
+    border: solid 1px rgba(130,130,130,.2);
+    border-radius: 5px;
+  }
 
+  .aa_card-fill {
+    background-color: #fafafa;
+  }
+
+  .aa_card-list {
+    font-size: 1.6rem;
+  }
+
+    .aa_card-list > h4 {
+      margin: 0;
+      padding: 7px 10px;
+      background-color: #fafafa;
+      border-radius: 5px 5px 0 0;
+    }
+
+    .aa_card-list > ul {
+      margin:  10px;
+    }
+
+      .aa_card-list ul li {
+        margin:  0;
+        padding: 7px 10px;
+        border-top: solid 1px rgba(130,130,130,.2);
+        list-style-type: none;
+      }
+
+      .aa_card-list ul li:hover {
+        background-color: #fafafa;
+      }
+
+      .aa_card-list ul a {
+        display: block;
+      }
+
+@media (min-width: 768px) {
+  .aa_card-s {
+    float: left;
+    width: 25%;
+    margin-right: 20px;
+  }
+}
 
 
 
@@ -350,7 +414,7 @@
       width: 90%;
       max-width: 1024px;
       margin: 0;
-      font-size: 3rem;
+      font-size: 3.6rem;
       text-shadow: 0 1px rgba(0,0,0,.5);
       text-transform: uppercase;
       color: #fff;
@@ -381,3 +445,7 @@
 
 
 
+.aa_divider {
+  height: 1px;
+  background-color: rgba(130,130,130,1);
+}
