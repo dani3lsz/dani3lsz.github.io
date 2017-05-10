@@ -480,13 +480,13 @@ th {
  */
 
 ::-moz-selection {
-  background: #428080;
+  background: rgba(66,97,128,.5);
   text-shadow: none;
   color: #fff;
 }
 
 ::selection {
-  background: #428080;
+  background: rgba(66,97,128,.5);
   text-shadow: none;
   color: #fff;
 }
@@ -661,11 +661,11 @@ ul, ol {
 }
 
 ul {
-  list-style-type: circle;
+  list-style-type: disc;
 }
 
 li {
-  margin: 0 0 .5em;
+  margin: 0 0 1.5em;
 }
 
 blockquote {
