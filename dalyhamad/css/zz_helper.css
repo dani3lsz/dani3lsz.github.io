@@ -1039,50 +1039,6 @@
 
 
 
-.aa_grad--0 {background: radial-gradient(farthest-corner at 50% 0, hsl( 56,45%,50%) 0%, hsl(146,30%,30%) 100%)}
-.aa_grad--1 {background: radial-gradient(farthest-corner at 50% 0, hsl(211,45%,50%) 0%, hsl(301,30%,30%) 100%)}
-.aa_grad--2 {background: radial-gradient(farthest-corner at 50% 0, hsl( 38,45%,50%) 0%, hsl(302,30%,30%) 100%)}
-.aa_grad--3 {background: radial-gradient(farthest-corner at 50% 0, hsl(122,45%,50%) 0%, hsl(212,30%,30%) 100%)}
-.aa_grad--4 {background: radial-gradient(farthest-corner at 50% 0, hsl(171,45%,50%) 0%, hsl(261,30%,30%) 100%)}
-.aa_grad--5 {background: radial-gradient(farthest-corner at 50% 0, hsl(  0,45%,50%) 0%, hsl(270,30%,30%) 100%)}
-.aa_grad--6 {background: radial-gradient(farthest-corner at 50% 0, hsl(150,45%,50%) 0%, hsl(240,30%,30%) 100%)}
-.aa_grad--7 {background: radial-gradient(farthest-corner at 50% 0, hsl(295,45%,50%) 0%, hsl(225,30%,30%) 100%)}
-.aa_grad--8 {background: radial-gradient(farthest-corner at 50% 0, hsl( 87,45%,50%) 0%, hsl(177,30%,30%) 100%)}
-.aa_grad--9 {background: radial-gradient(farthest-corner at 50% 0, hsl(244,45%,50%) 0%, hsl(274,30%,30%) 100%)}
-
-.aa_color--0 {color: #cbb700}
-.aa_color--1 {color: #0061cc}
-.aa_color--2 {color: #cb2a00}
-.aa_color--3 {color: #2ecd00}
-.aa_color--4 {color: #00becc}
-.aa_color--5 {color: #cd0036}
-.aa_color--6 {color: #00cda4}
-.aa_color--7 {color: #cd00c7}
-.aa_color--8 {color: #16da48}
-.aa_color--9 {color: #3e00cb}
-
-.aa_bg--0 {background: #cbb700}
-.aa_bg--1 {background: #0061cc}
-.aa_bg--2 {background: #cb2a00}
-.aa_bg--3 {background: #2ecd00}
-.aa_bg--4 {background: #00becc}
-.aa_bg--5 {background: #cd0036}
-.aa_bg--6 {background: #00cda4}
-.aa_bg--7 {background: #cd00c7}
-.aa_bg--8 {background: #16da48}
-.aa_bg--9 {background: #3e00cb}
-
-.aa_bgc--0 {background-color: #746d5e}
-.aa_bgc--1 {background-color: #5F628F}
-.aa_bgc--2 {background-color: #745D62}
-.aa_bgc--3 {background-color: #669386}
-.aa_bgc--4 {background-color: #596C84}
-.aa_bgc--5 {background-color: #775968}
-.aa_bgc--6 {background-color: #5B7D92}
-.aa_bgc--7 {background-color: #7C5C7C}
-.aa_bgc--8 {background-color: #758260}
-.aa_bgc--9 {background-color: #5B536C}
-
 .aa_txtc-0 {color: #FFF77C}
 .aa_txtc-1 {color: #7CBBFF}
 .aa_txtc-2 {color: #FFCE7C}
@@ -1097,56 +1053,7 @@
 .aa_txtc-70f {color: #70f}
 .aa_txtc-f07 {color: #f07}
 .aa_txtc-0cc {color: #0cc}
-
-
-
-
-
-/*-------------*\
-   #GRADIENTS
-\*-------------*/
-
-
-
-.aa_gr {
-  color: #fff;
-  overflow: hidden;
-  -webkit-transform: translate3d(0,0,0);
-          transform: translate3d(0,0,0);
-}
-
-  .aa_gr:before {
-    content: '';
-    position: absolute;
-    top:    0;
-    right:  0;
-    bottom: 0;
-    left:   0;
-    transition: .3s;
-    -webkit-transform: translate3d(0,0,0);
-            transform: translate3d(0,0,0);
-  }
-
-  .aa_gr--0:before {background: radial-gradient(farthest-corner, rgba(0,0,0,.15), rgba(0,0,0,0) 100%), linear-gradient(50deg, #F6D094 0%, #BD9480 100%)}
-  .aa_gr--1:before {background: radial-gradient(farthest-corner, rgba(0,0,0,.15), rgba(0,0,0,0) 100%), linear-gradient(50deg, #AEAA98 0%, #94A7AE 100%)}
-  .aa_gr--2:before {background: radial-gradient(farthest-corner, rgba(0,0,0,.15), rgba(0,0,0,0) 100%), linear-gradient(50deg, #AEAA98 0%, #F6D094 100%)}
-  .aa_gr--3:before {background: radial-gradient(farthest-corner, rgba(0,0,0,.15), rgba(0,0,0,0) 100%), linear-gradient(50deg, #C4DCA0 0%, #B2BC87 100%)}
-  .aa_gr--4:before {background: radial-gradient(farthest-corner, rgba(0,0,0,.15), rgba(0,0,0,0) 100%), linear-gradient(50deg, #889BCD 0%, #71A8C9 100%)}
-  .aa_gr--5:before {background: radial-gradient(farthest-corner, rgba(0,0,0,.15), rgba(0,0,0,0) 100%), linear-gradient(50deg, #E5AEC7 0%, #C8A5CB 100%)}
-  .aa_gr--6:before {background: radial-gradient(farthest-corner, rgba(0,0,0,.15), rgba(0,0,0,0) 100%), linear-gradient(50deg, #AEAA98 0%, #67B6B5 100%)}
-  .aa_gr--7:before {background: radial-gradient(farthest-corner, rgba(0,0,0,.15), rgba(0,0,0,0) 100%), linear-gradient(50deg, #A8AED8 0%, #C8A5CB 100%)}
-  .aa_gr--8:before {background: radial-gradient(farthest-corner, rgba(0,0,0,.15), rgba(0,0,0,0) 100%), linear-gradient(50deg, #AEAA98 0%, #B2BC87 100%)}
-  .aa_gr--9:before {background: radial-gradient(farthest-corner, rgba(0,0,0,.15), rgba(0,0,0,0) 100%), linear-gradient(50deg, #67B6B5 0%, #A8AED8 100%)}
-
-  .aa_gr--hover:hover:before {
-    transition: 1s;
-    -webkit-transform: translate3d(0,0,0);
-            transform: translate3d(0,0,0);
-  }
-
-  .aa_gr > div {
-    position: relative;
-  }
+.aa_txtc-green {color: #428080}
 
 
 
