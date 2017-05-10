@@ -352,6 +352,7 @@
       margin: 0;
       font-size: 3rem;
       text-shadow: 0 1px rgba(0,0,0,.5);
+      text-transform: uppercase;
       color: #fff;
       opacity: 0;
       transition: transform .5s ease-in-out, opacity .5s ease-in-out;
