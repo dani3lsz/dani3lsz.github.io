@@ -571,11 +571,10 @@ html, body {
 }
 
 body {
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 1.4rem;
   font-weight: 300;
   line-height: 1.5;
-  background-color: #fbfbfb;
   color: #222;
   /* Prevent user selection */
   -webkit-user-select: none;
@@ -627,7 +626,7 @@ a:active {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6  {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Open Sans Condensed', sans-serif;
   font-weight: 400;
   line-height: 1.25;
   margin-top:    .5em;
@@ -689,15 +688,6 @@ input, p, ul, ol, blockquote, [contenteditable], .aa_text_selectable, .debug_dum
 }
 
 
-
-.dark, .dark > body {
-  background-color: #222;
-  color: #fbfbfb;
-}
-
-.not_a_real_class__remove_me {
-	display:block;
-}
 
 .inside-app {
   -webkit-touch-callout: none;
