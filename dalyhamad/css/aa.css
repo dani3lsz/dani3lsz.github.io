@@ -480,13 +480,13 @@ th {
  */
 
 ::-moz-selection {
-  background: #ff0535;
+  background: #428080;
   text-shadow: none;
   color: #fff;
 }
 
 ::selection {
-  background: #ff0535;
+  background: #428080;
   text-shadow: none;
   color: #fff;
 }
