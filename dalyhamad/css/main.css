@@ -98,7 +98,7 @@
 
   .aa_head_logo {
     margin: 0 auto;
-    max-width: 200px;
+    max-width: 160px;
   }
 
     .aa_head_logo_img {
@@ -337,7 +337,12 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
+  background-size: cover;
   background-image: url('../images/carousel/bg_grey.jpg');
+}
+
+.touchevents .aa_features {
+  background-attachment: initial;
 }
 
   .aa_features:before {
