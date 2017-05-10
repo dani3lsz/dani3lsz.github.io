@@ -310,6 +310,11 @@
       }
 
 @media (min-width: 768px) {
+  .aa_content {
+    float: left;
+    width: 65%;
+    margin-right: 20px;
+  }
   .aa_card-s {
     float: left;
     width: 25%;
@@ -377,6 +382,25 @@
 
 
 
+.aa_message {
+  background-color: #c5dce0;
+}
+
+  .aa_message_icon {
+    height: 1px;
+    margin: 50px 20px 30px;
+    background-color: rgba(130,130,130,.5);
+  }
+
+    .aa_message_icon > .fa {
+      margin-top: -2rem;
+      padding: 0 20px;
+      font-size: 4rem;
+      background-color: #c5dce0;
+    }
+
+
+
 .aa_bottom {
   position: fixed;
   z-index: 5;
@@ -424,9 +448,15 @@
 
 .footer {
   margin-top: 10px;
-  padding: 20px 10px 40px;
+  padding: 20px 10px 70px;
   font-size: 14px; /* it shouldn't change thus the px */
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    padding: 20px 10px 40px;
+  }
 }
 
 
