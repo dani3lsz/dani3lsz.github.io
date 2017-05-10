@@ -30,7 +30,9 @@
  *
  *  4) WRAPPERS
  *
- *  5) MISCELLANEOUS
+ *  5) CAROUSEL
+ *
+ *  6) MISCELLANEOUS
  *
  */
 
@@ -88,7 +90,6 @@
 .aa_head {
   position: relative;
   z-index: 3;
-  padding: 0 20px;
 }
 
   .aa_head_info {
@@ -204,6 +205,10 @@
         }
 
 @media (min-width: 768px) {
+  .aa_head_nav {
+    padding-bottom: 30px;
+  }
+
   .aa_head_nav_elem > label, .aa_head_nav_elem_btn {
     display: none;
   }
@@ -293,6 +298,79 @@
 }
 
 
+
+
+
+/*-----------*\
+   #CAROUSEL
+\*-----------*/
+
+
+
+.aa_crsl {
+  position: relative;
+  height: 400px;
+  background-color: #fafafa;
+  text-align: center;
+}
+
+  .aa_crsl:after {
+    content: '';
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    background: linear-gradient(to bottom, hsla(180,40%,30%,.7), hsla(210,40%,40%,.7));
+  }
+
+  .aa_crsl_elem {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+    opacity: 0;
+    transition: opacity .5s ease-in-out;
+  }
+
+  .aa_crsl_elem.active {
+    opacity: 1;
+  }
+
+    .aa_crsl_elem_media {
+      height: 100%;
+    }
+
+    .aa_crsl_elem_ttl {
+      position: absolute;
+      z-index: 1;
+      top:  50%;
+      left: 50%;
+      width: 90%;
+      max-width: 1024px;
+      margin: 0;
+      font-size: 3rem;
+      text-shadow: 0 1px rgba(0,0,0,.5);
+      color: #fff;
+      opacity: 0;
+      transition: transform .5s ease-in-out, opacity .5s ease-in-out;
+      -webkit-transform: translate3d(-50%,-40%,0);
+              transform: translate3d(-50%,-40%,0);
+    }
+
+    .active > .aa_crsl_elem_ttl {
+      opacity: 1;
+      transition-delay: .5s;
+      -webkit-transform: translate3d(-50%,-50%,0);
+              transform: translate3d(-50%,-50%,0);
+    }
+
+@media (min-width: 768px) {
+  .aa_crsl_elem_ttl {
+    font-size: 4.6rem;
+  }
+}
 
 
 
