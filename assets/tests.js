@@ -25,6 +25,11 @@ define('the-doc/tests/app.lint-test', [], function () {
     assert.ok(true, 'controllers/application.js should pass ESLint\n\n');
   });
 
+  QUnit.test('controllers/document.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/document.js should pass ESLint\n\n');
+  });
+
   QUnit.test('controllers/index.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/index.js should pass ESLint\n\n');
@@ -33,6 +38,11 @@ define('the-doc/tests/app.lint-test', [], function () {
   QUnit.test('helpers/get-page-padding.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'helpers/get-page-padding.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('helpers/is-equal.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'helpers/is-equal.js should pass ESLint\n\n');
   });
 
   QUnit.test('helpers/not-equal.js', function (assert) {
@@ -258,6 +268,26 @@ define('the-doc/tests/integration/helpers/get-page-padding-test', ['ember-qunit'
     assert.equal(this.$().text().trim(), '1234');
   });
 });
+define('the-doc/tests/integration/helpers/is-equal-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('is-equal', 'helper:is-equal', {
+    integration: true
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it renders', function (assert) {
+    this.set('inputValue', '1234');
+
+    this.render(Ember.HTMLBars.template({
+      "id": "c7U3Ujiu",
+      "block": "{\"statements\":[[1,[33,[\"is-equal\"],[[28,[\"inputValue\"]]],null],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '1234');
+  });
+});
 define('the-doc/tests/integration/helpers/not-equal-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -384,6 +414,11 @@ define('the-doc/tests/tests.lint-test', [], function () {
     assert.ok(true, 'integration/helpers/get-page-padding-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('integration/helpers/is-equal-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/helpers/is-equal-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('integration/helpers/not-equal-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/helpers/not-equal-test.js should pass ESLint\n\n');
@@ -412,6 +447,11 @@ define('the-doc/tests/tests.lint-test', [], function () {
   QUnit.test('unit/controllers/application-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/controllers/application-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/controllers/document-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/controllers/document-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/controllers/index-test.js', function (assert) {
@@ -453,6 +493,20 @@ define('the-doc/tests/unit/controllers/application-test', ['ember-qunit'], funct
   'use strict';
 
   (0, _emberQunit.moduleFor)('controller:application', 'Unit | Controller | application', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var controller = this.subject();
+    assert.ok(controller);
+  });
+});
+define('the-doc/tests/unit/controllers/document-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('controller:document', 'Unit | Controller | document', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   });

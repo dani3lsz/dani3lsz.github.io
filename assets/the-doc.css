@@ -769,6 +769,37 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
     padding: 10px 15px;
   }
 
+    .td_nav_login {
+      position: absolute;
+      top:  50%;
+      left: 50%;
+      width:  300px;
+      padding: 20px;
+      border-radius: 2px;
+      line-height: 1.2;
+      background-color: #fff;
+      box-shadow: 0 0 0 1px rgba(130,130,130,.15);
+      -webkit-transform: translate(-50%,-50%);
+              transform: translate(-50%,-50%);
+    }
+
+      .td_nav_login_input {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: none;
+        border-radius: 2px;
+        background-color: #fafafa;
+      }
+
+      .td_nav_login_btn {
+        width: 100%;
+        padding: 10px;
+        border-radius: 2px;
+        color: #fff;
+        background-color: #0af;
+      }
+
     .td_nav_list {
       margin: 0;
       padding-top: 10px;
@@ -856,9 +887,27 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
     }
 
       .td_projects_elem_doc {
+        position: relative;
         background-color: #fff;
         box-shadow: 0 0 0 1px rgba(130,130,130,.15);
       }
+
+        .td_projects_elem_doc-stack:before, .td_projects_elem_doc-stack:after {
+          content: '';
+          position: absolute;
+          z-index: -1;
+          top: -10px;
+          left: 10px;
+          width:  100%;
+          height: 100%;
+          background-color: #fff;
+          box-shadow: 0 0 0 1px rgba(130,130,130,.15);
+        }
+
+        .td_projects_elem_doc-stack:after {
+          top: -5px;
+          left: 5px;
+        }
 
       .td_projects_elem_doc-ready {
         border: solid 1px #7EE617;
@@ -1117,6 +1166,23 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
     font-weight: 500;
   }
 
+    .td_doc_title_status {
+      display: block;
+      font-size: 1.4rem;
+    }
+
+    .td_doc_title_status-ready {
+      color: #7EE617;
+    }
+
+    .td_doc_title_status-warning {
+      color: #FFC100;
+    }
+
+    .td_doc_title_status-error, .td_doc_title_status-missing {
+      color: #f00;
+    }
+
   .td_doc_text {
     font-size: 1.6rem;
     font-weight: 300;
@@ -1333,6 +1399,37 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
     width: 85.72%;
   }
 }
+
+
+
+.td_upload {
+}
+
+  .td_upload_btn {
+    width: 100%;
+    margin-bottom: 40px;
+    border: solid 1px #666;
+    border-radius: 2px;
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 40px;
+    color: #0af;
+    transition: background-color .3s;
+  }
+
+  .no-touchevents .td_upload_btn:hover,
+  .touchevents .td_upload_btn:active {
+    transition: background-color .1s;
+    background-color: #fff;
+  }
+
+@media (min-width: 1024px) {
+  .td_upload {
+    padding-left: 15px;
+  }
+}
+
+
 
 
 

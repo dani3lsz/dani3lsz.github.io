@@ -95,6 +95,21 @@ define('the-doc/controllers/application', ['exports', 'ember'], function (export
     }
   });
 });
+define('the-doc/controllers/document', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Controller.extend({
+    scroller: _ember.default.inject.service(),
+    actions: {
+      scrollTop: function scrollTop() {
+        this.get('scroller').scrollVertical("#doc_top", { duration: 300, offset: -20 });
+      }
+    }
+  });
+});
 define('the-doc/controllers/index', ['exports', 'ember'], function (exports, _ember) {
   'use strict';
 
@@ -144,6 +159,24 @@ define("the-doc/helpers/get-page-padding", ["exports", "ember"], function (expor
   }
 
   exports.default = _ember.default.Helper.helper(getPagePadding);
+});
+define('the-doc/helpers/is-equal', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.isEqueal = isEqueal;
+  function isEqueal(params /*, hash*/) {
+    if (!params.length) return;
+
+    var side1 = params[0];
+    var side2 = params[1];
+
+    return side1 === side2;
+  }
+
+  exports.default = _ember.default.Helper.helper(isEqueal);
 });
 define('the-doc/helpers/not-equal', ['exports', 'ember'], function (exports, _ember) {
   'use strict';
@@ -551,7 +584,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
       name: "Some project name",
       note: "Some short note",
       status: "ready",
-      statusMessage: "Ready",
+      statusMessage: "Complete",
       statusMessageAdditional: "",
       contractor: {
         name: "Some Body",
@@ -562,13 +595,34 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         name: "Some document name",
         note: "Some short note",
         status: "ready",
-        statusMessage: "Ready",
+        statusMessage: "Complete",
         pages: {
           1: {
             status: "ready",
             width: 1275,
             height: 1650,
-            url: ""
+            url: "http://dani3lsz.github.io/assets/documents/form/page_5.jpg",
+            notes: [{
+              id: "1_1_0",
+              status: "ready",
+              title: "Remarks",
+              top: 242,
+              right: 1165,
+              bottom: 339,
+              left: 108
+            }]
+          },
+          2: {
+            status: "normal",
+            width: 1275,
+            height: 1650,
+            url: "http://dani3lsz.github.io/assets/documents/form/page_3.jpg"
+          },
+          3: {
+            status: "normal",
+            width: 1275,
+            height: 1650,
+            url: "http://dani3lsz.github.io/assets/documents/form/page_6.jpg"
           }
         }
       }, {
@@ -576,40 +630,34 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         name: "Other document name",
         note: "Some short note",
         status: "ready",
-        statusMessage: "Ready",
+        statusMessage: "Complete",
         pages: {
           1: {
+            status: "normal",
+            width: 1275,
+            height: 1650,
+            url: "http://dani3lsz.github.io/assets/documents/form/page_3.jpg"
+          },
+          2: {
             status: "ready",
             width: 1275,
             height: 1650,
-            url: ""
-          }
-        }
-      }, {
-        id: "3",
-        name: "Third document name",
-        note: "Some short note",
-        status: "ready",
-        statusMessage: "Ready",
-        pages: {
-          1: {
-            status: "ready",
+            url: "http://dani3lsz.github.io/assets/documents/form/page_5.jpg",
+            notes: [{
+              id: "1_2_0",
+              status: "ready",
+              title: "Remarks",
+              top: 242,
+              right: 1165,
+              bottom: 339,
+              left: 108
+            }]
+          },
+          3: {
+            status: "normal",
             width: 1275,
             height: 1650,
-            url: ""
-          }
-        }
-      }, {
-        id: "4",
-        name: "Document name",
-        status: "ready",
-        statusMessage: "Ready",
-        pages: {
-          1: {
-            status: "ready",
-            width: 1275,
-            height: 1650,
-            url: ""
+            url: "http://dani3lsz.github.io/assets/documents/form/page_6.jpg"
           }
         }
       }]
@@ -629,7 +677,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         name: "Certificate of eligibility",
         note: "for Department of Homeland Security",
         status: "warning",
-        statusMessage: "Unfilled pages",
+        statusMessage: "Incomplete pages",
         pages: {
           1: {
             status: "warning",
@@ -779,7 +827,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
             }]
           },
           5: {
-            status: "warning",
+            status: "ready",
             width: 1275,
             height: 1650,
             url: "http://dani3lsz.github.io/assets/documents/form/page_5.jpg",
@@ -805,7 +853,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         name: "Grant Deed",
         note: "",
         status: "warning",
-        statusMessage: "Unfilled pages",
+        statusMessage: "Incomplete pages",
         pages: {
           1: {
             status: "warning",
@@ -825,7 +873,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         name: "Purchase and Sale Agreement",
         note: "",
         status: "warning",
-        statusMessage: "Unfilled pages",
+        statusMessage: "Incomplete pages",
         pages: {
           1: {
             status: "warning",
@@ -867,8 +915,8 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         id: "1",
         name: "Some document name",
         note: "Some short note",
-        status: "warning",
-        statusMessage: "missing information",
+        status: "ready",
+        statusMessage: "Complete",
         pages: {
           1: {
             status: "ready",
@@ -896,7 +944,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         name: "Third document name",
         note: "Some short note",
         status: "ready",
-        statusMessage: "Ready",
+        statusMessage: "Complete",
         pages: {
           1: {
             status: "ready",
@@ -909,7 +957,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         id: "4",
         name: "Document name",
         status: "ready",
-        statusMessage: "Ready",
+        statusMessage: "Complete",
         pages: {
           1: {
             status: "ready",
@@ -938,7 +986,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         statusMessage: "missing information",
         pages: {
           1: {
-            status: "ready",
+            status: "warning",
             width: 1275,
             height: 1650,
             url: ""
@@ -963,7 +1011,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         name: "Third document name",
         note: "Some short note",
         status: "ready",
-        statusMessage: "Ready",
+        statusMessage: "Complete",
         pages: {
           1: {
             status: "ready",
@@ -976,7 +1024,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
         id: "4",
         name: "Document name",
         status: "ready",
-        statusMessage: "Ready",
+        statusMessage: "Complete",
         pages: {
           1: {
             status: "ready",
@@ -1039,7 +1087,7 @@ define("the-doc/templates/components/nav-bar", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "8U2wzO1e", "block": "{\"statements\":[[11,\"nav\",[]],[15,\"class\",\"td_nav aa_text--condensed td_noformat aa_text--0\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"aa_text--bold aa_text--22\"],[13],[0,\"\\n    \"],[6,[\"link-to\"],[\"index\"],[[\"class\"],[\"\"]],{\"statements\":[[0,\"the\"],[11,\"span\",[]],[15,\"class\",\"aa_txtc-blue\"],[13],[0,\"Doc\"],[14]],\"locals\":[]},null],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"ul\",[]],[15,\"class\",\"td_nav_list\"],[13],[0,\"\\n    \"],[11,\"li\",[]],[13],[6,[\"link-to\"],[\"projects\"],[[\"class\"],[\"td_nav_list_a\"]],{\"statements\":[[0,\"Projects\"]],\"locals\":[]},null],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"loggedIn\"]]],null,{\"statements\":[[0,\"      \"],[11,\"li\",[]],[15,\"class\",\"aa_pull--right\"],[13],[11,\"button\",[]],[5,[\"action\"],[[28,[null]],\"loggingOut\"]],[13],[0,\"Log Out\"],[14],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"      \"],[11,\"li\",[]],[15,\"class\",\"aa_pull--right\"],[13],[11,\"button\",[]],[5,[\"action\"],[[28,[null]],\"loggingIn\"]],[13],[0,\"Log In\"],[14],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/components/nav-bar.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "gdce2fLo", "block": "{\"statements\":[[11,\"nav\",[]],[15,\"class\",\"td_nav aa_text--condensed td_noformat aa_text--0\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"aa_text--bold aa_text--22\"],[13],[0,\"\\n    \"],[6,[\"link-to\"],[\"index\"],[[\"class\"],[\"\"]],{\"statements\":[[0,\"the\"],[11,\"span\",[]],[15,\"class\",\"aa_txtc-blue\"],[13],[0,\"Doc\"],[14]],\"locals\":[]},null],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"ul\",[]],[15,\"class\",\"td_nav_list\"],[13],[0,\"\\n    \"],[11,\"li\",[]],[13],[6,[\"link-to\"],[\"projects\"],[[\"class\"],[\"td_nav_list_a\"]],{\"statements\":[[0,\"Projects\"]],\"locals\":[]},null],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"loggedIn\"]]],null,{\"statements\":[[0,\"      \"],[11,\"li\",[]],[15,\"class\",\"aa_pull--right aa_text--14\"],[13],[11,\"button\",[]],[5,[\"action\"],[[28,[null]],\"loggingOut\"]],[13],[0,\"mhafez - log Out\"],[14],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"      \"],[11,\"div\",[]],[15,\"class\",\"td_nav_login aa_text--base\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"aa_text--bold aa_margin-b--10\"],[13],[0,\"Log In\"],[14],[0,\"\\n\\n        \"],[11,\"label\",[]],[15,\"class\",\"td_nav_login_label aa_text--12\"],[13],[0,\"username\"],[14],[0,\"\\n\\n        \"],[11,\"input\",[]],[15,\"type\",\"text\"],[15,\"class\",\"td_nav_login_input\"],[15,\"value\",\"mhafez\"],[13],[14],[0,\"\\n\\n        \"],[11,\"label\",[]],[15,\"class\",\"td_nav_login_label aa_text--12\"],[13],[0,\"password\"],[14],[0,\"\\n\\n        \"],[11,\"input\",[]],[15,\"type\",\"password\"],[15,\"class\",\"td_nav_login_input\"],[15,\"value\",\"password\"],[13],[14],[0,\"\\n\\n        \"],[11,\"button\",[]],[15,\"class\",\"td_nav_login_btn\"],[5,[\"action\"],[[28,[null]],\"loggingIn\"]],[13],[0,\"Log In\"],[14],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/components/nav-bar.hbs" } });
 });
 define("the-doc/templates/components/project-header", ["exports"], function (exports) {
   "use strict";
@@ -1063,7 +1111,7 @@ define("the-doc/templates/document", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "2xwjsLDm", "block": "{\"statements\":[[11,\"section\",[]],[15,\"class\",\"td aa_clearfix\"],[13],[0,\"\\n  \"],[1,[33,[\"project-header\"],null,[[\"project\"],[[28,[\"model\",\"project\"]]]]],false],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_doc\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"td_doc_title aa_text--base\"],[13],[1,[28,[\"model\",\"document\",\"name\"]],false],[14],[0,\"\\n\\n    \"],[11,\"p\",[]],[15,\"class\",\"td_doc_text\"],[13],[0,\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum convallis mauris,\\n      non vestibulum quam imperdiet non. Cras vel nisi lacus. Quisque sollicitudin ex vel tempus lobortis.\"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"td_doc_peak\"],[13],[0,\"\\n\"],[6,[\"each\"],[[33,[\"-each-in\"],[[28,[\"model\",\"document\",\"pages\"]]],null]],null,{\"statements\":[[6,[\"scroll-to\"],null,[[\"href\",\"class\",\"duration\",\"offset\"],[[33,[\"page-anchor-id\"],[[28,[\"key\"]]],null],\"td_doc_peak_elem td_noformat\",300,-10]],{\"statements\":[[0,\"          \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_projects_elem_doc td_projects_elem_doc-\",[28,[\"page\",\"status\"]],\" aa_pb\"]]],[16,\"style\",[34,[\"padding-bottom: \",[33,[\"get-page-padding\"],[[28,[\"page\"]]],null]]]],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem\"],[13],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-70\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-50\"],[13],[14],[0,\"\\n            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[\"key\",\"page\"]},null],[0,\"    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages\"],[13],[0,\"\\n\"],[6,[\"each\"],[[33,[\"-each-in\"],[[28,[\"model\",\"document\",\"pages\"]]],null]],null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[16,\"id\",[34,[\"page_\",[28,[\"key\"]]]]],[15,\"class\",\"td_doc_pages_elem aa_clearfix\"],[13],[0,\"\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages_elem_notes\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"page\",\"notes\"]]],null,{\"statements\":[[0,\"              \"],[11,\"p\",[]],[16,\"class\",[34,[\"td_doc_pages_elem_notes_elem td_doc_pages_elem_notes_elem-\",[28,[\"note\",\"status\"]]]]],[13],[0,\"\\n                \"],[1,[28,[\"note\",\"title\"]],false],[0,\" \"],[11,\"button\",[]],[15,\"class\",\"td_doc_pages_elem_notes_elem_clear\"],[13],[0,\"×\"],[14],[0,\"\\n              \"],[14],[0,\"\\n\"]],\"locals\":[\"note\"]},null],[0,\"          \"],[14],[0,\"\\n\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages_elem_page aa_noverflow\"],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_pb\"],[16,\"style\",[34,[\"padding-bottom: \",[33,[\"get-page-padding\"],[[28,[\"page\"]]],null]]]],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem td_doc_pages_elem_page_\"],[13],[0,\"\\n                \"],[11,\"img\",[]],[16,\"src\",[34,[[28,[\"page\",\"url\"]]]]],[15,\"class\",\"aa_img\"],[13],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"page\",\"notes\"]]],null,{\"statements\":[[0,\"                  \"],[11,\"span\",[]],[16,\"class\",[34,[\"td_doc_pages_elem_page_note td_doc_pages_elem_page_note-\",[28,[\"note\",\"status\"]]]]],[16,\"style\",[33,[\"page-note-style\"],[[28,[\"page\"]],[28,[\"note\"]]],null],null],[13],[14],[0,\"\\n\"]],\"locals\":[\"note\"]},null],[0,\"              \"],[14],[0,\"\\n            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[\"key\",\"page\"]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_docs\"],[13],[0,\"\\n    \"],[11,\"h4\",[]],[15,\"class\",\"td_project_info_elem_name td_project_info_elem_name-right aa_text--base aa_noverflow\"],[13],[0,\"Other documents\"],[14],[0,\"\\n\\n    \"],[11,\"ul\",[]],[15,\"class\",\"td_projects\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"other\"]]],null,{\"statements\":[[0,\"        \"],[11,\"li\",[]],[15,\"class\",\"td_projects_elem\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"document\",[28,[\"model\",\"project\",\"id\"]],[28,[\"doc\",\"id\"]]],[[\"class\"],[\"td_projects_elem_ td_noformat\"]],{\"statements\":[[0,\"            \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_projects_elem_doc td_projects_elem_doc-\",[28,[\"doc\",\"status\"]],\" aa_pb aa_pb--133\"]]],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem\"],[13],[0,\"\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"doc\",\"status\"]],\"normal\"],null]],null,{\"statements\":[[0,\"                  \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_note\"],[13],[11,\"i\",[]],[16,\"class\",[34,[[33,[\"status-icon-class\"],[[28,[\"doc\",\"status\"]]],null]]]],[13],[14],[11,\"br\",[]],[13],[14],[1,[28,[\"doc\",\"statusMessage\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-70\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-50\"],[13],[14],[0,\"\\n              \"],[14],[0,\"\\n            \"],[14],[0,\"\\n\\n            \"],[11,\"h3\",[]],[15,\"class\",\"td_projects_elem_ttl aa_text--base\"],[13],[1,[28,[\"doc\",\"name\"]],false],[14],[0,\"\\n\\n            \"],[11,\"p\",[]],[15,\"class\",\"td_projects_elem_note\"],[13],[1,[28,[\"doc\",\"note\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"        \"],[14],[0,\"\\n\"]],\"locals\":[\"doc\"]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/document.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Lg2fIOUq", "block": "{\"statements\":[[11,\"section\",[]],[15,\"class\",\"td aa_clearfix\"],[13],[0,\"\\n  \"],[1,[33,[\"project-header\"],null,[[\"project\"],[[28,[\"model\",\"project\"]]]]],false],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"id\",\"doc_top\"],[15,\"class\",\"td_doc\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"td_doc_title aa_text--base\"],[13],[1,[28,[\"model\",\"document\",\"name\"]],false],[0,\" \"],[11,\"span\",[]],[16,\"class\",[34,[\"td_doc_title_status td_doc_title_status-\",[28,[\"model\",\"document\",\"status\"]]]]],[13],[11,\"i\",[]],[16,\"class\",[34,[[33,[\"status-icon-class\"],[[28,[\"model\",\"document\",\"status\"]]],null]]]],[13],[14],[0,\" \"],[1,[28,[\"model\",\"document\",\"statusMessage\"]],false],[14],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"model\",\"document\",\"status\"]],\"missing\"],null]],null,{\"statements\":[[0,\"      \"],[11,\"p\",[]],[15,\"class\",\"td_doc_text\"],[13],[0,\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum convallis mauris,\\n        non vestibulum quam imperdiet non. Cras vel nisi lacus. Quisque sollicitudin ex vel tempus lobortis.\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"td_doc_peak\"],[13],[0,\"\\n\"],[6,[\"each\"],[[33,[\"-each-in\"],[[28,[\"model\",\"document\",\"pages\"]]],null]],null,{\"statements\":[[6,[\"scroll-to\"],null,[[\"href\",\"class\",\"duration\",\"offset\"],[[33,[\"page-anchor-id\"],[[28,[\"key\"]]],null],\"td_doc_peak_elem td_noformat\",300,-10]],{\"statements\":[[0,\"          \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_projects_elem_doc td_projects_elem_doc-\",[28,[\"page\",\"status\"]],\" aa_pb\"]]],[16,\"style\",[34,[\"padding-bottom: \",[33,[\"get-page-padding\"],[[28,[\"page\"]]],null]]]],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem\"],[13],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-70\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-50\"],[13],[14],[0,\"\\n            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[\"key\",\"page\"]},null],[0,\"    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages\"],[13],[0,\"\\n\"],[6,[\"each\"],[[33,[\"-each-in\"],[[28,[\"model\",\"document\",\"pages\"]]],null]],null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[16,\"id\",[34,[\"page_\",[28,[\"key\"]]]]],[15,\"class\",\"td_doc_pages_elem aa_clearfix\"],[13],[0,\"\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages_elem_notes\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"page\",\"notes\"]]],null,{\"statements\":[[0,\"              \"],[11,\"p\",[]],[16,\"class\",[34,[\"td_doc_pages_elem_notes_elem td_doc_pages_elem_notes_elem-\",[28,[\"note\",\"status\"]]]]],[13],[0,\"\\n                \"],[1,[28,[\"note\",\"title\"]],false],[0,\" \"],[11,\"button\",[]],[15,\"class\",\"td_doc_pages_elem_notes_elem_clear\"],[13],[0,\"×\"],[14],[0,\"\\n              \"],[14],[0,\"\\n\"]],\"locals\":[\"note\"]},null],[0,\"          \"],[14],[0,\"\\n\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages_elem_page aa_noverflow\"],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_pb\"],[16,\"style\",[34,[\"padding-bottom: \",[33,[\"get-page-padding\"],[[28,[\"page\"]]],null]]]],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem td_doc_pages_elem_page_\"],[13],[0,\"\\n                \"],[11,\"img\",[]],[16,\"src\",[34,[[28,[\"page\",\"url\"]]]]],[15,\"class\",\"aa_img\"],[13],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"page\",\"notes\"]]],null,{\"statements\":[[0,\"                  \"],[11,\"span\",[]],[16,\"class\",[34,[\"td_doc_pages_elem_page_note td_doc_pages_elem_page_note-\",[28,[\"note\",\"status\"]]]]],[16,\"style\",[33,[\"page-note-style\"],[[28,[\"page\"]],[28,[\"note\"]]],null],null],[13],[14],[0,\"\\n\"]],\"locals\":[\"note\"]},null],[0,\"              \"],[14],[0,\"\\n            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[\"key\",\"page\"]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"model\",\"document\",\"status\"]],\"missing\"],null]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"td_upload aa_noverflow\"],[13],[0,\"\\n      \"],[11,\"button\",[]],[15,\"class\",\"td_upload_btn\"],[13],[11,\"i\",[]],[15,\"class\",\"fa fa-upload\"],[13],[14],[0,\" Upload\"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_docs\"],[13],[0,\"\\n    \"],[11,\"h4\",[]],[15,\"class\",\"td_project_info_elem_name td_project_info_elem_name-right aa_text--base aa_noverflow\"],[13],[0,\"Other documents\"],[14],[0,\"\\n\\n    \"],[11,\"ul\",[]],[15,\"class\",\"td_projects\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"other\"]]],null,{\"statements\":[[0,\"        \"],[11,\"li\",[]],[15,\"class\",\"td_projects_elem\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"document\",[28,[\"model\",\"project\",\"id\"]],[28,[\"doc\",\"id\"]]],[[\"class\"],[\"td_projects_elem_ td_noformat\"]],{\"statements\":[[0,\"            \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_projects_elem_doc td_projects_elem_doc-\",[28,[\"doc\",\"status\"]],\" aa_pb aa_pb--133\"]]],[5,[\"action\"],[[28,[null]],\"scrollTop\"]],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem\"],[13],[0,\"\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"doc\",\"status\"]],\"normal\"],null]],null,{\"statements\":[[0,\"                  \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_note\"],[13],[11,\"i\",[]],[16,\"class\",[34,[[33,[\"status-icon-class\"],[[28,[\"doc\",\"status\"]]],null]]]],[13],[14],[11,\"br\",[]],[13],[14],[1,[28,[\"doc\",\"statusMessage\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-70\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-50\"],[13],[14],[0,\"\\n              \"],[14],[0,\"\\n            \"],[14],[0,\"\\n\\n            \"],[11,\"h3\",[]],[15,\"class\",\"td_projects_elem_ttl aa_text--base\"],[13],[1,[28,[\"doc\",\"name\"]],false],[14],[0,\"\\n\\n            \"],[11,\"p\",[]],[15,\"class\",\"td_projects_elem_note\"],[13],[1,[28,[\"doc\",\"note\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"        \"],[14],[0,\"\\n\"]],\"locals\":[\"doc\"]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/document.hbs" } });
 });
 define("the-doc/templates/index", ["exports"], function (exports) {
   "use strict";
@@ -1087,7 +1135,7 @@ define("the-doc/templates/projects", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "BictKFwR", "block": "{\"statements\":[[11,\"section\",[]],[15,\"class\",\"td\"],[13],[0,\"\\n  \"],[11,\"ul\",[]],[15,\"class\",\"td_projects\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\"]]],null,{\"statements\":[[0,\"      \"],[11,\"li\",[]],[15,\"class\",\"td_projects_elem\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"project\",[28,[\"project\",\"id\"]]],[[\"class\"],[\"td_projects_elem_ td_noformat\"]],{\"statements\":[[0,\"          \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_projects_elem_doc td_projects_elem_doc-\",[28,[\"project\",\"status\"]],\" aa_pb aa_pb--133\"]]],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem\"],[13],[0,\"\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"project\",\"status\"]],\"normal\"],null]],null,{\"statements\":[[0,\"                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_note td_projects_elem_doc_note-face\"],[13],[11,\"i\",[]],[16,\"class\",[34,[[33,[\"status-icon-class\"],[[28,[\"project\",\"status\"]]],null]]]],[13],[14],[11,\"br\",[]],[13],[14],[1,[28,[\"project\",\"statusMessage\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-70\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-50\"],[13],[14],[0,\"\\n            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_projects_elem_face\"],[13],[14],[0,\"\\n\\n          \"],[11,\"h3\",[]],[15,\"class\",\"td_projects_elem_ttl aa_text--base\"],[13],[1,[28,[\"project\",\"name\"]],false],[14],[0,\"\\n\\n          \"],[11,\"p\",[]],[15,\"class\",\"td_projects_elem_note\"],[13],[1,[28,[\"project\",\"note\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"      \"],[14],[0,\"\\n\"]],\"locals\":[\"project\"]},null],[0,\"  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/projects.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "E8t4Bzpx", "block": "{\"statements\":[[11,\"section\",[]],[15,\"class\",\"td\"],[13],[0,\"\\n  \"],[11,\"ul\",[]],[15,\"class\",\"td_projects\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\"]]],null,{\"statements\":[[0,\"      \"],[11,\"li\",[]],[15,\"class\",\"td_projects_elem\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"project\",[28,[\"project\",\"id\"]]],[[\"class\"],[\"td_projects_elem_ td_noformat\"]],{\"statements\":[[0,\"          \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_projects_elem_doc td_projects_elem_doc-stack td_projects_elem_doc-\",[28,[\"project\",\"status\"]],\" aa_pb aa_pb--133\"]]],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem\"],[13],[0,\"\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"project\",\"status\"]],\"normal\"],null]],null,{\"statements\":[[0,\"                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_note td_projects_elem_doc_note-face\"],[13],[11,\"i\",[]],[16,\"class\",[34,[[33,[\"status-icon-class\"],[[28,[\"project\",\"status\"]]],null]]]],[13],[14],[11,\"br\",[]],[13],[14],[1,[28,[\"project\",\"statusMessage\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-70\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-50\"],[13],[14],[0,\"\\n            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_projects_elem_face\"],[13],[14],[0,\"\\n\\n          \"],[11,\"h3\",[]],[15,\"class\",\"td_projects_elem_ttl aa_text--base\"],[13],[1,[28,[\"project\",\"name\"]],false],[14],[0,\"\\n\\n          \"],[11,\"p\",[]],[15,\"class\",\"td_projects_elem_note\"],[13],[1,[28,[\"project\",\"note\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"      \"],[14],[0,\"\\n\"]],\"locals\":[\"project\"]},null],[0,\"  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/projects.hbs" } });
 });
 
 
@@ -1111,6 +1159,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("the-doc/app")["default"].create({"name":"the-doc","version":"0.0.0+8c68e060"});
+  require("the-doc/app")["default"].create({"name":"the-doc","version":"0.0.0+f6719774"});
 }
 //# sourceMappingURL=the-doc.map
