@@ -1000,7 +1000,7 @@ define('the-doc/services/login', ['exports', 'ember'], function (exports, _ember
 
     init: function init() {
       this._super.apply(this, arguments);
-      this.set('loggedIn', localStorage.getItem('loggedIn').toString() === "true");
+      this.set('loggedIn', localStorage.getItem('loggedIn') && localStorage.getItem('loggedIn').toString() === "true");
     },
     logIn: function logIn() {
       this.set('loggedIn', true);
@@ -1111,6 +1111,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("the-doc/app")["default"].create({"name":"the-doc","version":"0.0.0+aa45668c"});
+  require("the-doc/app")["default"].create({"name":"the-doc","version":"0.0.0+2cb2fd9b"});
 }
 //# sourceMappingURL=the-doc.map
