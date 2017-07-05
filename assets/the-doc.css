@@ -1197,7 +1197,7 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
 
           .td_doc_pages_elem_page_note {
             position: absolute;
-            border-bottom: solid 2px;
+            border-bottom: solid 1px;
             color: rgb(130,130,130);
             background-color: rgba(130,130,130,.15);
           }
@@ -1231,10 +1231,11 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
 
         .td_doc_pages_elem_notes_elem {
           position: relative;
-          margin-bottom: 10px;
-          padding: 0 20px 0 25px;
-          font-size: 1.4rem;
+          margin-bottom: 5px;
+          padding-left: 25px;
+          font-size: 1.2rem;
           font-weight: 700;
+          line-height: 1.2;
         }
 
         .td_doc_pages_elem_notes_elem:last-child {
@@ -1257,22 +1258,44 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
             content: '';
             position: absolute;
             top: .5em;
-            left: 0;
-            width: 15px;
+            left: 5px;
+            width: 10px;
             border-bottom: solid 4px;
           }
 
           .td_doc_pages_elem_notes_elem_clear {
             position: absolute;
-            top:   0;
-            right: 0;
+            top:  0;
+            left: 0;
             width:  20px;
             height: 20px;
+            border: solid 1px;
             border-radius: 50%;
             font-weight: 400;
-            line-height: 20px;
-            background-color: rgba(130,130,130,.15);
+            line-height: 18px;
+            background-color: #fafafa;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
           }
+
+          .no-touchevents .td_doc_pages_elem_notes_elem:hover > .td_doc_pages_elem_notes_elem_clear,
+          .touchevents .td_doc_pages_elem_notes_elem:active > .td_doc_pages_elem_notes_elem_clear {
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity .1s;
+          }
+
+@media (min-width: 480px) {
+  .td_doc_pages_elem_notes_elem {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+  }
+
+  .td_doc_pages_elem_page_note {
+    border-bottom: solid 2px;
+  }
+}
 
 @media (min-width: 768px) {
   .td_doc_pages {
