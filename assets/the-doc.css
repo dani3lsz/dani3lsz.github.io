@@ -710,7 +710,7 @@ blockquote {
 
 
 
-input, p, ul, ol, blockquote, [contenteditable], .aa_text_selectable, .debug_dump {
+input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_text_selectable, .debug_dump {
   /* enable text selection */
   -webkit-user-select: text;
           user-select: text;
@@ -746,6 +746,22 @@ input, p, ul, ol, blockquote, [contenteditable], .aa_text_selectable, .debug_dum
     padding: 0 30px;
   }
 }
+
+
+
+  .td_login {
+    position: absolute ;
+    top:  50%;
+    left: 50%;
+    padding: 0 1em;
+    border-radius: 2px;
+    font-size: 1.8rem;
+    line-height: 2;
+    color: #fff;
+    background-color: #0af;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+  }
 
 
 
@@ -845,27 +861,42 @@ input, p, ul, ol, blockquote, [contenteditable], .aa_text_selectable, .debug_dum
       }
 
       .td_projects_elem_doc-ready {
-        box-shadow: 0 0 0 1px #7EE617;
+        border: solid 1px #7EE617;
+        color: #7EE617;
       }
 
       .td_projects_elem_doc-warning {
-        box-shadow: 0 0 0 1px #FFC100;
+        border: solid 1px #FFC100;
+        color: #FFC100;
+      }
+
+      .td_projects_elem_doc-error {
+        border: solid 1px #f00;
+        color: #f00;
+      }
+
+      .td_projects_elem_doc-missing {
+        border: dashed 1px #f00;
+        color: #f00;
+        background-color: transparent;
       }
 
         .td_projects_elem_doc_note {
           position: absolute;
+          right:  8%;
           bottom: 5%;
           left:   8%;
           font-size: 1.2rem;
           font-weight: 500;
-          color: #FFC100;
+          line-height: 1.2;
         }
 
-        .td_projects_elem_doc-ready .td_projects_elem_doc_note {
-          color: #7EE617;
+        .td_projects_elem_doc_note-face {
+          right: 38%;
         }
 
           .td_projects_elem_doc_note > .fa {
+            margin-bottom: 2px;
             padding: 4px;
             border: solid 2px;
             border-radius: 50%;
@@ -1027,13 +1058,16 @@ input, p, ul, ol, blockquote, [contenteditable], .aa_text_selectable, .debug_dum
     .td_project_info_elem_badge-ready {
       box-shadow: 0 0 0 2px #7EE617;
       color: #7EE617;
-      background-color: transparent;
     }
 
     .td_project_info_elem_badge-warning {
       box-shadow: 0 0 0 2px #FFC100;
       color: #FFC100;
-      background-color: transparent;
+    }
+
+    .td_project_info_elem_badge-error {
+      box-shadow: 0 0 0 2px #f00;
+      color: #f00;
     }
 
       .td_project_info_elem_badge-face:empty:before, .td_project_info_elem_badge-face:empty:after {
@@ -1159,85 +1193,98 @@ input, p, ul, ol, blockquote, [contenteditable], .aa_text_selectable, .debug_dum
           margin: 1px;
           background-color: #fff;
           box-shadow: 0 0 0 1px rgba(130,130,130,.15);
-          counter-reset: pagenotes;
         }
 
           .td_doc_pages_elem_page_note {
             position: absolute;
-            height: 0;
             border-bottom: solid 2px;
-            counter-increment: pagenotes;
+            color: rgb(130,130,130);
+            background-color: rgba(130,130,130,.15);
           }
 
           .td_doc_pages_elem_page_note-ready {
             color: #7EE617;
+            background-color: rgba(126,230,23,.15);
           }
 
           .td_doc_pages_elem_page_note-warning {
             color: #FFC100;
+            background-color: rgba(255,193,0,.15);
           }
 
-            .td_doc_pages_elem_page_note:before {
-              content: counter(pagenotes);
-              position: absolute;
-              top:  -11px;
-              left: -29px;
-              width:  20px;
-              height: 20px;
-              border: solid 2px;
-              border-radius: 12px;
-              font-size: 12px;
-              font-weight: 700;
-              text-align: center;
-              line-height: 20px;
-            }
+          .td_doc_pages_elem_page_note-error {
+            color: #f00;
+            background-color: rgba(255,0,0,.15);
+          }
 
       .td_doc_pages_elem_notes {
         float: right;
+        position: -webkit-sticky;
+        position:         sticky;
+        top: 20px;
         width: 33%;
         min-width: 100px;
         min-height: 10px;
         margin-left: 5px;
-        counter-reset: notes;
+        padding-bottom: 1.5em;
       }
 
         .td_doc_pages_elem_notes_elem {
           position: relative;
-          margin: 2px 0 8px;
-          padding-left: 25px;
+          margin-bottom: 10px;
+          padding: 0 20px 0 25px;
+          font-size: 1.4rem;
           font-weight: 700;
-          counter-increment: notes;
         }
 
         .td_doc_pages_elem_notes_elem:last-child {
           margin-bottom: 0;
         }
 
-        .td_doc_pages_elem_notes_elem-ready {
+        .td_doc_pages_elem_notes_elem-ready:before {
           color: #7EE617;
         }
 
-        .td_doc_pages_elem_notes_elem-warning {
+        .td_doc_pages_elem_notes_elem-warning:before {
           color: #FFC100;
         }
 
+        .td_doc_pages_elem_notes_elem-error:before {
+          color: #f00;
+        }
+
           .td_doc_pages_elem_notes_elem:before {
-            content: counter(notes);
+            content: '';
             position: absolute;
-            top:  -2px;
-            left: -2px;
+            top: .5em;
+            left: 0;
+            width: 15px;
+            border-bottom: solid 4px;
+          }
+
+          .td_doc_pages_elem_notes_elem_clear {
+            position: absolute;
+            top:   0;
+            right: 0;
             width:  20px;
             height: 20px;
-            border: solid 2px;
-            border-radius: 12px;
-            font-size: 12px;
-            text-align: center;
+            border-radius: 50%;
+            font-weight: 400;
             line-height: 20px;
+            background-color: rgba(130,130,130,.15);
           }
 
 @media (min-width: 768px) {
+  .td_doc_pages {
+    padding-left: 70px;
+  }
+
   .td_doc_pages_elem_notes {
     margin-left: 15px;
+  }
+
+  .td_doc_pages_elem_notes_elem {
+    font-size: 1.6rem;
   }
 }
 
