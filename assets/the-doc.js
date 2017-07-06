@@ -102,10 +102,17 @@ define('the-doc/controllers/document', ['exports', 'ember'], function (exports, 
     value: true
   });
   exports.default = _ember.default.Controller.extend({
+    showNote: "all",
     scroller: _ember.default.inject.service(),
     actions: {
       scrollTop: function scrollTop() {
         this.get('scroller').scrollVertical("#doc_top", { duration: 300, offset: -20 });
+      },
+      hideNotes: function hideNotes(exception) {
+        this.set('showNote', exception);
+      },
+      showNotes: function showNotes() {
+        this.set('showNote', "all");
       }
     }
   });
@@ -196,6 +203,46 @@ define('the-doc/helpers/not-equal', ['exports', 'ember'], function (exports, _em
 
   exports.default = _ember.default.Helper.helper(notEqual);
 });
+define("the-doc/helpers/note-helper-style", ["exports", "ember"], function (exports, _ember) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.noteHelperStyle = noteHelperStyle;
+  function noteHelperStyle(params /*, hash*/) {
+    if (!params.length) return;
+
+    var page = params[0];
+    var note = params[1];
+    var top = void 0,
+        bottom = void 0;
+
+    if (note.top && note.bottom) {
+      top = Math.round(note.top / page.height * 10000) / 100 + "%";
+      bottom = Math.round((1 - note.bottom / page.height) * 10000) / 100 + "%";
+    } else if (note.group) {
+      for (var i = 0; i < note.group.length; i++) {
+        if (note.group[i].top < top || i === 0) {
+          top = note.group[i].top;
+        }
+
+        if (note.group[i].bottom > bottom || i === 0) {
+          bottom = note.group[i].bottom;
+        }
+      }
+
+      top = Math.round(top / page.height * 10000) / 100 + "%";
+      bottom = Math.round((1 - bottom / page.height) * 10000) / 100 + "%";
+    }
+
+    if (top && bottom) {
+      return "top: " + top + "; bottom: " + bottom + ";";
+    }
+  }
+
+  exports.default = _ember.default.Helper.helper(noteHelperStyle);
+});
 define("the-doc/helpers/page-anchor-id", ["exports", "ember"], function (exports, _ember) {
   "use strict";
 
@@ -224,10 +271,10 @@ define("the-doc/helpers/page-note-style", ["exports", "ember"], function (export
     var page = params[0];
     var note = params[1];
 
-    var top = Math.round(note.top / page.height * 1000) / 10 + "%";
-    var right = Math.round((1 - note.right / page.width) * 1000) / 10 + "%";
-    var bottom = Math.round((1 - note.bottom / page.height) * 1000) / 10 + "%";
-    var left = Math.round(note.left / page.width * 1000) / 10 + "%";
+    var top = Math.round(note.top / page.height * 10000) / 100 + "%";
+    var right = Math.round((1 - note.right / page.width) * 10000) / 100 + "%";
+    var bottom = Math.round((1 - note.bottom / page.height) * 10000) / 100 + "%";
+    var left = Math.round(note.left / page.width * 10000) / 100 + "%";
 
     return "top: " + top + "; right: " + right + "; bottom: " + bottom + "; left: " + left + ";";
   }
@@ -603,7 +650,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
             height: 1650,
             url: "http://dani3lsz.github.io/assets/documents/form/page_5.jpg",
             notes: [{
-              id: "1_1_0",
+              id: "1_1_1",
               status: "ready",
               title: "Remarks",
               top: 242,
@@ -644,7 +691,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
             height: 1650,
             url: "http://dani3lsz.github.io/assets/documents/form/page_5.jpg",
             notes: [{
-              id: "1_2_0",
+              id: "1_2_1",
               status: "ready",
               title: "Remarks",
               top: 242,
@@ -685,7 +732,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
             height: 1650,
             url: "http://dani3lsz.github.io/assets/documents/form/page_1.jpg",
             notes: [{
-              id: "1_1_0",
+              id: "2_1_1",
               status: "ready",
               title: "Remarks",
               top: 962,
@@ -693,7 +740,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 1060,
               left: 106
             }, {
-              id: "1_1_1",
+              id: "2_1_2",
               status: "warning",
               title: "Signature needed",
               top: 1206,
@@ -701,7 +748,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 1206,
               left: 106
             }, {
-              id: "1_1_2",
+              id: "2_1_3",
               status: "warning",
               title: "Signature needed",
               top: 1364,
@@ -709,7 +756,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 1364,
               left: 106
             }, {
-              id: "1_1_3",
+              id: "2_1_4",
               status: "warning",
               title: "Date needed",
               top: 1364,
@@ -724,7 +771,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
             height: 1650,
             url: "http://dani3lsz.github.io/assets/documents/form/page_2.jpg",
             notes: [{
-              id: "1_2_0",
+              id: "2_2_1",
               status: "warning",
               title: "Employment status needed",
               top: 295,
@@ -732,7 +779,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 295,
               left: 111
             }, {
-              id: "1_2_1",
+              id: "2_2_2",
               status: "warning",
               title: "Type needed",
               top: 295,
@@ -740,7 +787,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 295,
               left: 651
             }, {
-              id: "1_2_2",
+              id: "2_2_3",
               status: "warning",
               title: "Employment start date needed",
               top: 340,
@@ -748,7 +795,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 340,
               left: 111
             }, {
-              id: "1_2_3",
+              id: "2_2_4",
               status: "warning",
               title: "Employment end date needed",
               top: 340,
@@ -756,7 +803,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 340,
               left: 651
             }, {
-              id: "1_2_4",
+              id: "2_2_5",
               status: "warning",
               title: "Employer name needed",
               top: 385,
@@ -764,7 +811,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 385,
               left: 111
             }, {
-              id: "1_2_5",
+              id: "2_2_6",
               status: "warning",
               title: "Employer location needed",
               top: 385,
@@ -772,7 +819,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 385,
               left: 651
             }, {
-              id: "1_2_6",
+              id: "2_2_7",
               status: "normal",
               title: "Comments",
               top: 425,
@@ -793,7 +840,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
             height: 1650,
             url: "http://dani3lsz.github.io/assets/documents/form/page_4.jpg",
             notes: [{
-              id: "1_4_0",
+              id: "2_4_1",
               status: "warning",
               title: "Signature needed",
               top: 1233,
@@ -801,7 +848,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 1233,
               left: 108
             }, {
-              id: "1_4_1",
+              id: "2_4_2",
               status: "warning",
               title: "Signature needed",
               top: 1391,
@@ -809,7 +856,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 1391,
               left: 108
             }, {
-              id: "1_4_2",
+              id: "2_4_3",
               status: "warning",
               title: "Date needed",
               top: 1391,
@@ -817,7 +864,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
               bottom: 1391,
               left: 743
             }, {
-              id: "1_4_3",
+              id: "2_4_4",
               status: "warning",
               title: "Signature needed",
               top: 1442,
@@ -832,7 +879,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
             height: 1650,
             url: "http://dani3lsz.github.io/assets/documents/form/page_5.jpg",
             notes: [{
-              id: "1_5_0",
+              id: "2_5_1",
               status: "ready",
               title: "Remarks",
               top: 242,
@@ -879,7 +926,32 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
             status: "warning",
             width: 1275,
             height: 1650,
-            url: "http://dani3lsz.github.io/assets/documents/purchaseagreement/page_1.jpg"
+            url: "http://dani3lsz.github.io/assets/documents/purchaseagreement/page_1.jpg",
+            notes: [{
+              id: "3_1_1",
+              status: "warning",
+              title: "Fill buyer's name",
+              top: 187,
+              right: 1166,
+              bottom: 187,
+              left: 312
+            }, {
+              id: "3_1_2",
+              status: "warning",
+              title: "Fill seller's name",
+              top: 222,
+              right: 1166,
+              bottom: 222,
+              left: 320
+            }, {
+              id: "3_1_3",
+              status: "normal",
+              title: "Special stipulations",
+              top: 1308,
+              right: 1163,
+              bottom: 1458,
+              left: 133
+            }]
           },
           2: {
             status: "normal",
@@ -891,7 +963,163 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
             status: "warning",
             width: 1275,
             height: 1650,
-            url: "http://dani3lsz.github.io/assets/documents/purchaseagreement/page_3.jpg"
+            url: "http://dani3lsz.github.io/assets/documents/purchaseagreement/page_3.jpg",
+            notes: [{
+              id: "3_3_1",
+              status: "warning",
+              title: "Real estate firm name and % of price",
+              group: [{
+                id: "3_3_1_1",
+                top: 477,
+                right: 807,
+                bottom: 477,
+                left: 337
+              }, {
+                id: "3_3_1_2",
+                top: 477,
+                right: 968,
+                bottom: 477,
+                left: 904
+              }]
+            }, {
+              id: "3_3_2",
+              status: "normal",
+              title: "Other real estate firm name",
+              group: [{
+                id: "3_3_2_1",
+                top: 526,
+                right: 804,
+                bottom: 526,
+                left: 461
+              }, {
+                id: "3_3_2_2",
+                top: 526,
+                right: 968,
+                bottom: 526,
+                left: 904
+              }]
+            }, {
+              id: "3_3_3",
+              status: "normal",
+              title: "Select options",
+              group: [{
+                id: "3_3_3_1",
+                top: 629,
+                right: 170,
+                bottom: 648,
+                left: 151
+              }, {
+                id: "3_3_3_2",
+                top: 651,
+                right: 170,
+                bottom: 670,
+                left: 151
+              }, {
+                id: "3_3_3_2",
+                top: 673,
+                right: 170,
+                bottom: 692,
+                left: 151
+              }, {
+                id: "3_3_3_2",
+                top: 695,
+                right: 170,
+                bottom: 714,
+                left: 151
+              }, {
+                id: "3_3_3_2",
+                top: 716,
+                right: 170,
+                bottom: 736,
+                left: 151
+              }, {
+                id: "3_3_3_2",
+                top: 738,
+                right: 170,
+                bottom: 758,
+                left: 151
+              }, {
+                id: "3_3_3_2",
+                top: 760,
+                right: 170,
+                bottom: 780,
+                left: 151
+              }, {
+                id: "3_3_3_2",
+                top: 782,
+                right: 170,
+                bottom: 802,
+                left: 151
+              }]
+            }, {
+              id: "3_3_4",
+              status: "warning",
+              title: "Select options",
+              group: [{
+                id: "3_3_4_1",
+                top: 823,
+                right: 170,
+                bottom: 842,
+                left: 151
+              }, {
+                id: "3_3_4_2",
+                top: 845,
+                right: 170,
+                bottom: 864,
+                left: 151
+              }, {
+                id: "3_3_4_2",
+                top: 867,
+                right: 170,
+                bottom: 886,
+                left: 151
+              }]
+            }, {
+              id: "3_3_5",
+              status: "warning",
+              title: "Buyer signatures and date",
+              top: 1404,
+              right: 1167,
+              bottom: 1404,
+              left: 110
+            }, {
+              id: "3_3_6",
+              status: "warning",
+              title: "Select result of offer",
+              group: [{
+                id: "3_3_6_1",
+                top: 1438,
+                right: 246,
+                bottom: 1459,
+                left: 224
+              }, {
+                id: "3_3_6_2",
+                top: 1438,
+                right: 385,
+                bottom: 1459,
+                left: 363
+              }, {
+                id: "3_3_6_3",
+                top: 1438,
+                right: 517,
+                bottom: 1459,
+                left: 495
+              }, {
+                id: "3_3_6_4",
+                top: 1438,
+                right: 781,
+                bottom: 1459,
+                left: 759
+              }]
+            }, {
+              id: "3_3_7",
+              status: "warning",
+              title: "Seller signatures and date",
+              top: 1518,
+              right: 1167,
+              bottom: 1518,
+              left: 110
+            }]
           }
         }
       }, {
@@ -1111,7 +1339,7 @@ define("the-doc/templates/document", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Lg2fIOUq", "block": "{\"statements\":[[11,\"section\",[]],[15,\"class\",\"td aa_clearfix\"],[13],[0,\"\\n  \"],[1,[33,[\"project-header\"],null,[[\"project\"],[[28,[\"model\",\"project\"]]]]],false],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"id\",\"doc_top\"],[15,\"class\",\"td_doc\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"td_doc_title aa_text--base\"],[13],[1,[28,[\"model\",\"document\",\"name\"]],false],[0,\" \"],[11,\"span\",[]],[16,\"class\",[34,[\"td_doc_title_status td_doc_title_status-\",[28,[\"model\",\"document\",\"status\"]]]]],[13],[11,\"i\",[]],[16,\"class\",[34,[[33,[\"status-icon-class\"],[[28,[\"model\",\"document\",\"status\"]]],null]]]],[13],[14],[0,\" \"],[1,[28,[\"model\",\"document\",\"statusMessage\"]],false],[14],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"model\",\"document\",\"status\"]],\"missing\"],null]],null,{\"statements\":[[0,\"      \"],[11,\"p\",[]],[15,\"class\",\"td_doc_text\"],[13],[0,\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum convallis mauris,\\n        non vestibulum quam imperdiet non. Cras vel nisi lacus. Quisque sollicitudin ex vel tempus lobortis.\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"td_doc_peak\"],[13],[0,\"\\n\"],[6,[\"each\"],[[33,[\"-each-in\"],[[28,[\"model\",\"document\",\"pages\"]]],null]],null,{\"statements\":[[6,[\"scroll-to\"],null,[[\"href\",\"class\",\"duration\",\"offset\"],[[33,[\"page-anchor-id\"],[[28,[\"key\"]]],null],\"td_doc_peak_elem td_noformat\",300,-10]],{\"statements\":[[0,\"          \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_projects_elem_doc td_projects_elem_doc-\",[28,[\"page\",\"status\"]],\" aa_pb\"]]],[16,\"style\",[34,[\"padding-bottom: \",[33,[\"get-page-padding\"],[[28,[\"page\"]]],null]]]],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem\"],[13],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-70\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-50\"],[13],[14],[0,\"\\n            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[\"key\",\"page\"]},null],[0,\"    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages\"],[13],[0,\"\\n\"],[6,[\"each\"],[[33,[\"-each-in\"],[[28,[\"model\",\"document\",\"pages\"]]],null]],null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[16,\"id\",[34,[\"page_\",[28,[\"key\"]]]]],[15,\"class\",\"td_doc_pages_elem aa_clearfix\"],[13],[0,\"\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages_elem_notes\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"page\",\"notes\"]]],null,{\"statements\":[[0,\"              \"],[11,\"p\",[]],[16,\"class\",[34,[\"td_doc_pages_elem_notes_elem td_doc_pages_elem_notes_elem-\",[28,[\"note\",\"status\"]]]]],[13],[0,\"\\n                \"],[1,[28,[\"note\",\"title\"]],false],[0,\" \"],[11,\"button\",[]],[15,\"class\",\"td_doc_pages_elem_notes_elem_clear\"],[13],[0,\"×\"],[14],[0,\"\\n              \"],[14],[0,\"\\n\"]],\"locals\":[\"note\"]},null],[0,\"          \"],[14],[0,\"\\n\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages_elem_page aa_noverflow\"],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_pb\"],[16,\"style\",[34,[\"padding-bottom: \",[33,[\"get-page-padding\"],[[28,[\"page\"]]],null]]]],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem td_doc_pages_elem_page_\"],[13],[0,\"\\n                \"],[11,\"img\",[]],[16,\"src\",[34,[[28,[\"page\",\"url\"]]]]],[15,\"class\",\"aa_img\"],[13],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"page\",\"notes\"]]],null,{\"statements\":[[0,\"                  \"],[11,\"span\",[]],[16,\"class\",[34,[\"td_doc_pages_elem_page_note td_doc_pages_elem_page_note-\",[28,[\"note\",\"status\"]]]]],[16,\"style\",[33,[\"page-note-style\"],[[28,[\"page\"]],[28,[\"note\"]]],null],null],[13],[14],[0,\"\\n\"]],\"locals\":[\"note\"]},null],[0,\"              \"],[14],[0,\"\\n            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[\"key\",\"page\"]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"model\",\"document\",\"status\"]],\"missing\"],null]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"td_upload aa_noverflow\"],[13],[0,\"\\n      \"],[11,\"button\",[]],[15,\"class\",\"td_upload_btn\"],[13],[11,\"i\",[]],[15,\"class\",\"fa fa-upload\"],[13],[14],[0,\" Upload\"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_docs\"],[13],[0,\"\\n    \"],[11,\"h4\",[]],[15,\"class\",\"td_project_info_elem_name td_project_info_elem_name-right aa_text--base aa_noverflow\"],[13],[0,\"Other documents\"],[14],[0,\"\\n\\n    \"],[11,\"ul\",[]],[15,\"class\",\"td_projects\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"other\"]]],null,{\"statements\":[[0,\"        \"],[11,\"li\",[]],[15,\"class\",\"td_projects_elem\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"document\",[28,[\"model\",\"project\",\"id\"]],[28,[\"doc\",\"id\"]]],[[\"class\"],[\"td_projects_elem_ td_noformat\"]],{\"statements\":[[0,\"            \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_projects_elem_doc td_projects_elem_doc-\",[28,[\"doc\",\"status\"]],\" aa_pb aa_pb--133\"]]],[5,[\"action\"],[[28,[null]],\"scrollTop\"]],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem\"],[13],[0,\"\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"doc\",\"status\"]],\"normal\"],null]],null,{\"statements\":[[0,\"                  \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_note\"],[13],[11,\"i\",[]],[16,\"class\",[34,[[33,[\"status-icon-class\"],[[28,[\"doc\",\"status\"]]],null]]]],[13],[14],[11,\"br\",[]],[13],[14],[1,[28,[\"doc\",\"statusMessage\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-70\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-50\"],[13],[14],[0,\"\\n              \"],[14],[0,\"\\n            \"],[14],[0,\"\\n\\n            \"],[11,\"h3\",[]],[15,\"class\",\"td_projects_elem_ttl aa_text--base\"],[13],[1,[28,[\"doc\",\"name\"]],false],[14],[0,\"\\n\\n            \"],[11,\"p\",[]],[15,\"class\",\"td_projects_elem_note\"],[13],[1,[28,[\"doc\",\"note\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"        \"],[14],[0,\"\\n\"]],\"locals\":[\"doc\"]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/document.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "OoPB8yde", "block": "{\"statements\":[[11,\"section\",[]],[15,\"class\",\"td aa_clearfix\"],[13],[0,\"\\n  \"],[1,[33,[\"project-header\"],null,[[\"project\"],[[28,[\"model\",\"project\"]]]]],false],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"id\",\"doc_top\"],[15,\"class\",\"td_doc\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"td_doc_title aa_text--base\"],[13],[1,[28,[\"model\",\"document\",\"name\"]],false],[0,\" \"],[11,\"span\",[]],[16,\"class\",[34,[\"td_doc_title_status td_doc_title_status-\",[28,[\"model\",\"document\",\"status\"]]]]],[13],[11,\"i\",[]],[16,\"class\",[34,[[33,[\"status-icon-class\"],[[28,[\"model\",\"document\",\"status\"]]],null]]]],[13],[14],[0,\" \"],[1,[28,[\"model\",\"document\",\"statusMessage\"]],false],[14],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"model\",\"document\",\"status\"]],\"missing\"],null]],null,{\"statements\":[[0,\"      \"],[11,\"p\",[]],[15,\"class\",\"td_doc_text\"],[13],[0,\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum convallis mauris,\\n        non vestibulum quam imperdiet non. Cras vel nisi lacus. Quisque sollicitudin ex vel tempus lobortis.\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"td_doc_peak\"],[13],[0,\"\\n\"],[6,[\"each\"],[[33,[\"-each-in\"],[[28,[\"model\",\"document\",\"pages\"]]],null]],null,{\"statements\":[[6,[\"scroll-to\"],null,[[\"href\",\"class\",\"duration\",\"offset\"],[[33,[\"page-anchor-id\"],[[28,[\"key\"]]],null],\"td_doc_peak_elem td_noformat\",300,-10]],{\"statements\":[[0,\"          \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_projects_elem_doc td_projects_elem_doc-\",[28,[\"page\",\"status\"]],\" aa_pb\"]]],[16,\"style\",[34,[\"padding-bottom: \",[33,[\"get-page-padding\"],[[28,[\"page\"]]],null]]]],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem\"],[13],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-70\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-50\"],[13],[14],[0,\"\\n            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[\"key\",\"page\"]},null],[0,\"    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages\"],[13],[0,\"\\n\"],[6,[\"each\"],[[33,[\"-each-in\"],[[28,[\"model\",\"document\",\"pages\"]]],null]],null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[16,\"id\",[34,[\"page_\",[28,[\"key\"]]]]],[15,\"class\",\"td_doc_pages_elem aa_clearfix\"],[13],[0,\"\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages_elem_notes\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"page\",\"notes\"]]],null,{\"statements\":[[0,\"              \"],[11,\"p\",[]],[16,\"class\",[34,[\"td_doc_pages_elem_notes_elem td_doc_pages_elem_notes_elem-\",[28,[\"note\",\"status\"]]]]],[5,[\"action\"],[[28,[null]],\"showNotes\"],[[\"on\"],[\"mouseLeave\"]]],[5,[\"action\"],[[28,[null]],\"hideNotes\",[28,[\"note\",\"id\"]]],[[\"on\"],[\"mouseEnter\"]]],[13],[0,\"\\n                \"],[1,[28,[\"note\",\"title\"]],false],[0,\" \"],[11,\"button\",[]],[15,\"class\",\"td_doc_pages_elem_notes_elem_clear\"],[13],[0,\"×\"],[14],[0,\"\\n              \"],[14],[0,\"\\n\"]],\"locals\":[\"note\"]},null],[0,\"          \"],[14],[0,\"\\n\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_doc_pages_elem_page aa_noverflow\"],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_pb\"],[16,\"style\",[34,[\"padding-bottom: \",[33,[\"get-page-padding\"],[[28,[\"page\"]]],null]]]],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem td_doc_pages_elem_page_\"],[13],[0,\"\\n                \"],[11,\"img\",[]],[16,\"src\",[34,[[28,[\"page\",\"url\"]]]]],[15,\"class\",\"aa_img\"],[13],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"page\",\"notes\"]]],null,{\"statements\":[[0,\"                  \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_doc_pages_elem_page_notes td_doc_pages_elem_page_notes-\",[28,[\"note\",\"status\"]],\" \",[33,[\"if\"],[[33,[\"is-equal\"],[[28,[\"showNote\"]],[28,[\"note\",\"id\"]]],null],\"active helper\"],null],\" \",[33,[\"if\"],[[33,[\"is-equal\"],[[28,[\"showNote\"]],\"all\"],null],\"active\"],null]]]],[13],[0,\"\\n                    \"],[11,\"span\",[]],[15,\"class\",\"td_doc_pages_elem_page_notes_helper\"],[16,\"style\",[33,[\"note-helper-style\"],[[28,[\"page\"]],[28,[\"note\"]]],null],null],[13],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"note\",\"group\"]]],null,{\"statements\":[[6,[\"each\"],[[28,[\"note\",\"group\"]]],null,{\"statements\":[[0,\"                        \"],[11,\"span\",[]],[15,\"class\",\"td_doc_pages_elem_page_note active\"],[16,\"style\",[33,[\"page-note-style\"],[[28,[\"page\"]],[28,[\"subnote\"]]],null],null],[13],[14],[0,\"\\n\"]],\"locals\":[\"subnote\"]},null]],\"locals\":[]},{\"statements\":[[0,\"                      \"],[11,\"span\",[]],[15,\"class\",\"td_doc_pages_elem_page_note\"],[16,\"style\",[33,[\"page-note-style\"],[[28,[\"page\"]],[28,[\"note\"]]],null],null],[13],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"                  \"],[14],[0,\"\\n\"]],\"locals\":[\"note\"]},null],[0,\"              \"],[14],[0,\"\\n            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[\"key\",\"page\"]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"model\",\"document\",\"status\"]],\"missing\"],null]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"td_upload aa_noverflow\"],[13],[0,\"\\n      \"],[11,\"button\",[]],[15,\"class\",\"td_upload_btn\"],[13],[11,\"i\",[]],[15,\"class\",\"fa fa-upload\"],[13],[14],[0,\" Upload\"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_docs\"],[13],[0,\"\\n    \"],[11,\"h4\",[]],[15,\"class\",\"td_project_info_elem_name td_project_info_elem_name-right aa_text--base aa_noverflow\"],[13],[0,\"Other documents\"],[14],[0,\"\\n\\n    \"],[11,\"ul\",[]],[15,\"class\",\"td_projects\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"other\"]]],null,{\"statements\":[[0,\"        \"],[11,\"li\",[]],[15,\"class\",\"td_projects_elem\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"document\",[28,[\"model\",\"project\",\"id\"]],[28,[\"doc\",\"id\"]]],[[\"class\"],[\"td_projects_elem_ td_noformat\"]],{\"statements\":[[0,\"            \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_projects_elem_doc td_projects_elem_doc-\",[28,[\"doc\",\"status\"]],\" aa_pb aa_pb--133\"]]],[5,[\"action\"],[[28,[null]],\"scrollTop\"]],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem\"],[13],[0,\"\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"doc\",\"status\"]],\"normal\"],null]],null,{\"statements\":[[0,\"                  \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_note\"],[13],[11,\"i\",[]],[16,\"class\",[34,[[33,[\"status-icon-class\"],[[28,[\"doc\",\"status\"]]],null]]]],[13],[14],[11,\"br\",[]],[13],[14],[1,[28,[\"doc\",\"statusMessage\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-70\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span\"],[13],[14],[0,\"\\n                \"],[11,\"span\",[]],[15,\"class\",\"td_projects_elem_doc_span td_projects_elem_doc_span-50\"],[13],[14],[0,\"\\n              \"],[14],[0,\"\\n            \"],[14],[0,\"\\n\\n            \"],[11,\"h3\",[]],[15,\"class\",\"td_projects_elem_ttl aa_text--base\"],[13],[1,[28,[\"doc\",\"name\"]],false],[14],[0,\"\\n\\n            \"],[11,\"p\",[]],[15,\"class\",\"td_projects_elem_note\"],[13],[1,[28,[\"doc\",\"note\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"        \"],[14],[0,\"\\n\"]],\"locals\":[\"doc\"]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/document.hbs" } });
 });
 define("the-doc/templates/index", ["exports"], function (exports) {
   "use strict";
@@ -1159,6 +1387,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("the-doc/app")["default"].create({"name":"the-doc","version":"0.0.0+f6719774"});
+  require("the-doc/app")["default"].create({"name":"the-doc","version":"0.0.0+b21c3da4"});
 }
 //# sourceMappingURL=the-doc.map

@@ -1235,7 +1235,7 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
   }
 
   .td_doc_pages {
-    margin: 15px 0 30px;
+    margin: 15px 0 30px -15px;
     counter-reset: pages;
   }
 
@@ -1261,27 +1261,74 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
           box-shadow: 0 0 0 1px rgba(130,130,130,.15);
         }
 
-          .td_doc_pages_elem_page_note {
+          .td_doc_pages_elem_page_notes {
             position: absolute;
-            border-bottom: solid 1px;
-            color: rgb(130,130,130);
-            background-color: rgba(130,130,130,.15);
+            top:    0;
+            right:  0;
+            bottom: 0;
+            left:   0;
+            opacity: 0;
+            transition: opacity .3s;
           }
 
-          .td_doc_pages_elem_page_note-ready {
-            color: #7EE617;
-            background-color: rgba(126,230,23,.15);
+          .td_doc_pages_elem_page_notes.active {
+            opacity: 1;
           }
 
-          .td_doc_pages_elem_page_note-warning {
-            color: #FFC100;
-            background-color: rgba(255,193,0,.15);
-          }
+            .td_doc_pages_elem_page_notes_helper {
+              position: absolute;
+              right: 0;
+              width: 5px;
+              margin: -5px 0;
+              border-top: solid 5px;
+              border-bottom: solid 5px;
+              color: #0af;
+              background-color: #0af;
+              opacity: 0;
+              pointer-events: none;
+              transition: opacity .3s;
+            }
 
-          .td_doc_pages_elem_page_note-error {
-            color: #f00;
-            background-color: rgba(255,0,0,.15);
-          }
+            .helper > .td_doc_pages_elem_page_notes_helper {
+              opacity: 1;
+            }
+
+            .td_doc_pages_elem_page_notes-ready > .td_doc_pages_elem_page_notes_helper {
+              color: #7EE617;
+              background-color: #7EE617;
+            }
+
+            .td_doc_pages_elem_page_notes-warning > .td_doc_pages_elem_page_notes_helper {
+              color: #FFC100;
+              background-color: #FFC100;
+            }
+
+            .td_doc_pages_elem_page_notes-error > .td_doc_pages_elem_page_notes_helper {
+              color: #f00;
+              background-color: #f00;
+            }
+
+            .td_doc_pages_elem_page_note {
+              position: absolute;
+              border-bottom: solid 1px;
+              color: #0af;
+              background-color: rgba(0,170,255,.15);
+            }
+
+            .td_doc_pages_elem_page_notes-ready > .td_doc_pages_elem_page_note {
+              color: #7EE617;
+              background-color: rgba(126,230,23,.15);
+            }
+
+            .td_doc_pages_elem_page_notes-warning > .td_doc_pages_elem_page_note {
+              color: #FFC100;
+              background-color: rgba(255,193,0,.15);
+            }
+
+            .td_doc_pages_elem_page_notes-error > .td_doc_pages_elem_page_note {
+              color: #f00;
+              background-color: rgba(255,0,0,.15);
+            }
 
       .td_doc_pages_elem_notes {
         float: right;
@@ -1297,8 +1344,8 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
 
         .td_doc_pages_elem_notes_elem {
           position: relative;
-          margin-bottom: 5px;
-          padding-left: 25px;
+          margin: 0;
+          padding: 0 0 5px 25px;
           font-size: 1.2rem;
           font-weight: 700;
           line-height: 1.2;
@@ -1308,18 +1355,6 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
           margin-bottom: 0;
         }
 
-        .td_doc_pages_elem_notes_elem-ready:before {
-          color: #7EE617;
-        }
-
-        .td_doc_pages_elem_notes_elem-warning:before {
-          color: #FFC100;
-        }
-
-        .td_doc_pages_elem_notes_elem-error:before {
-          color: #f00;
-        }
-
           .td_doc_pages_elem_notes_elem:before {
             content: '';
             position: absolute;
@@ -1327,6 +1362,19 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
             left: 5px;
             width: 10px;
             border-bottom: solid 4px;
+            color: #0af;
+          }
+
+          .td_doc_pages_elem_notes_elem-ready:before {
+            color: #7EE617;
+          }
+
+          .td_doc_pages_elem_notes_elem-warning:before {
+            color: #FFC100;
+          }
+
+          .td_doc_pages_elem_notes_elem-error:before {
+            color: #f00;
           }
 
           .td_doc_pages_elem_notes_elem_clear {
@@ -1354,17 +1402,22 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
 
 @media (min-width: 480px) {
   .td_doc_pages_elem_notes_elem {
-    margin-bottom: 10px;
+    padding: 0 0 10px 25px;
     font-size: 1.4rem;
   }
 
   .td_doc_pages_elem_page_note {
     border-bottom: solid 2px;
   }
+
+  .td_doc_pages_elem_page_note-group {
+    border: none;
+  }
 }
 
 @media (min-width: 768px) {
   .td_doc_pages {
+    margin: 15px 0 30px 0;
     padding-left: 70px;
   }
 

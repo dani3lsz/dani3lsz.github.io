@@ -50,6 +50,11 @@ define('the-doc/tests/app.lint-test', [], function () {
     assert.ok(true, 'helpers/not-equal.js should pass ESLint\n\n');
   });
 
+  QUnit.test('helpers/note-helper-style.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'helpers/note-helper-style.js should pass ESLint\n\n');
+  });
+
   QUnit.test('helpers/page-anchor-id.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'helpers/page-anchor-id.js should pass ESLint\n\n');
@@ -308,6 +313,26 @@ define('the-doc/tests/integration/helpers/not-equal-test', ['ember-qunit'], func
     assert.equal(this.$().text().trim(), '1234');
   });
 });
+define('the-doc/tests/integration/helpers/note-helper-style-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('note-helper-style', 'helper:note-helper-style', {
+    integration: true
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it renders', function (assert) {
+    this.set('inputValue', '1234');
+
+    this.render(Ember.HTMLBars.template({
+      "id": "Yhq8YT7e",
+      "block": "{\"statements\":[[1,[33,[\"note-helper-style\"],[[28,[\"inputValue\"]]],null],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '1234');
+  });
+});
 define('the-doc/tests/integration/helpers/page-anchor-id-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -422,6 +447,11 @@ define('the-doc/tests/tests.lint-test', [], function () {
   QUnit.test('integration/helpers/not-equal-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/helpers/not-equal-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/helpers/note-helper-style-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/helpers/note-helper-style-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('integration/helpers/page-anchor-id-test.js', function (assert) {
