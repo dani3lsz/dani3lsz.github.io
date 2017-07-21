@@ -10,14 +10,19 @@ define('the-doc/tests/app.lint-test', [], function () {
     assert.ok(true, 'app.js should pass ESLint\n\n');
   });
 
+  QUnit.test('components/draw-canvas.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'components/draw-canvas.js should pass ESLint\n\n');
+  });
+
   QUnit.test('components/nav-bar.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'components/nav-bar.js should pass ESLint\n\n');
   });
 
-  QUnit.test('components/project-header.js', function (assert) {
+  QUnit.test('components/upload-field.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'components/project-header.js should pass ESLint\n\n');
+    assert.ok(true, 'components/upload-field.js should pass ESLint\n\n');
   });
 
   QUnit.test('controllers/application.js', function (assert) {
@@ -30,9 +35,19 @@ define('the-doc/tests/app.lint-test', [], function () {
     assert.ok(true, 'controllers/document.js should pass ESLint\n\n');
   });
 
+  QUnit.test('controllers/documents.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/documents.js should pass ESLint\n\n');
+  });
+
   QUnit.test('controllers/index.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'controllers/index.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('helpers/document-count.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'helpers/document-count.js should pass ESLint\n\n');
   });
 
   QUnit.test('helpers/get-page-padding.js', function (assert) {
@@ -70,6 +85,21 @@ define('the-doc/tests/app.lint-test', [], function () {
     assert.ok(true, 'helpers/status-icon-class.js should pass ESLint\n\n');
   });
 
+  QUnit.test('models/document.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/document.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('models/redacted-elem.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/redacted-elem.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('models/redacted.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'models/redacted.js should pass ESLint\n\n');
+  });
+
   QUnit.test('resolver.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'resolver.js should pass ESLint\n\n');
@@ -90,24 +120,24 @@ define('the-doc/tests/app.lint-test', [], function () {
     assert.ok(true, 'routes/document.js should pass ESLint\n\n');
   });
 
+  QUnit.test('routes/documents.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/documents.js should pass ESLint\n\n');
+  });
+
   QUnit.test('routes/index.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/index.js should pass ESLint\n\n');
   });
 
-  QUnit.test('routes/project.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'routes/project.js should pass ESLint\n\n');
-  });
-
-  QUnit.test('routes/projects.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'routes/projects.js should pass ESLint\n\n');
-  });
-
   QUnit.test('services/data.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'services/data.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('services/docu.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'services/docu.js should pass ESLint\n\n');
   });
 
   QUnit.test('services/login.js', function (assert) {
@@ -193,6 +223,36 @@ define('the-doc/tests/helpers/start-app', ['exports', 'ember', 'the-doc/app', 't
     });
   }
 });
+define('the-doc/tests/integration/components/draw-canvas-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('draw-canvas', 'Integration | Component | draw canvas', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "9Zwiq1eY",
+      "block": "{\"statements\":[[1,[26,[\"draw-canvas\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "Sx/I1dyt",
+      "block": "{\"statements\":[[0,\"\\n\"],[6,[\"draw-canvas\"],null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"locals\":[]},null],[0,\"  \"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
 define('the-doc/tests/integration/components/nav-bar-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -223,10 +283,10 @@ define('the-doc/tests/integration/components/nav-bar-test', ['ember-qunit'], fun
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
-define('the-doc/tests/integration/components/project-header-test', ['ember-qunit'], function (_emberQunit) {
+define('the-doc/tests/integration/components/upload-field-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
-  (0, _emberQunit.moduleForComponent)('project-header', 'Integration | Component | project header', {
+  (0, _emberQunit.moduleForComponent)('upload-field', 'Integration | Component | upload field', {
     integration: true
   });
 
@@ -236,8 +296,8 @@ define('the-doc/tests/integration/components/project-header-test', ['ember-qunit
     // Handle any actions with this.on('myAction', function(val) { ... });
 
     this.render(Ember.HTMLBars.template({
-      "id": "zZzK9FLL",
-      "block": "{\"statements\":[[1,[26,[\"project-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+      "id": "iZVHfWiA",
+      "block": "{\"statements\":[[1,[26,[\"upload-field\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
       "meta": {}
     }));
 
@@ -245,12 +305,32 @@ define('the-doc/tests/integration/components/project-header-test', ['ember-qunit
 
     // Template block usage:
     this.render(Ember.HTMLBars.template({
-      "id": "Sd5WTNWe",
-      "block": "{\"statements\":[[0,\"\\n\"],[6,[\"project-header\"],null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"locals\":[]},null],[0,\"  \"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+      "id": "7zxwU6jM",
+      "block": "{\"statements\":[[0,\"\\n\"],[6,[\"upload-field\"],null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"locals\":[]},null],[0,\"  \"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
       "meta": {}
     }));
 
     assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('the-doc/tests/integration/helpers/document-count-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('document-count', 'helper:document-count', {
+    integration: true
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it renders', function (assert) {
+    this.set('inputValue', '1234');
+
+    this.render(Ember.HTMLBars.template({
+      "id": "MBD13Wto",
+      "block": "{\"statements\":[[1,[33,[\"document-count\"],[[28,[\"inputValue\"]]],null],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '1234');
   });
 });
 define('the-doc/tests/integration/helpers/get-page-padding-test', ['ember-qunit'], function (_emberQunit) {
@@ -424,14 +504,24 @@ define('the-doc/tests/tests.lint-test', [], function () {
     assert.ok(true, 'helpers/start-app.js should pass ESLint\n\n');
   });
 
+  QUnit.test('integration/components/draw-canvas-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/components/draw-canvas-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('integration/components/nav-bar-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/components/nav-bar-test.js should pass ESLint\n\n');
   });
 
-  QUnit.test('integration/components/project-header-test.js', function (assert) {
+  QUnit.test('integration/components/upload-field-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/components/project-header-test.js should pass ESLint\n\n');
+    assert.ok(true, 'integration/components/upload-field-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/helpers/document-count-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/helpers/document-count-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('integration/helpers/get-page-padding-test.js', function (assert) {
@@ -484,9 +574,29 @@ define('the-doc/tests/tests.lint-test', [], function () {
     assert.ok(true, 'unit/controllers/document-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('unit/controllers/documents-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/controllers/documents-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('unit/controllers/index-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/controllers/index-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/models/document-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/document-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/models/redacted-elem-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/redacted-elem-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/models/redacted-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/models/redacted-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/routes/application-test.js', function (assert) {
@@ -499,19 +609,14 @@ define('the-doc/tests/tests.lint-test', [], function () {
     assert.ok(true, 'unit/routes/document-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('unit/routes/documents-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/documents-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('unit/routes/index-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/routes/index-test.js should pass ESLint\n\n');
-  });
-
-  QUnit.test('unit/routes/project-test.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/routes/project-test.js should pass ESLint\n\n');
-  });
-
-  QUnit.test('unit/routes/projects-test.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'unit/routes/projects-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/services/login-test.js', function (assert) {
@@ -547,6 +652,20 @@ define('the-doc/tests/unit/controllers/document-test', ['ember-qunit'], function
     assert.ok(controller);
   });
 });
+define('the-doc/tests/unit/controllers/documents-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('controller:documents', 'Unit | Controller | documents', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var controller = this.subject();
+    assert.ok(controller);
+  });
+});
 define('the-doc/tests/unit/controllers/index-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -559,6 +678,48 @@ define('the-doc/tests/unit/controllers/index-test', ['ember-qunit'], function (_
   (0, _emberQunit.test)('it exists', function (assert) {
     var controller = this.subject();
     assert.ok(controller);
+  });
+});
+define('the-doc/tests/unit/models/document-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForModel)('document', 'Unit | Model | document', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('the-doc/tests/unit/models/redacted-elem-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForModel)('redacted-elem', 'Unit | Model | redacted elem', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
+  });
+});
+define('the-doc/tests/unit/models/redacted-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForModel)('redacted', 'Unit | Model | redacted', {
+    // Specify the other units that are required for this test.
+    needs: []
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var model = this.subject();
+    // let store = this.store();
+    assert.ok(!!model);
   });
 });
 define('the-doc/tests/unit/routes/application-test', ['ember-qunit'], function (_emberQunit) {
@@ -587,36 +748,23 @@ define('the-doc/tests/unit/routes/document-test', ['ember-qunit'], function (_em
     assert.ok(route);
   });
 });
+define('the-doc/tests/unit/routes/documents-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:documents', 'Unit | Route | documents', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    var route = this.subject();
+    assert.ok(route);
+  });
+});
 define('the-doc/tests/unit/routes/index-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
   (0, _emberQunit.moduleFor)('route:index', 'Unit | Route | index', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  });
-
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var route = this.subject();
-    assert.ok(route);
-  });
-});
-define('the-doc/tests/unit/routes/project-test', ['ember-qunit'], function (_emberQunit) {
-  'use strict';
-
-  (0, _emberQunit.moduleFor)('route:project', 'Unit | Route | project', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  });
-
-  (0, _emberQunit.test)('it exists', function (assert) {
-    var route = this.subject();
-    assert.ok(route);
-  });
-});
-define('the-doc/tests/unit/routes/projects-test', ['ember-qunit'], function (_emberQunit) {
-  'use strict';
-
-  (0, _emberQunit.moduleFor)('route:projects', 'Unit | Route | projects', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   });
