@@ -265,19 +265,14 @@ define('the-doc/components/upload-field', ['exports', 'ember'], function (export
     value: true
   });
   exports.default = _ember.default.Component.extend({
-    routing: _ember.default.inject.service('-routing'),
     stateClass: "",
     actions: {
       startUpload: function startUpload() {
         this.set('stateClass', 'uploading');
 
         _ember.default.run.later(this, function () {
-          this.set('stateClass', 'analyzing');
-        }, 3000);
-
-        _ember.default.run.later(this, function () {
           this.sendAction('redirect', 1);
-        }, 6000);
+        }, 3000);
       }
     }
   });
@@ -328,8 +323,8 @@ define('the-doc/controllers/document', ['exports', 'ember'], function (exports, 
     messageOpen: false,
     showCanvas: false,
     actions: {
-      scrollTop: function scrollTop() {
-        this.get('scroller').scrollVertical("body", { duration: 300, offset: 0 });
+      scrollTo: function scrollTo(elem, duration, offset) {
+        this.get('scroller').scrollVertical(elem, { duration: duration || 300, offset: offset || 0 });
       },
       toggleSideBar: function toggleSideBar() {
         this.set('sideBar', !this.get('sideBar'));
@@ -625,8 +620,8 @@ define('the-doc/controllers/documents', ['exports', 'ember'], function (exports,
     scroller: _ember.default.inject.service(),
     data: _ember.default.inject.service('data'),
     actions: {
-      scrollTop: function scrollTop() {
-        this.get('scroller').scrollVertical("body", { duration: 300, offset: 0 });
+      scrollTo: function scrollTo(elem, duration, offset) {
+        this.get('scroller').scrollVertical(elem, { duration: duration || 300, offset: offset || 0 });
       },
       toDocument: function toDocument() {
         var store = this.get('store');
@@ -637,7 +632,8 @@ define('the-doc/controllers/documents', ['exports', 'ember'], function (exports,
           id: docCount + 1,
           name: sample.name,
           note: sample.note,
-          pages: sample.pages
+          pages: sample.pages,
+          analyzed: sample.analyzed
         });
 
         sample.redacted.forEach(function (elem, index) {
@@ -661,7 +657,7 @@ define('the-doc/controllers/documents', ['exports', 'ember'], function (exports,
           docu.get('redacted').pushObject(redact);
         });
 
-        this.send('scrollTop');
+        this.send('scrollTo', 'body');
         this.transitionToRoute('document', docCount + 1);
       }
     }
@@ -711,7 +707,7 @@ define("the-doc/helpers/document-count", ["exports", "ember"], function (exports
 
     var docs = params[0];
 
-    var text = "No documents";
+    var text = "No documents yet";
 
     if (docs.content && docs.content.length) {
       if (docs.content.length === 1) {
@@ -865,6 +861,35 @@ define('the-doc/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/plu
     value: true
   });
   exports.default = _pluralize.default;
+});
+define('the-doc/helpers/side-list-delay', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.sideListDelay = sideListDelay;
+  function sideListDelay(params /*, hash*/) {
+    if (!params.length) return;
+
+    var doc = params[0];
+    var mainIdx = params[1];
+    var subIdx = params[2];
+
+    var prevCount = 0;
+
+    doc.forEach(function (elem, index) {
+      if (index < mainIdx) {
+        prevCount += elem.get('count') + 1;
+      }
+    });
+
+    var delay = (prevCount + subIdx + 1) / 10;
+
+    return _ember.default.String.htmlSafe("transition-delay: " + delay + "s");
+  }
+
+  exports.default = _ember.default.Helper.helper(sideListDelay);
 });
 define('the-doc/helpers/singularize', ['exports', 'ember-inflector/lib/helpers/singularize'], function (exports, _singularize) {
   'use strict';
@@ -1061,6 +1086,7 @@ define('the-doc/models/document', ['exports', 'ember-data'], function (exports, 
     name: _emberData.default.attr(),
     note: _emberData.default.attr(),
     pages: _emberData.default.attr(),
+    analyzed: _emberData.default.attr(),
     redacted: _emberData.default.hasMany('redacted')
   });
 });
@@ -1149,6 +1175,23 @@ define('the-doc/routes/document', ['exports', 'ember', 'rsvp'], function (export
       return _rsvp.default.hash({
         document: docu
       });
+    },
+    afterModel: function afterModel(model) {
+      var controller = this.controllerFor('document');
+      var analyzed = model.document.get('analyzed');
+
+      if (!analyzed) {
+        // send to analyze
+
+        // than
+        _ember.default.run.later(this, function () {
+          model.document.set('analyzed', true);
+
+          controller.send('scrollTo', '#top');
+          controller.set('sideBar', true);
+          controller.send('showMessage', '8 fields were redacted automatically.', 'success');
+        }, 3000);
+      }
     }
   });
 });
@@ -1227,6 +1270,7 @@ define("the-doc/services/data", ["exports", "ember"], function (exports, _ember)
           url: "http://dani3lsz.github.io/assets/documents/sample_cv.jpg"
         }
       },
+      analyzed: false,
       redacted: [{
         name: "Names",
         count: 1,
@@ -1398,7 +1442,7 @@ define("the-doc/templates/components/nav-bar", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "z4YqXVC4", "block": "{\"statements\":[[11,\"nav\",[]],[15,\"class\",\"td_nav aa_text--condensed td_noformat aa_text--0\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"aa_text--normal aa_text--16 aa_text--base\"],[13],[0,\"\\n    \"],[6,[\"link-to\"],[\"index\"],[[\"class\"],[\"\"]],{\"statements\":[[11,\"span\",[]],[15,\"class\",\"td_nav_logo\"],[13],[0,\"redacted\"],[14],[0,\".io\"]],\"locals\":[]},null],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"ul\",[]],[15,\"class\",\"td_nav_list\"],[13],[0,\"\\n    \"],[11,\"li\",[]],[13],[6,[\"link-to\"],[\"documents\"],[[\"class\"],[\"td_nav_list_a\"]],{\"statements\":[[0,\"Documents\"]],\"locals\":[]},null],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"loggedIn\"]]],null,{\"statements\":[[0,\"      \"],[11,\"li\",[]],[15,\"class\",\"aa_pull--right aa_text--14\"],[13],[11,\"button\",[]],[5,[\"action\"],[[28,[null]],\"loggingOut\"]],[13],[0,\"mhafez - log Out\"],[14],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"      \"],[11,\"div\",[]],[15,\"class\",\"td_nav_login aa_text--base\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"aa_text--bold aa_margin-b--10\"],[13],[0,\"Log In\"],[14],[0,\"\\n\\n        \"],[11,\"label\",[]],[15,\"class\",\"td_nav_login_label aa_text--12\"],[13],[0,\"username\"],[14],[0,\"\\n\\n        \"],[11,\"input\",[]],[15,\"type\",\"text\"],[15,\"class\",\"td_nav_login_input\"],[15,\"value\",\"mhafez\"],[13],[14],[0,\"\\n\\n        \"],[11,\"label\",[]],[15,\"class\",\"td_nav_login_label aa_text--12\"],[13],[0,\"password\"],[14],[0,\"\\n\\n        \"],[11,\"input\",[]],[15,\"type\",\"password\"],[15,\"class\",\"td_nav_login_input\"],[15,\"value\",\"password\"],[13],[14],[0,\"\\n\\n        \"],[11,\"button\",[]],[15,\"class\",\"td_nav_login_btn\"],[5,[\"action\"],[[28,[null]],\"loggingIn\"]],[13],[0,\"Log In\"],[14],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/components/nav-bar.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "lhbtDzH4", "block": "{\"statements\":[[11,\"nav\",[]],[15,\"class\",\"td_nav aa_text--condensed td_noformat aa_text--0\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"aa_text--normal aa_text--16 aa_text--base\"],[13],[0,\"\\n    \"],[6,[\"link-to\"],[\"index\"],[[\"class\"],[\"\"]],{\"statements\":[[11,\"span\",[]],[15,\"class\",\"td_nav_logo\"],[13],[0,\"redacted\"],[14],[0,\".ai\"]],\"locals\":[]},null],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"ul\",[]],[15,\"class\",\"td_nav_list\"],[13],[0,\"\\n    \"],[11,\"li\",[]],[13],[6,[\"link-to\"],[\"documents\"],[[\"class\"],[\"td_nav_list_a\"]],{\"statements\":[[0,\"Documents\"]],\"locals\":[]},null],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"loggedIn\"]]],null,{\"statements\":[[0,\"      \"],[11,\"li\",[]],[15,\"class\",\"aa_pull--right aa_text--14\"],[13],[11,\"button\",[]],[5,[\"action\"],[[28,[null]],\"loggingOut\"]],[13],[0,\"mhafez - log Out\"],[14],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"      \"],[11,\"div\",[]],[15,\"class\",\"td_nav_login aa_text--base\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"aa_text--bold aa_margin-b--10\"],[13],[0,\"Log In\"],[14],[0,\"\\n\\n        \"],[11,\"label\",[]],[15,\"class\",\"td_nav_login_label aa_text--12\"],[13],[0,\"username\"],[14],[0,\"\\n\\n        \"],[11,\"input\",[]],[15,\"type\",\"text\"],[15,\"class\",\"td_nav_login_input\"],[15,\"value\",\"mhafez\"],[13],[14],[0,\"\\n\\n        \"],[11,\"label\",[]],[15,\"class\",\"td_nav_login_label aa_text--12\"],[13],[0,\"password\"],[14],[0,\"\\n\\n        \"],[11,\"input\",[]],[15,\"type\",\"password\"],[15,\"class\",\"td_nav_login_input\"],[15,\"value\",\"password\"],[13],[14],[0,\"\\n\\n        \"],[11,\"button\",[]],[15,\"class\",\"td_nav_login_btn\"],[5,[\"action\"],[[28,[null]],\"loggingIn\"]],[13],[0,\"Log In\"],[14],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/components/nav-bar.hbs" } });
 });
 define("the-doc/templates/components/scroll-to", ["exports"], function (exports) {
   "use strict";
@@ -1414,7 +1458,7 @@ define("the-doc/templates/components/upload-field", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "yRC7fjEJ", "block": "{\"statements\":[[11,\"div\",[]],[16,\"class\",[34,[\"td_upf \",[26,[\"stateClass\"]]]]],[5,[\"action\"],[[28,[null]],\"startUpload\"]],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_upf_ttl\"],[13],[0,\"upload new document\"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_upf_icon\"],[13],[0,\"\\n    \"],[11,\"i\",[]],[15,\"class\",\"fa fa-file-o\"],[13],[14],[0,\"\\n    \"],[11,\"i\",[]],[15,\"class\",\"fa fa-arrow-up\"],[13],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_upf_txt\"],[13],[0,\"drag&drop or select file\"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_upf_page\"],[13],[0,\"\\n    \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_ball\"],[13],[14],[0,\"\\n    \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_ball\"],[13],[14],[0,\"\\n    \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_ball\"],[13],[14],[0,\"\\n    \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_ball\"],[13],[14],[0,\"\\n    \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_ball\"],[13],[14],[0,\"\\n\\n    \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_rect\"],[13],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_upf_state\"],[13],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/components/upload-field.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "nArX7Kiy", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"td_upf\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_upf_\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_upf_w \",[26,[\"stateClass\"]]]]],[5,[\"action\"],[[28,[null]],\"startUpload\"]],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"td_upf_ttl\"],[13],[0,\"upload new document\"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"td_upf_icon\"],[13],[0,\"\\n        \"],[11,\"i\",[]],[15,\"class\",\"fa fa-file-o\"],[13],[14],[0,\"\\n        \"],[11,\"i\",[]],[15,\"class\",\"fa fa-arrow-up\"],[13],[14],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"td_upf_txt\"],[13],[0,\"drag&drop or select file\"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"td_upf_page\"],[13],[0,\"\\n        \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_ball\"],[13],[14],[0,\"\\n        \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_ball\"],[13],[14],[0,\"\\n        \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_ball\"],[13],[14],[0,\"\\n        \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_ball\"],[13],[14],[0,\"\\n        \"],[11,\"span\",[]],[15,\"class\",\"td_upf_page_ball\"],[13],[14],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"td_upf_state\"],[13],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/components/upload-field.hbs" } });
 });
 define("the-doc/templates/document", ["exports"], function (exports) {
   "use strict";
@@ -1422,7 +1466,7 @@ define("the-doc/templates/document", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Byt48Yhh", "block": "{\"statements\":[[11,\"section\",[]],[15,\"class\",\"td aa_clearfix\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_doc\"],[13],[0,\"\\n    \"],[11,\"h1\",[]],[15,\"class\",\"td_project_ttl aa_text--base\"],[13],[1,[28,[\"model\",\"document\",\"name\"]],false],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"model\",\"document\",\"status\"]],\"missing\"],null]],null,{\"statements\":[[0,\"      \"],[11,\"p\",[]],[15,\"class\",\"td_doc_text\"],[13],[0,\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum convallis mauris,\\n        non vestibulum quam imperdiet non. Cras vel nisi lacus. Quisque sollicitudin ex vel tempus lobortis.\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"td_view\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_view_side \",[33,[\"if\"],[[28,[\"sideBar\"]],\"open\"],null]]]],[13],[0,\"\\n        \"],[11,\"button\",[]],[15,\"class\",\"aa_pull--right td_view_doc_top_elem td_view_doc_top_elem-open aa_hide--s\"],[5,[\"action\"],[[28,[null]],\"toggleSideBar\"]],[13],[0,\"\\n          \"],[11,\"i\",[]],[15,\"class\",\"fa fa-times\"],[13],[14],[0,\"\\n        \"],[14],[0,\"\\n\\n        \"],[11,\"div\",[]],[15,\"class\",\"td_view_side_row aa_text--bold aa_text--18\"],[13],[0,\"Redacted text\"],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"model\",\"document\",\"redacted\"]]],null,{\"statements\":[[6,[\"if\"],[[28,[\"redacted\",\"count\"]]],null,{\"statements\":[[0,\"            \"],[11,\"div\",[]],[15,\"class\",\"td_view_side_row td_view_side_row-header\"],[13],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"td_view_side_row_num\"],[13],[1,[28,[\"redacted\",\"count\"]],false],[14],[0,\" \"],[1,[28,[\"redacted\",\"name\"]],false],[0,\"\\n            \"],[14],[0,\"\\n\\n            \"],[11,\"ul\",[]],[15,\"class\",\"td_view_side_list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"redacted\",\"elements\"]]],null,{\"statements\":[[0,\"                \"],[11,\"li\",[]],[15,\"class\",\"td_view_side_list_elem\"],[13],[0,\"\\n                  \"],[11,\"button\",[]],[16,\"class\",[34,[\"td_view_side_list_elem_btn \",[33,[\"if\"],[[28,[\"elem\",\"active\"]],\"active\"],null]]]],[5,[\"action\"],[[28,[null]],\"toggleField\",[28,[\"elem\"]]]],[13],[1,[28,[\"elem\",\"name\"]],false],[14],[0,\"\\n\\n                  \"],[11,\"button\",[]],[16,\"class\",[34,[\"td_view_side_list_elem_close aa_pull--right \",[33,[\"if\"],[[28,[\"elem\",\"active\"]],\"aa_hidden\"],null]]]],[5,[\"action\"],[[28,[null]],\"deleteField\",[28,[\"elem\"]],[28,[\"redacted\"]]]],[13],[11,\"i\",[]],[15,\"class\",\"fa fa-times\"],[13],[14],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"elem\",\"pages\"]]],null,{\"statements\":[[6,[\"scroll-to\"],null,[[\"href\",\"class\",\"duration\",\"offset\"],[[33,[\"page-anchor-id\"],[[28,[\"elempage\",\"page\"]]],null],\"td_view_side_list_elem_page\",300,-20]],{\"statements\":[[0,\"                      \"],[1,[28,[\"elempage\",\"page\"]],false],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[\"elempage\"]},null],[0,\"                \"],[14],[0,\"\\n\"]],\"locals\":[\"elem\"]},null],[0,\"            \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[\"redacted\"]},null],[0,\"      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"td_view_doc aa_clearfix\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"td_view_doc_top aa_clearfix\"],[13],[0,\"\\n          \"],[11,\"button\",[]],[15,\"class\",\"aa_pull--left td_view_doc_top_elem td_view_doc_top_elem-open aa_hide--s\"],[5,[\"action\"],[[28,[null]],\"toggleSideBar\"]],[13],[0,\"\\n            \"],[11,\"i\",[]],[15,\"class\",\"fa fa-bars\"],[13],[14],[0,\"\\n          \"],[14],[0,\"\\n\\n          \"],[11,\"button\",[]],[15,\"class\",\"aa_pull--right td_view_doc_top_elem td_view_doc_top_elem-download\"],[13],[0,\"\\n            \"],[11,\"i\",[]],[15,\"class\",\"fa fa-download\"],[13],[14],[0,\" \"],[11,\"span\",[]],[15,\"class\",\"aa_show--s\"],[13],[0,\"Generate PDF\"],[14],[0,\"\\n          \"],[14],[0,\"\\n\\n          \"],[11,\"button\",[]],[16,\"class\",[34,[\"aa_pull--right td_view_doc_top_elem td_view_doc_top_elem-draw \",[33,[\"if\"],[[28,[\"showCanvas\"]],\"active\"],null]]]],[5,[\"action\"],[[28,[null]],\"toggleDraw\"]],[13],[0,\"\\n            \"],[11,\"i\",[]],[15,\"class\",\"fa fa-pencil-square-o\"],[13],[14],[0,\" \"],[11,\"span\",[]],[15,\"class\",\"aa_show--s\"],[13],[0,\"Draw\"],[14],[0,\"\\n          \"],[14],[0,\"\\n\\n          \"],[11,\"form\",[]],[15,\"class\",\"aa_noverflow\"],[5,[\"action\"],[[28,[null]],\"searchText\",[28,[\"textToSearch\"]]],[[\"on\"],[\"submit\"]]],[13],[0,\"\\n            \"],[1,[33,[\"input\"],null,[[\"value\",\"class\",\"type\",\"placeholder\"],[[28,[\"textToSearch\"]],\"td_view_doc_top_elem td_view_doc_top_elem-input\",\"text\",\"Search text to redact\"]]],false],[0,\"\\n          \"],[14],[0,\"\\n\\n          \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_view_doc_top_message \",[33,[\"if\"],[[28,[\"messageOpen\"]],\"open\"],null],\" \",[26,[\"messageState\"]]]]],[13],[0,\"\\n            \"],[11,\"button\",[]],[15,\"class\",\"td_view_doc_top_message_close aa_pull--right\"],[5,[\"action\"],[[28,[null]],\"closeMessage\"]],[13],[0,\"\\n              \"],[11,\"i\",[]],[15,\"class\",\"fa fa-times\"],[13],[14],[0,\"\\n            \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"messageState\"]],\"success\"],null]],null,{\"statements\":[[0,\"              \"],[11,\"i\",[]],[15,\"class\",\"fa fa-check\"],[13],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"messageState\"]],\"warning\"],null]],null,{\"statements\":[[0,\"              \"],[11,\"i\",[]],[15,\"class\",\"fa fa-exclamation\"],[13],[14],[0,\"\\n            \"]],\"locals\":[]},null]],\"locals\":[]}],[0,\"\\n            \"],[1,[26,[\"messageText\"]],false],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[33,[\"-each-in\"],[[28,[\"model\",\"document\",\"pages\"]]],null]],null,{\"statements\":[[0,\"          \"],[11,\"div\",[]],[15,\"class\",\"td_view_doc_wrap\"],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"td_view_doc_wrap_\"],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"td_view_doc_wrap_scroll\"],[13],[0,\"\\n                \"],[11,\"div\",[]],[16,\"id\",[34,[\"page_\",[28,[\"key\"]]]]],[16,\"class\",[34,[\"td_view_doc_elem aa_clearfix \",[33,[\"if\"],[[33,[\"is-equal\"],[[28,[\"zoomedPage\"]],[28,[\"key\"]]],null],\"zoom\"],null]]]],[13],[0,\"\\n                  \"],[11,\"div\",[]],[15,\"class\",\"aa_pb\"],[16,\"style\",[33,[\"get-page-padding\"],[[28,[\"page\"]]],null],null],[13],[0,\"\\n                    \"],[11,\"div\",[]],[15,\"class\",\"aa_pb__elem td_view_doc_elem_\"],[13],[0,\"\\n                      \"],[11,\"img\",[]],[16,\"src\",[34,[[28,[\"page\",\"url\"]]]]],[15,\"class\",\"aa_img\"],[13],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"model\",\"document\",\"redacted\"]]],null,{\"statements\":[[6,[\"each\"],[[28,[\"redacted\",\"elements\"]]],null,{\"statements\":[[6,[\"each\"],[[28,[\"elem\",\"pages\"]]],null,{\"statements\":[[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"key\"]],[28,[\"elempage\",\"page\"]]],null]],null,{\"statements\":[[6,[\"each\"],[[28,[\"elempage\",\"boxes\"]]],null,{\"statements\":[[0,\"                                \"],[11,\"span\",[]],[16,\"class\",[34,[\"td_view_doc_elem_hide \",[33,[\"if\"],[[28,[\"elem\",\"active\"]],\"active\"],null]]]],[16,\"style\",[33,[\"page-note-style\"],[[28,[\"page\"]],[28,[\"box\"]]],null],null],[5,[\"action\"],[[28,[null]],\"toggleField\",[28,[\"elem\"]]]],[13],[14],[0,\"\\n\"]],\"locals\":[\"box\"]},null]],\"locals\":[]},null]],\"locals\":[\"elempage\"]},null]],\"locals\":[\"elem\"]},null]],\"locals\":[\"redacted\"]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"showCanvas\"]]],null,{\"statements\":[[0,\"                        \"],[1,[33,[\"draw-canvas\"],null,[[\"pageNum\",\"page\",\"action\",\"enter\"],[[28,[\"key\"]],[28,[\"page\"]],[33,[\"action\"],[[28,[null]],\"receiveDrawInfo\"],null],[33,[\"action\"],[[28,[null]],\"toggleDraw\"],null]]]],false],[0,\"\\n\"]],\"locals\":[]},null],[0,\"                    \"],[14],[0,\"\\n                  \"],[14],[0,\"\\n                \"],[14],[0,\"\\n              \"],[14],[0,\"\\n\\n              \"],[11,\"button\",[]],[15,\"class\",\"td_view_doc_wrap_zoom\"],[5,[\"action\"],[[28,[null]],\"zoomPage\",[28,[\"key\"]]]],[13],[0,\"\\n\"],[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"zoomedPage\"]],[28,[\"key\"]]],null]],null,{\"statements\":[[0,\"                  \"],[11,\"i\",[]],[15,\"class\",\"fa fa-compress\"],[13],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"                  \"],[11,\"i\",[]],[15,\"class\",\"fa fa-expand\"],[13],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"              \"],[14],[0,\"\\n            \"],[14],[0,\"\\n\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_text--center aa_text--12 aa_text--light aa_opacity--05\"],[13],[0,\"page \"],[1,[28,[\"key\"]],false],[14],[0,\"\\n          \"],[14],[0,\"\\n\"]],\"locals\":[\"key\",\"page\"]},null],[0,\"      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/document.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "xGb7elxo", "block": "{\"statements\":[[11,\"section\",[]],[15,\"id\",\"top\"],[15,\"class\",\"td aa_clearfix\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"td_doc\"],[13],[0,\"\\n    \"],[11,\"h1\",[]],[15,\"class\",\"td_project_ttl aa_text--base\"],[13],[0,\"\\n\"],[6,[\"if\"],[[28,[\"model\",\"document\",\"analyzed\"]]],null,{\"statements\":[[0,\"        \"],[1,[28,[\"model\",\"document\",\"name\"]],false],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"        Analyzing...\\n\"]],\"locals\":[]}],[0,\"    \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[33,[\"not-equal\"],[[28,[\"model\",\"document\",\"status\"]],\"missing\"],null]],null,{\"statements\":[[0,\"      \"],[11,\"p\",[]],[15,\"class\",\"td_doc_text\"],[13],[0,\"2 pages\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"td_view\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"td_view_top aa_clearfix\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_view_top_message \",[33,[\"if\"],[[28,[\"messageOpen\"]],\"open\"],null],\" \",[26,[\"messageState\"]]]]],[13],[0,\"\\n          \"],[11,\"button\",[]],[15,\"class\",\"td_view_top_message_close aa_pull--right\"],[5,[\"action\"],[[28,[null]],\"closeMessage\"]],[13],[0,\"\\n            \"],[11,\"i\",[]],[15,\"class\",\"fa fa-times\"],[13],[14],[0,\"\\n          \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"messageState\"]],\"success\"],null]],null,{\"statements\":[[0,\"            \"],[11,\"i\",[]],[15,\"class\",\"fa fa-check\"],[13],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"messageState\"]],\"warning\"],null]],null,{\"statements\":[[0,\"            \"],[11,\"i\",[]],[15,\"class\",\"fa fa-exclamation\"],[13],[14],[0,\"\\n          \"]],\"locals\":[]},null]],\"locals\":[]}],[0,\"\\n          \"],[1,[26,[\"messageText\"]],false],[0,\"\\n        \"],[14],[0,\"\\n\\n        \"],[11,\"div\",[]],[15,\"class\",\"td_view_top_\"],[13],[0,\"\\n          \"],[11,\"button\",[]],[15,\"class\",\"aa_pull--left td_view_top_elem td_view_top_elem-open aa_hide--s\"],[5,[\"action\"],[[28,[null]],\"toggleSideBar\"]],[13],[0,\"\\n            \"],[11,\"i\",[]],[15,\"class\",\"fa fa-bars\"],[13],[14],[0,\"\\n          \"],[14],[0,\"\\n\\n          \"],[11,\"button\",[]],[15,\"class\",\"aa_pull--right td_view_top_elem td_view_top_elem-download aa_show--s\"],[13],[0,\"\\n            \"],[11,\"i\",[]],[15,\"class\",\"fa fa-download\"],[13],[14],[0,\" Generate PDF\\n          \"],[14],[0,\"\\n\\n          \"],[11,\"button\",[]],[16,\"class\",[34,[\"aa_pull--right td_view_top_elem td_view_top_elem-draw \",[33,[\"if\"],[[28,[\"showCanvas\"]],\"active\"],null]]]],[5,[\"action\"],[[28,[null]],\"toggleDraw\"]],[13],[0,\"\\n            \"],[11,\"i\",[]],[15,\"class\",\"fa fa-pencil-square-o\"],[13],[14],[0,\" Draw\\n          \"],[14],[0,\"\\n\\n          \"],[11,\"form\",[]],[15,\"class\",\"td_view_top_form\"],[5,[\"action\"],[[28,[null]],\"searchText\",[28,[\"textToSearch\"]]],[[\"on\"],[\"submit\"]]],[13],[0,\"\\n            \"],[11,\"i\",[]],[15,\"class\",\"fa fa-search\"],[13],[14],[0,\"\\n\\n            \"],[1,[33,[\"input\"],null,[[\"value\",\"class\",\"type\",\"placeholder\"],[[28,[\"textToSearch\"]],\"td_view_top_elem td_view_top_elem-input\",\"text\",\"Search text to redact\"]]],false],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n\\n        \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_view_top_loader \",[33,[\"unless\"],[[28,[\"model\",\"document\",\"analyzed\"]],\"analyzing\"],null]]]],[13],[14],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"td_view_\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_view_side \",[33,[\"if\"],[[28,[\"sideBar\"]],\"open\"],null]]]],[13],[0,\"\\n          \"],[11,\"div\",[]],[15,\"class\",\"td_view_side_\"],[13],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"aa_text--normal aa_text--12 aa_opacity--04\"],[13],[0,\"Redacted text\"],[14],[0,\"\\n\\n            \"],[11,\"ul\",[]],[16,\"class\",[34,[\"td_view_side_list \",[33,[\"unless\"],[[28,[\"model\",\"document\",\"analyzed\"]],\"analyzing\"],null]]]],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"document\",\"redacted\"]]],null,{\"statements\":[[6,[\"if\"],[[28,[\"redacted\",\"count\"]]],null,{\"statements\":[[0,\"                  \"],[11,\"li\",[]],[15,\"class\",\"td_view_side_list_elem td_view_side_list_elem-head\"],[16,\"style\",[33,[\"side-list-delay\"],[[28,[\"model\",\"document\",\"redacted\"]],[28,[\"mainIdx\"]],-1],null],null],[13],[0,\"\\n                    \"],[1,[28,[\"redacted\",\"name\"]],false],[0,\"\\n                  \"],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"redacted\",\"elements\"]]],null,{\"statements\":[[0,\"                    \"],[11,\"li\",[]],[15,\"class\",\"td_view_side_list_elem\"],[16,\"style\",[33,[\"side-list-delay\"],[[28,[\"model\",\"document\",\"redacted\"]],[28,[\"mainIdx\"]],[28,[\"subIdx\"]]],null],null],[13],[0,\"\\n                      \"],[11,\"button\",[]],[16,\"class\",[34,[\"td_view_side_list_elem_btn \",[33,[\"if\"],[[28,[\"elem\",\"active\"]],\"active\"],null]]]],[5,[\"action\"],[[28,[null]],\"toggleField\",[28,[\"elem\"]]]],[13],[1,[28,[\"elem\",\"name\"]],false],[14],[0,\"\\n\\n                      \"],[11,\"button\",[]],[16,\"class\",[34,[\"td_view_side_list_elem_close aa_pull--right \",[33,[\"if\"],[[28,[\"elem\",\"active\"]],\"aa_hidden\"],null]]]],[5,[\"action\"],[[28,[null]],\"deleteField\",[28,[\"elem\"]],[28,[\"redacted\"]]]],[13],[11,\"i\",[]],[15,\"class\",\"fa fa-times\"],[13],[14],[14],[0,\"\\n                    \"],[14],[0,\"\\n\"]],\"locals\":[\"elem\",\"subIdx\"]},null]],\"locals\":[]},null]],\"locals\":[\"redacted\",\"mainIdx\"]},null],[0,\"            \"],[14],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n\\n        \"],[11,\"div\",[]],[15,\"class\",\"td_view_side-helper\"],[5,[\"action\"],[[28,[null]],\"toggleSideBar\"]],[13],[14],[0,\"\\n\\n        \"],[11,\"div\",[]],[15,\"class\",\"td_view_doc aa_clearfix\"],[13],[0,\"\\n\"],[6,[\"each\"],[[33,[\"-each-in\"],[[28,[\"model\",\"document\",\"pages\"]]],null]],null,{\"statements\":[[0,\"            \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_view_doc_wrap \",[33,[\"if\"],[[33,[\"is-equal\"],[[28,[\"zoomedPage\"]],[28,[\"key\"]]],null],\"zoom\"],null]]]],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"td_view_doc_wrap_\"],[13],[0,\"\\n                \"],[11,\"div\",[]],[15,\"class\",\"td_view_doc_wrap_scroll\"],[13],[0,\"\\n                  \"],[11,\"div\",[]],[16,\"id\",[34,[\"page_\",[28,[\"key\"]]]]],[16,\"class\",[34,[\"td_view_doc_elem aa_clearfix \",[33,[\"if\"],[[33,[\"is-equal\"],[[28,[\"zoomedPage\"]],[28,[\"key\"]]],null],\"zoom\"],null]]]],[13],[0,\"\\n                    \"],[11,\"div\",[]],[15,\"class\",\"aa_pb\"],[16,\"style\",[33,[\"get-page-padding\"],[[28,[\"page\"]]],null],null],[13],[0,\"\\n                      \"],[11,\"div\",[]],[16,\"class\",[34,[\"aa_pb__elem td_view_doc_elem_ \",[33,[\"unless\"],[[28,[\"model\",\"document\",\"analyzed\"]],\"analyzing\"],null]]]],[13],[0,\"\\n                        \"],[11,\"img\",[]],[16,\"src\",[34,[[28,[\"page\",\"url\"]]]]],[15,\"class\",\"aa_img\"],[13],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"model\",\"document\",\"redacted\"]]],null,{\"statements\":[[6,[\"each\"],[[28,[\"redacted\",\"elements\"]]],null,{\"statements\":[[6,[\"each\"],[[28,[\"elem\",\"pages\"]]],null,{\"statements\":[[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"key\"]],[28,[\"elempage\",\"page\"]]],null]],null,{\"statements\":[[6,[\"each\"],[[28,[\"elempage\",\"boxes\"]]],null,{\"statements\":[[0,\"                                  \"],[11,\"span\",[]],[16,\"class\",[34,[\"td_view_doc_elem_hide \",[33,[\"if\"],[[28,[\"elem\",\"active\"]],\"active\"],null]]]],[16,\"style\",[34,[[33,[\"page-note-style\"],[[28,[\"page\"]],[28,[\"box\"]]],null],\" \",[33,[\"side-list-delay\"],[[28,[\"model\",\"document\",\"redacted\"]],[28,[\"mainIdx\"]],[28,[\"subIdx\"]]],null]]]],[5,[\"action\"],[[28,[null]],\"toggleField\",[28,[\"elem\"]]]],[13],[14],[0,\"\\n\"]],\"locals\":[\"box\"]},null]],\"locals\":[]},null]],\"locals\":[\"elempage\"]},null]],\"locals\":[\"elem\",\"subIdx\"]},null]],\"locals\":[\"redacted\",\"mainIdx\"]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"showCanvas\"]]],null,{\"statements\":[[0,\"                          \"],[1,[33,[\"draw-canvas\"],null,[[\"pageNum\",\"page\",\"action\",\"enter\"],[[28,[\"key\"]],[28,[\"page\"]],[33,[\"action\"],[[28,[null]],\"receiveDrawInfo\"],null],[33,[\"action\"],[[28,[null]],\"toggleDraw\"],null]]]],false],[0,\"\\n\"]],\"locals\":[]},null],[0,\"                      \"],[14],[0,\"\\n                    \"],[14],[0,\"\\n                  \"],[14],[0,\"\\n                \"],[14],[0,\"\\n\\n                \"],[11,\"button\",[]],[15,\"class\",\"td_view_doc_wrap_zoom\"],[5,[\"action\"],[[28,[null]],\"zoomPage\",[28,[\"key\"]]]],[13],[0,\"\\n\"],[6,[\"if\"],[[33,[\"is-equal\"],[[28,[\"zoomedPage\"]],[28,[\"key\"]]],null]],null,{\"statements\":[[0,\"                    \"],[11,\"i\",[]],[15,\"class\",\"fa fa-compress\"],[13],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"                    \"],[11,\"i\",[]],[15,\"class\",\"fa fa-expand\"],[13],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"                \"],[14],[0,\"\\n              \"],[14],[0,\"\\n\\n              \"],[11,\"div\",[]],[15,\"class\",\"aa_text--center aa_text--12 aa_text--light aa_opacity--05\"],[13],[0,\"page \"],[1,[28,[\"key\"]],false],[14],[0,\"\\n            \"],[14],[0,\"\\n\"]],\"locals\":[\"key\",\"page\"]},null],[0,\"        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[16,\"class\",[34,[\"td_view_bottom aa_text--center \",[33,[\"unless\"],[[28,[\"model\",\"document\",\"analyzed\"]],\"analyzing\"],null]]]],[13],[0,\"\\n        \"],[11,\"button\",[]],[15,\"class\",\"td_view_top_elem td_view_top_elem-download aa_hide--s\"],[13],[0,\"\\n          \"],[11,\"i\",[]],[15,\"class\",\"fa fa-download\"],[13],[14],[0,\" Generate PDF\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "the-doc/templates/document.hbs" } });
 });
 define("the-doc/templates/documents", ["exports"], function (exports) {
   "use strict";
@@ -1462,6 +1506,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("the-doc/app")["default"].create({"name":"the-doc","version":"0.0.0+eee05ac0"});
+  require("the-doc/app")["default"].create({"name":"the-doc","version":"0.0.0+eda4e620"});
 }
 //# sourceMappingURL=the-doc.map

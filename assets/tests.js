@@ -80,6 +80,11 @@ define('the-doc/tests/app.lint-test', [], function () {
     assert.ok(true, 'helpers/page-note-style.js should pass ESLint\n\n');
   });
 
+  QUnit.test('helpers/side-list-delay.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'helpers/side-list-delay.js should pass ESLint\n\n');
+  });
+
   QUnit.test('helpers/status-icon-class.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'helpers/status-icon-class.js should pass ESLint\n\n');
@@ -453,6 +458,26 @@ define('the-doc/tests/integration/helpers/page-note-style-test', ['ember-qunit']
     assert.equal(this.$().text().trim(), '1234');
   });
 });
+define('the-doc/tests/integration/helpers/side-list-delay-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('side-list-delay', 'helper:side-list-delay', {
+    integration: true
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it renders', function (assert) {
+    this.set('inputValue', '1234');
+
+    this.render(Ember.HTMLBars.template({
+      "id": "dW3fJiiy",
+      "block": "{\"statements\":[[1,[33,[\"side-list-delay\"],[[28,[\"inputValue\"]]],null],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '1234');
+  });
+});
 define('the-doc/tests/integration/helpers/status-icon-class-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -552,6 +577,11 @@ define('the-doc/tests/tests.lint-test', [], function () {
   QUnit.test('integration/helpers/page-note-style-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/helpers/page-note-style-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/helpers/side-list-delay-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/helpers/side-list-delay-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('integration/helpers/status-icon-class-test.js', function (assert) {
