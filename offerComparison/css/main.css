@@ -1,0 +1,237 @@
+/*
+ * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION CAREFULLY:
+ *
+ * https://cssguidelin.es/
+ *
+ * What differs from the guideline:
+ *
+ * - Indentations are 2px
+ * - Columns are 120px wide
+ * - don't use [] in html inside class="" for grouping
+ * - in html class="" don't use 2 space between classes, but put the related ones next to each other
+ * - low level commenting is not necessary but u can use, just try to explain the things u think is important
+ *
+ */
+
+
+
+
+
+/*
+ * LAYOUT RULES
+ *
+ *
+ */
+
+
+
+
+/*-----------*\
+   #WRAPPER
+\*-----------*/
+
+
+
+.oc {
+  height: 100vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+          overflow-scrolling: touch;
+}
+
+.oc_purple {color: #3616D9}
+.oc_red {color: #D91657}
+.oc_green {color: #14CC33}
+
+
+
+
+/*-------*\
+   #NAV
+\*-------*/
+
+
+
+.oc_nav {
+  height: 50px;
+  padding: 10px 15px;
+}
+
+  .oc_nav_img {
+    position: relative;
+    z-index: 1;
+    width:  55px;
+    height: 55px;
+    margin: 0 10px -15px 0;
+    border-radius: 50%;
+    font-size: 3rem;
+    line-height: 50px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    overflow: hidden;
+  }
+
+  .oc_nav_name {
+    margin-right: 5px;
+    font-size: 1.6rem;
+  }
+
+    .oc_nav_name_label {
+      margin-bottom: 3px;
+      font-size: 1rem;
+      font-weight: 300;
+    }
+
+  .oc_nav_btn {
+    width:  30px;
+    height: 30px;
+    font-size: 2rem;
+  }
+
+@media (min-width: 768px) {
+  .oc_nav_name {
+    display: inline-block;
+    vertical-align: top;
+    max-width: 35%;
+  }
+}
+
+
+
+/*-------*\
+   #HEAD
+\*-------*/
+
+
+
+.oc_head {
+  position: relative;
+  min-height: 400px;
+  padding-bottom: 115px;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0,0,0,.5);
+  color: #fff;
+}
+
+  .oc_head_img {
+    position: absolute;
+    top:    0;
+    right:  0;
+    bottom: 0;
+    left:   0;
+  }
+
+    .oc_head_img:after {
+      content: '';
+      position: absolute;
+      top:    0;
+      right:  0;
+      bottom: 0;
+      left:   0;
+      width: 100%;
+      background-color: rgba(0,0,0,.3);
+      -webkit-backdrop-filter: blur(4px);
+      pointer-events: none;
+    }
+
+  .oc_head_ {
+    position: relative;
+    z-index: 1;
+  }
+
+  .oc_head_label {
+    margin: 90px 0 5px;
+    font-size: 1.6rem;
+    font-weight: 300;
+  }
+
+  .oc_head_address {
+    font-size: 2.8rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .oc_head_sub {
+    font-size: 1.6rem;
+    margin: 35px 0;
+  }
+
+    .oc_head_sub_dot {
+      display: inline-block;
+      vertical-align: middle;
+      width:  5px;
+      height: 5px;
+      margin: 0 8px 0 10px;
+      border-radius: 50%;
+      background-color: #fff;
+    }
+
+
+
+
+
+/*-------*\
+   #MAIN
+\*-------*/
+
+
+
+.oc_main {
+  position: relative;
+  margin-top: -97px;
+  padding-bottom: 50px;
+  font-size: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+  .oc_main_ {
+    display: inline-block;
+    text-align: left;
+  }
+
+    .oc_main_row {
+
+    }
+
+    .oc_main_ttl {
+      max-width: 100vw;
+      font-size: 2rem;
+      font-weight: 300;
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 40px;
+      color: #fff;
+      background-color: #595C80;
+      border-radius: 2px;
+    }
+
+
+
+.oc_info {
+  display: inline-block;
+  vertical-align: top;
+  width: 225px;
+  margin: 0 2px;
+  white-space: normal;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  overflow: hidden;
+  transition: opacity .3s;
+}
+
+.oc_info.tl {border-radius: 2px 0 0 0}
+.oc_info.tr {border-radius: 0 2px 0 0}
+.oc_info.bl {border-radius: 0 0 0 2px}
+.oc_info.br {border-radius: 0 0 2px 0}
+
+  .oc_info_elem {
+    padding: 5px 15px;
+    background-color: #FCFCFD;
+    box-shadow: 0 -1px rgba(0,0,0,.05);
+  }
+
+  .oc_info_elem.trans {background-color: rgba(255,255,255,.85)}
+  .oc_info_elem.mid {background-color: #ECEBF2}
+  .oc_info_elem.high {background-color: #E0DFE6}
