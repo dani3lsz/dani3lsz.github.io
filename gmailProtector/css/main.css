@@ -1,0 +1,35 @@
+/*
+ * BEFORE MODIFYING THIS DOCUMENT READ THIS DOCUMENTATION CAREFULLY:
+ *
+ * https://cssguidelin.es/
+ *
+ * What differs from the guideline:
+ *
+ * - Indentations are 2px
+ * - Columns are 120px wide
+ * - don't use [] in html inside class="" for grouping
+ * - in html class="" don't use 2 space between classes, but put the related ones next to each other
+ * - low level commenting is not necessary but u can use, just try to explain the things u think is important
+ *
+ */
+
+
+
+
+
+/*
+ * LAYOUT RULES
+ *
+ *
+ */
+
+
+
+
+/*-----------*\
+   #WRAPPER
+\*-----------*/
+
+
+
+.gp {}
