@@ -25,11 +25,188 @@
 
 
 
+.gp_logo {
+  position: absolute;
+  z-index: 1;
+  top:  20px;
+  left: 20px;
+  font-size: 2rem;
+  font-weight: 300;
+}
 
-/*-----------*\
-   #WRAPPER
-\*-----------*/
+.gp_bg {
+  height: 50vh;
+  background-color: #fff;
+}
 
+.gp_bg.small {
+  height: 250px;
+}
 
+.gp_center {
+  position: absolute;
+  top:  50%;
+  left: 50%;
+  width:  300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15), inset 0 0 0 1px rgba(0,0,0,.25);
+  transition: .3s cubic-bezier(.1,.7,.3,.8);
+  transform: translate3d(-50%,-50%,0);
+}
 
-.gp {}
+  .gp_center:before {
+    content: attr(data-text);
+    position: absolute;
+    top: 30%;
+    right: 0;
+    left:  0;
+    font-size: 2rem;
+    font-weight: 300;
+    text-align: center;
+    opacity: .2;
+  }
+
+  .gp_center:after {
+    content: attr(data-percent);
+    position: absolute;
+    top: 42%;
+    right: 0;
+    left:  0;
+    font-size: 7.2rem;
+    font-weight: 100;
+    text-align: center;
+  }
+
+  .gp_center_svg {
+    transform: rotate(-90deg);
+  }
+
+    .gp_center_svg_circle {
+      fill: transparent;
+      stroke: #F14336;
+      stroke-width: 17px;
+      stroke-dasharray: 867px;
+      stroke-dashoffset: 100px;
+    }
+
+.gp_center.btn {
+  width: 240px;
+  height: 50px;
+  border-radius: 5px;
+}
+
+  .gp_center.btn:before, .gp_center.btn:after {
+    display: none;
+  }
+
+.gp_center.done {
+  transform: translate3d(-50%,-50%,0) scale(0.01);
+}
+
+.gp_btn {
+  position: absolute;
+  top:  50%;
+  left: 50%;
+  width: 240px;
+  height: 50px;
+  margin: -25px 0 0 -120px;
+  border-radius: 5px;
+  font-size: 1.8rem;
+  font-weight: 300;
+  transition: .3s cubic-bezier(.1,.7,.3,.8);
+}
+
+.no-touchevents .gp_btn:hover, .touchevents .gp_btn:active {
+  box-shadow: 0 0 0 1px #F14336;
+  transform: scale(1.05);
+}
+
+.gp_ttl, .gp_info {
+  position: absolute;
+  top:  25%;
+  left: 50%;
+  width: calc(100% - 40px);
+  max-width: 450px;
+  text-align: center;
+  transform: translate3d(-50%,-50%,0);
+}
+
+  .gp_ttl_logo {
+    width:  80px;
+    height: 80px;
+    margin: 0 auto 20px;
+  }
+
+  .gp_ttl_txt {
+    font-size: 3.6rem;
+    font-weight: 300;
+  }
+
+  .gp_ttl_sub {
+    font-size: 1.8rem;
+    font-weight: 300;
+  }
+
+.gp_info {
+  top:  75%;
+}
+
+.gp_list {
+
+}
+
+  .gp_list_elem {
+    border-bottom: solid 1px rgba(0,0,0,.05);
+    font-size: 1.4rem;
+    line-height: 1.25;
+    transition: background-color .3s;
+  }
+
+  .no-touchevents .gp_list_elem:hover, .touchevents .gp_list_elem:active {
+    background-color: rgba(0,0,0,.05);
+    transition: background-color .1s;
+  }
+
+    .gp_list_elem_check {
+      float: left;
+      width:  20px;
+      height: 20px;
+      margin: 25px 10px;
+      box-shadow: inset 0 0 0 2px;
+      border-radius: 2px;
+    }
+
+    .gp_list_elem_ttl {
+      margin-top: 10px;
+    }
+
+    .gp_list_elem_info {
+      overflow: hidden;
+    }
+
+    .gp_list_elem_time {
+      float: right;
+      margin: 26px 10px;
+    }
+
+@media (min-width: 768px) {
+  .gp_list_elem_check {
+    margin: 20px 25px;
+  }
+
+  .gp_list_elem_ttl {
+    float: left;
+    width: 20%;
+    margin: 23px 10px 0 0;
+  }
+
+  .gp_list_elem_info {
+    margin-top: 15px;
+  }
+
+  .gp_list_elem_time {
+    margin: 23px 20px;
+  }
+}
