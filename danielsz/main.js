@@ -6,17 +6,22 @@
     unit: '%', // % or px
     points: 5,
     timeOut: 5000, //ms
+    timing: 'ease-in-out',
 
     start(opts = {}) {
       const id = opts.id || this.id;
       const node = document.getElementById(id);
+      const timeOut = opts.timeOut || this.timeOut;
+      const timing = opts.timing || this.timing;
 
       if ((opts.points || this.points) < 2) return console.warn('points must be above 2');
       if (!node) return console.warn('No node found with #' + id);
 
+      node.style.setProperty('transition',timeOut + 'ms ' + timing);
+
       this.clip(node,opts); // initial clip
       setTimeout(() => this.clip(node,opts),10); // start animating soon
-      setInterval(() => this.clip(node,opts),opts.timeOut || this.timeOut) // animate with every interval
+      setInterval(() => this.clip(node,opts),timeOut) // animate with every interval
     },
 
     clip(node,opts = {}) {
@@ -90,5 +95,5 @@
   };
 
   Clip.start({id: 'js-clip1'});
-  Clip.start({id: 'js-clip2'});
+  Clip.start({id: 'js-clip2', timeOut: 4500});
 })();

@@ -248,7 +248,6 @@ input, h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, [contenteditable], .aa_tex
   bottom: 0;
   left:  65%;
   background: linear-gradient(to top,#ffeb00,#ffb820,#ff8748,#ff5e69,#dd4582,#a43f8e,#623e8a,#0c3776);
-  transition: 5s ease-in-out;
   transform: translate3d(0,0,0);
 }
 
