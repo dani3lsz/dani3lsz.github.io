@@ -58,11 +58,11 @@
         let x, y, d;
 
         if (side === 'left' || side === 'right') {
-          d = h / points;
+          d = h / (points - 1);
           x = getRandom(xMin,xMax);
           y = i === 0 ? yMin : (i === points - 1 ? yMax : (distribute === 'random' ? getRandom(yMin,yMax) : (distribute === 'even' ? (d * i) : (d * i + getRandom(-d/2,d/2)))));
         } else {
-          d = w / points;
+          d = w / (points - 1);
           y = getRandom(yMin,yMax);
           x = i === 0 ? xMin : (i === points - 1 ? xMax : (distribute === 'random' ? getRandom(xMin,xMax) : (distribute === 'even' ? (d * i) : (d * i + getRandom(-d/2,d/2)))));
         }
