@@ -7,6 +7,7 @@
     points: 5,
     timeOut: 5000, //ms
     timing: 'ease-in-out',
+    distribute: 'between', // random, even, between
 
     start(opts = {}) {
       const id = opts.id || this.id;
@@ -32,6 +33,7 @@
       const depth = opts.depth || this.depth;
       const unit = opts.unit || this.unit;
       const points = opts.points || this.points;
+      const distribute = opts.distribute || this.distribute;
       const arr = [];
       const nodeW = node.offsetWidth;
       const nodeH = node.offsetHeight;
@@ -53,14 +55,16 @@
       }
 
       for (let i = 0; i < points; i++) {
-        let x, y;
+        let x, y, d;
 
         if (side === 'left' || side === 'right') {
+          d = h / points;
           x = getRandom(xMin,xMax);
-          y = i === 0 ? yMin : (i === points - 1 ? yMax : getRandom(yMin,yMax));
+          y = i === 0 ? yMin : (i === points - 1 ? yMax : (distribute === 'random' ? getRandom(yMin,yMax) : (distribute === 'even' ? (d * i) : (d * i + getRandom(-d/2,d/2)))));
         } else {
+          d = w / points;
           y = getRandom(yMin,yMax);
-          x = i === 0 ? xMin : (i === points - 1 ? xMax : getRandom(xMin,xMax));
+          x = i === 0 ? xMin : (i === points - 1 ? xMax : (distribute === 'random' ? getRandom(xMin,xMax) : (distribute === 'even' ? (d * i) : (d * i + getRandom(-d/2,d/2)))));
         }
 
         arr.push([x,y])
@@ -87,6 +91,7 @@
       }).join(',');
 
       node.style.setProperty('-webkit-clip-path','polygon(' + string + ')');
+      node.style.setProperty('clip-path','polygon(' + string + ')');
     },
 
     getRandom(min,max) {
