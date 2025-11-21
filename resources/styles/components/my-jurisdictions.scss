@@ -1,0 +1,39 @@
+.myj_bg {
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+}
+
+.myj {
+  position: fixed;
+  z-index: 9;
+  top: 70px;
+  right: 20px;
+  bottom: 70px;
+  width: calc(100vw - 40px);
+  max-width: 500px;
+  background-color: var(--bg);
+  border-radius: 15px;
+  animation: come-in-left-bounce 0.5s forwards var(--bezier);
+}
+
+.dark .myj {
+  background-color: var(--bg-d);
+}
+
+@media (min-width: 768px) {
+  .myj_bg {
+    left: 70px;
+  }
+
+  .myj {
+    top: 100px;
+    right: 30px;
+    bottom: 30px;
+  }
+}

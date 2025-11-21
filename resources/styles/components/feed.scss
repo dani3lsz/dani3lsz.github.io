@@ -1,0 +1,39 @@
+.feed {
+  &_item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &_img {
+      position: relative;
+      width: 100%;
+      min-height: 150px;
+      aspect-ratio: 2.5;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    &_img + &_info {
+      position: relative;
+      z-index: 1;
+      background-color: var(--bg);
+      padding: 10px 15px 0 0;
+      border-radius: 0 7px 0 0;
+      margin-top: -25px;
+    }
+
+    &_ttl {
+      transition: color 0.3s;
+      cursor: default;
+    }
+
+    &:hover &_ttl {
+      color: var(--primary-h);
+      transition: color 0.1s;
+    }
+  }
+}
+
+.dark .feed_item_img + .feed_item_info {
+  background-color: var(--bg-d);
+}

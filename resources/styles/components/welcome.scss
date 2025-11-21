@@ -1,0 +1,53 @@
+.welcome {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+
+  & > .nav {
+    position: static;
+  }
+
+  &_num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: solid 1px var(--grey03);
+
+    &.active {
+      background-color: var(--primary-darker);
+      color: var(--txt-d);
+    }
+
+    &.past {
+      background-color: var(--green);
+      color: var(--txt-d);
+    }
+  }
+
+  &_main {
+    height: calc(100vh - 52px);
+    padding: 30px 15px;
+  }
+}
+
+.dark .welcome_num.active {
+  background-color: var(--bg);
+  color: var(--txt);
+}
+
+@media (min-width: 768px) {
+  .welcome {
+    &_main {
+      height: calc(100vh - 72px);
+      padding: 60px 30px;
+    }
+  }
+}

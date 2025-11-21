@@ -1,0 +1,31 @@
+.plan {
+  margin-bottom: 30px;
+  padding: 20px 30px;
+  border-radius: 15px;
+  border: solid 1px var(--grey02);
+  box-shadow: var(--shadow);
+
+  &.active {
+    border: solid 2px var(--primary);
+    background-color: var(--primary-lightest);
+  }
+}
+
+.w650 .plans {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.w650 .plan {
+  width: calc(50% - 15px);
+  max-width: 350px;
+
+  &:nth-child(2) { margin-left: 30px; }
+}
+
+.w1230 .plan {
+  width: calc((100% - 60px) / 3);
+
+  &:nth-child(2) { margin: 0 30px 30px; }
+}

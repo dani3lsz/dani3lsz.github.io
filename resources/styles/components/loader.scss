@@ -1,0 +1,57 @@
+.loader {
+  position: relative;
+  height: 100vh;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top:  40%;
+    left: 50%;
+    width:  30px;
+    height: 10px;
+    margin: 15px 0 0 -15px;
+    border-radius: 50%;
+    background-color: var(--primary-light);
+    filter: blur(1px);
+    animation: bounce-shadow 0.3s cubic-bezier(.7,0,1,1) infinite alternate;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top:  40%;
+    left: 50%;
+    width:  30px;
+    height: 30px;
+    margin-left: -15px;
+    border-radius: 50%;
+    background-color: var(--primary-h);
+    animation: bounce 0.3s cubic-bezier(.7,0,1,1) infinite alternate;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(-100px) scaleX(1) scaleY(1);
+  }
+  90% {
+    transform: translateY(-12px) scaleX(1) scaleY(1);
+  }
+  100% {
+    transform: translateY(0) scaleX(1.1) scaleY(0.6);
+  }
+}
+
+@keyframes bounce-shadow {
+  0% {
+    opacity: 0.3;
+    transform: scaleX(0.5) scaleY(0.5);
+  }
+  90% {
+    opacity: 1;
+    transform: scaleX(1) scaleY(1);
+  }
+  100% {
+    transform: scaleX(1) scaleY(1);
+  }
+}

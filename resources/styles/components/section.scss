@@ -1,0 +1,26 @@
+.section {
+  padding: 30px 0;
+  border-bottom: solid 1px var(--grey01);
+
+  &_left {
+    margin-bottom: 15px;
+  }
+}
+
+.w650 .section {
+  display: flex;
+  padding: 40px 0;
+  
+  &_left {
+    width: 60%;
+    max-width: 500px;
+    margin-bottom: 0;
+    padding-right: 50px;
+  }
+
+  &_right {
+    display: flex;
+    align-items: center;
+    width: 40%;
+  }
+}
